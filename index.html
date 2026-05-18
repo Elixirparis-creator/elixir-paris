@@ -929,25 +929,26 @@ function sendWhatsApp(){
   });
   const key=Math.round(total*100);
   const wiseLink=WISE_LINKS[key];
+  // Message WhatsApp avec adresse + commande
+  let msg=`🛒 *Nouvelle Commande — Élixir Paris*\n\n`;
+  ids.forEach(id=>{
+    const p=PERFUMES.find(x=>x.id==id);
+    const qty=cart[id];const sub=p.price*qty;
+    msg+=`• ${p.brand} — ${p.name}`;
+    if(qty>1)msg+=` (×${qty})`;
+    msg+=` → ${sub.toFixed(2).replace('.',',')} €\n`;
+  });
+  msg+=`\n💰 *Total : ${total.toFixed(2).replace('.',',')} €*\n\n📍 *Adresse de livraison :*\n${adresseComplete}`;
   if(wiseLink){
-    // Stocker l'adresse pour notification WhatsApp après paiement
-    const msg=`📦 *Adresse de livraison — Élixir Paris*\n\n${adresseComplete}\n\n💰 Total : ${total.toFixed(2).replace('.',',')} €\n\n_(Paiement en cours via Wise)_`;
-    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
-    setTimeout(()=>window.open(wiseLink,'_blank'),500);
-    closeCartModal();
-  } else {
-    let msg=`🛒 *Nouvelle Commande — Élixir Paris*\n\n`;
-    ids.forEach(id=>{
-      const p=PERFUMES.find(x=>x.id==id);
-      const qty=cart[id];const sub=p.price*qty;
-      msg+=`• ${p.brand} — ${p.name}`;
-      if(qty>1)msg+=` (×${qty})`;
-      msg+=` → ${sub.toFixed(2).replace('.',',')} €\n`;
-    });
-    msg+=`\n💰 *Total : ${total.toFixed(2).replace('.',',')} €*\n\n📍 *Adresse de livraison :*\n${adresseComplete}`;
-    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
-    closeCartModal();
+    msg+=`\n\n💳 *Paiement en cours via Wise...*`;
   }
+  // Ouvre WhatsApp
+  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
+  // Ouvre Wise automatiquement après 1 seconde
+  if(wiseLink){
+    setTimeout(()=>window.open(wiseLink,'_blank'),1000);
+  }
+  closeCartModal();
 }
 buildBrandFilters();
 renderBestSellers();
