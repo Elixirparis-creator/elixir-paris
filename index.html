@@ -906,7 +906,7 @@ const WISE_LINKS={
   29450:'https://wise.com/pay/r/3bOpSjpnNHaCwlo'
 };
 
-const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxHPZcD7pktSfLWz3XNJP1sQiGQLooIk7O9rFKyI8GYM_oAS-kF1rw_WqyMtdnqeZbuFA/exec';
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbyPOxEe5_QfYosPZbRnb6_wWM75nJo1GwTp5wQJVUcGgpa4dXkY6fvZrX3fDEZOAW6coA/exec';
 
 function sendWhatsApp(){
   const prenom=document.getElementById('fieldPrenom').value.trim();
@@ -932,13 +932,9 @@ function sendWhatsApp(){
   });
   const key=Math.round(total*100);
   const wiseLink=WISE_LINKS[key];
-  // Envoi silencieux vers Google Sheet
-  fetch(SCRIPT_URL,{
-    method:'POST',
-    mode:'no-cors',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({prenom,nom,adresse,appt,cp,ville,pays,commande:commandeText,total:total.toFixed(2).replace('.',',')})
-  }).catch(()=>{});
+  // Envoi via GET pour éviter CORS
+  const params=new URLSearchParams({prenom,nom,adresse,appt:appt||'',cp,ville,pays,commande:commandeText,total:total.toFixed(2).replace('.',',')});
+  fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'}).catch(()=>{});
   // Afficher écran confirmation + bouton Wise
   const modal=document.querySelector('#modalOverlay .modal');
   modal.innerHTML=`
