@@ -819,20 +819,84 @@ function openCartModal(){
 }
 function closeCartModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
 function closeCartOutside(e){if(e.target===document.getElementById('modalOverlay'))closeCartModal();}
+const WISE_LINKS={
+  2990:'https://wise.com/pay/r/hVBkb45PQcaujD4',
+  4990:'https://wise.com/pay/r/K4kVy98SG9xcQ8A',
+  5980:'https://wise.com/pay/r/wM-nSeRORyJ2h4c',
+  6490:'https://wise.com/pay/r/4RGE-S4aP56nflw',
+  7980:'https://wise.com/pay/r/9ljxAXekyEN1ZNI',
+  8970:'https://wise.com/pay/r/XfyH01oQPJN6iWE',
+  9470:'https://wise.com/pay/r/ymZPyogM57QbdOs',
+  9480:'https://wise.com/pay/r/gxcKr6v6zz1HUrI',
+  9980:'https://wise.com/pay/r/ENCMNtjyeHVDVpo',
+  10970:'https://wise.com/pay/r/uRySdr2E8ikJh-U',
+  11480:'https://wise.com/pay/r/noReUshxYKv_5-8',
+  11960:'https://wise.com/pay/r/NrWhm0DrMzZM5mM',
+  12470:'https://wise.com/pay/r/9-B_vmw9UCGN6t8',
+  12970:'https://wise.com/pay/r/F-Q8Z1BKuWxYTHo',
+  12980:'https://wise.com/pay/r/76g6-0jgFe7-cww',
+  13480:'https://wise.com/pay/r/Xjup07VHmSLZq80',
+  13960:'https://wise.com/pay/r/1BRiLzGBsMrTptQ',
+  14470:'https://wise.com/pay/r/5lQOJkuV8uebaP4',
+  14970:'https://wise.com/pay/r/icydVJUAvLVOa9g',
+  15460:'https://wise.com/pay/r/gCqRj2bQojLJGts',
+  15960:'https://wise.com/pay/r/9nnkSCBf-rfiqgo',
+  15970:'https://wise.com/pay/r/ZcvUC0gaEw9QWPk',
+  16460:'https://wise.com/pay/r/eFku-pfGbBGUOAU',
+  16470:'https://wise.com/pay/r/ikOGRUwuB7Esn9A',
+  16950:'https://wise.com/pay/r/2zAidrdXhpTdlPI',
+  17460:'https://wise.com/pay/r/DaMPkmUTvVyR630',
+  17960:'https://wise.com/pay/r/f5Cu5epNkbaFLTQ',
+  17970:'https://wise.com/pay/r/xhBGjx1A_RVhGtU',
+  18450:'https://wise.com/pay/r/BPgK7GXR9vd9sUw',
+  18960:'https://wise.com/pay/r/UGgpXDB3sQAbwpA',
+  19460:'https://wise.com/pay/r/IJRexsEC73xFwSs',
+  19470:'https://wise.com/pay/r/RIw5cOMO8QufbiM',
+  19940:'https://wise.com/pay/r/l1Zm1B5y19tnGeU',
+  19960:'https://wise.com/pay/r/Jep6ZlMInnMoju4',
+  20960:'https://wise.com/pay/r/iqkAh3teKXqqwz0',
+  21460:'https://wise.com/pay/r/Uozdn8plTE5yAKg',
+  22450:'https://wise.com/pay/r/6M4MeDdmSYi-C1s',
+  22460:'https://wise.com/pay/r/1D2tk3NOemFNc1w',
+  22950:'https://wise.com/pay/r/fC_lwaDR4JB-jDc',
+  22960:'https://wise.com/pay/r/q28Jly9n5EavSzA',
+  23950:'https://wise.com/pay/r/k5tPaAqRboCxeVo',
+  24460:'https://wise.com/pay/r/grDbcXK05U4e9RM',
+  24870:'https://wise.com/pay/r/wZ8Y27gIjmyWX1I',
+  25450:'https://wise.com/pay/r/KZ23DOXHg1sAiHA',
+  25950:'https://wise.com/pay/r/6Mlzm1W4I9n-S1Q',
+  26450:'https://wise.com/pay/r/JSXwsAVCT_3sdtk',
+  27450:'https://wise.com/pay/r/ShIsUXf88iKK1dw',
+  29450:'https://wise.com/pay/r/3bOpSjpnNHaCwlo'
+};
+
 function sendWhatsApp(){
   const ids=Object.keys(cart);
-  let msg='🛒 *Nouvelle Commande — Élixir Paris*\n\n';
   let total=0;
   ids.forEach(id=>{
     const p=PERFUMES.find(x=>x.id==id);
-    const qty=cart[id];const sub=p.price*qty;total+=sub;
-    msg+=`• ${p.brand} — ${p.name}`;
-    if(qty>1)msg+=` (×${qty})`;
-    msg+=` → ${sub.toFixed(2).replace('.',',')} €\n`;
+    const qty=cart[id];
+    total+=p.price*qty;
   });
-  msg+=`\n💰 *Total : ${total.toFixed(2).replace('.',',')} €*\n\n📍 Merci d'indiquer votre adresse de livraison.`;
-  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
-  closeCartModal();
+  const key=Math.round(total*100);
+  const wiseLink=WISE_LINKS[key];
+  if(wiseLink){
+    window.open(wiseLink,'_blank');
+    closeCartModal();
+  } else {
+    // Fallback WhatsApp si montant non couvert
+    let msg='🛒 *Nouvelle Commande — Élixir Paris*\n\n';
+    ids.forEach(id=>{
+      const p=PERFUMES.find(x=>x.id==id);
+      const qty=cart[id];const sub=p.price*qty;
+      msg+=`• ${p.brand} — ${p.name}`;
+      if(qty>1)msg+=` (×${qty})`;
+      msg+=` → ${sub.toFixed(2).replace('.',',')} €\n`;
+    });
+    msg+=`\n💰 *Total : ${total.toFixed(2).replace('.',',')} €*\n\n📍 Merci d'indiquer votre adresse de livraison.`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
+    closeCartModal();
+  }
 }
 buildBrandFilters();
 renderBestSellers();
