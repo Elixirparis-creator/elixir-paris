@@ -324,8 +324,44 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
       <button class="modal-close" onclick="closeCartModal()">✕</button>
     </div>
     <div class="modal-body" id="modalBody"></div>
+    <div style="padding:0 24px 16px">
+      <div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)">Adresse de livraison</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div>
+          <label style="font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Prénom <span style="color:var(--gold)">*</span></label>
+          <input id="fieldPrenom" type="text" placeholder="Prénom" style="width:100%;background:#1a1a1a;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.8rem;padding:10px 12px;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <div>
+          <label style="font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Nom <span style="color:var(--gold)">*</span></label>
+          <input id="fieldNom" type="text" placeholder="Nom" style="width:100%;background:#1a1a1a;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.8rem;padding:10px 12px;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+      </div>
+      <div style="margin-bottom:10px">
+        <label style="font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Adresse <span style="color:var(--gold)">*</span></label>
+        <input id="fieldAdresse" type="text" placeholder="Rue et numéro" style="width:100%;background:#1a1a1a;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.8rem;padding:10px 12px;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div style="margin-bottom:10px">
+        <label style="font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Appartement / Boîte (optionnel)</label>
+        <input id="fieldAppt" type="text" placeholder="N° appartement, boîte, étage..." style="width:100%;background:#1a1a1a;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.8rem;padding:10px 12px;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px;margin-bottom:10px">
+        <div>
+          <label style="font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Code postal <span style="color:var(--gold)">*</span></label>
+          <input id="fieldCP" type="text" placeholder="1000" style="width:100%;background:#1a1a1a;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.8rem;padding:10px 12px;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <div>
+          <label style="font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Ville <span style="color:var(--gold)">*</span></label>
+          <input id="fieldVille" type="text" placeholder="Bruxelles" style="width:100%;background:#1a1a1a;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.8rem;padding:10px 12px;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+      </div>
+      <div style="margin-bottom:10px">
+        <label style="font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Pays <span style="color:var(--gold)">*</span></label>
+        <input id="fieldPays" type="text" placeholder="Belgique" style="width:100%;background:#1a1a1a;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.8rem;padding:10px 12px;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div id="addressError" style="color:#c0392b;font-size:.6rem;letter-spacing:.1em;margin-top:4px;display:none">⚠ Veuillez remplir tous les champs obligatoires.</div>
+    </div>
     <div class="modal-footer">
-      <button class="btn-wa" onclick="sendWhatsApp()">📲 Envoyer la commande sur WhatsApp</button>
+      <button class="btn-wa" onclick="sendWhatsApp()">💳 Procéder au paiement</button>
       <button class="btn-back" onclick="closeCartModal()">Continuer mes achats</button>
     </div>
   </div>
@@ -871,21 +907,36 @@ const WISE_LINKS={
 };
 
 function sendWhatsApp(){
+  const prenom=document.getElementById('fieldPrenom').value.trim();
+  const nom=document.getElementById('fieldNom').value.trim();
+  const adresse=document.getElementById('fieldAdresse').value.trim();
+  const cp=document.getElementById('fieldCP').value.trim();
+  const ville=document.getElementById('fieldVille').value.trim();
+  const pays=document.getElementById('fieldPays').value.trim();
+  const appt=document.getElementById('fieldAppt').value.trim();
+  const err=document.getElementById('addressError');
+  if(!prenom||!nom||!adresse||!cp||!ville||!pays){
+    err.style.display='block';
+    return;
+  }
+  err.style.display='none';
+  const adresseComplete=`${prenom} ${nom}\n${adresse}${appt?' — '+appt:''}\n${cp} ${ville}\n${pays}`;
   const ids=Object.keys(cart);
   let total=0;
   ids.forEach(id=>{
     const p=PERFUMES.find(x=>x.id==id);
-    const qty=cart[id];
-    total+=p.price*qty;
+    total+=p.price*cart[id];
   });
   const key=Math.round(total*100);
   const wiseLink=WISE_LINKS[key];
   if(wiseLink){
-    window.open(wiseLink,'_blank');
+    // Stocker l'adresse pour notification WhatsApp après paiement
+    const msg=`📦 *Adresse de livraison — Élixir Paris*\n\n${adresseComplete}\n\n💰 Total : ${total.toFixed(2).replace('.',',')} €\n\n_(Paiement en cours via Wise)_`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
+    setTimeout(()=>window.open(wiseLink,'_blank'),500);
     closeCartModal();
   } else {
-    // Fallback WhatsApp si montant non couvert
-    let msg='🛒 *Nouvelle Commande — Élixir Paris*\n\n';
+    let msg=`🛒 *Nouvelle Commande — Élixir Paris*\n\n`;
     ids.forEach(id=>{
       const p=PERFUMES.find(x=>x.id==id);
       const qty=cart[id];const sub=p.price*qty;
@@ -893,7 +944,7 @@ function sendWhatsApp(){
       if(qty>1)msg+=` (×${qty})`;
       msg+=` → ${sub.toFixed(2).replace('.',',')} €\n`;
     });
-    msg+=`\n💰 *Total : ${total.toFixed(2).replace('.',',')} €*\n\n📍 Merci d'indiquer votre adresse de livraison.`;
+    msg+=`\n💰 *Total : ${total.toFixed(2).replace('.',',')} €*\n\n📍 *Adresse de livraison :*\n${adresseComplete}`;
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
     closeCartModal();
   }
