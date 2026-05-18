@@ -906,6 +906,8 @@ const WISE_LINKS={
   29450:'https://wise.com/pay/r/3bOpSjpnNHaCwlo'
 };
 
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbw5Gt1NlpUcV-gS9qsU5P0oKx0xJ3x0vE9dtmyyPiB0dKH1jYpL3zz83s03S-D6xwPOCg/exec';
+
 function sendWhatsApp(){
   const prenom=document.getElementById('fieldPrenom').value.trim();
   const nom=document.getElementById('fieldNom').value.trim();
@@ -920,35 +922,49 @@ function sendWhatsApp(){
     return;
   }
   err.style.display='none';
-  const adresseComplete=`${prenom} ${nom}\n${adresse}${appt?' — '+appt:''}\n${cp} ${ville}\n${pays}`;
   const ids=Object.keys(cart);
   let total=0;
+  let commandeText='';
   ids.forEach(id=>{
     const p=PERFUMES.find(x=>x.id==id);
-    total+=p.price*cart[id];
+    const qty=cart[id];const sub=p.price*qty;total+=sub;
+    commandeText+=`${p.brand} — ${p.name}${qty>1?' (x'+qty+')':''} → ${sub.toFixed(2).replace('.',',')}€ | `;
   });
   const key=Math.round(total*100);
   const wiseLink=WISE_LINKS[key];
-  // Message WhatsApp avec adresse + commande
-  let msg=`🛒 *Nouvelle Commande — Élixir Paris*\n\n`;
-  ids.forEach(id=>{
-    const p=PERFUMES.find(x=>x.id==id);
-    const qty=cart[id];const sub=p.price*qty;
-    msg+=`• ${p.brand} — ${p.name}`;
-    if(qty>1)msg+=` (×${qty})`;
-    msg+=` → ${sub.toFixed(2).replace('.',',')} €\n`;
-  });
-  msg+=`\n💰 *Total : ${total.toFixed(2).replace('.',',')} €*\n\n📍 *Adresse de livraison :*\n${adresseComplete}`;
-  if(wiseLink){
-    msg+=`\n\n💳 *Paiement en cours via Wise...*`;
-  }
-  // Ouvre WhatsApp
-  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
-  // Ouvre Wise automatiquement après 1 seconde
-  if(wiseLink){
-    setTimeout(()=>window.open(wiseLink,'_blank'),1000);
-  }
-  closeCartModal();
+  // Envoi silencieux vers Google Sheet
+  fetch(SCRIPT_URL,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({prenom,nom,adresse,appt,cp,ville,pays,commande:commandeText,total:total.toFixed(2).replace('.',',')})
+  }).catch(()=>{});
+  // Afficher écran confirmation + bouton Wise
+  const modal=document.querySelector('#modalOverlay .modal');
+  modal.innerHTML=`
+    <div class="modal-header">
+      <div class="modal-title">Commande Confirmée</div>
+      <button class="modal-close" onclick="closeCartModal()">✕</button>
+    </div>
+    <div class="modal-body" style="text-align:center;padding:32px">
+      <div style="font-size:2.5rem;margin-bottom:16px">✅</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--white);margin-bottom:8px">Merci ${prenom} !</div>
+      <div style="font-size:.75rem;color:var(--muted);line-height:2;margin-bottom:28px">Votre commande a bien été enregistrée.<br>Finalisez votre paiement pour confirmer.</div>
+      <div style="background:#111;border:1px solid var(--border);padding:20px;margin-bottom:28px;text-align:left">
+        ${ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">${p.brand} — ${p.name}${qty>1?' ×'+qty:''}</span><span style="color:var(--gold)">${sub.toFixed(2).replace('.',',')} €</span></div>`;}).join('')}
+        <div style="display:flex;justify-content:space-between;padding-top:16px">
+          <span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Total</span>
+          <span style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold)">${total.toFixed(2).replace('.',',')} €</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      ${wiseLink
+        ?`<a href="${wiseLink}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--gold);color:var(--black);padding:20px;font-family:'Jost',sans-serif;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — ${total.toFixed(2).replace('.',',')} €</a>`
+        :`<div style="text-align:center;padding:16px;font-size:.75rem;color:var(--muted)">Nous vous contacterons sous peu pour finaliser votre paiement.</div>`
+      }
+      <button class="btn-back" onclick="closeCartModal()">Fermer</button>
+    </div>`;
 }
 buildBrandFilters();
 renderBestSellers();
