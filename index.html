@@ -23,7 +23,7 @@ nav.scrolled{background:rgba(8,8,8,.97);border-bottom:1px solid var(--border)}
 .cart-badge{background:var(--gold);color:var(--black);border-radius:50%;width:18px;height:18px;font-size:.6rem;display:none;align-items:center;justify-content:center}
 .cart-badge.visible{display:flex}
 
-#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 20px 80px;position:relative;overflow:hidden}
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:172px 20px 80px;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 40% 40% at 50% 50%,#b8965a08 0%,transparent 60%)}
 .hero-line{width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--gold));margin:0 auto 40px;animation:fadeDown 1.2s ease forwards}
 @keyframes fadeDown{from{opacity:0;transform:scaleY(0);transform-origin:top}to{opacity:1;transform:scaleY(1)}}
@@ -191,11 +191,37 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
   .pill{padding:5px 11px;font-size:.58rem}
   .prod-right{padding:24px 20px}
 }
+
+.filter-system-vinted{margin-bottom:24px}
+.vinted-filters-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.vinted-dropdown{position:relative}
+.vinted-btn{background:transparent;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s;white-space:nowrap}
+.vinted-btn:hover,.vinted-btn.active{border-color:var(--gold);color:var(--gold)}
+.vinted-btn.active{background:var(--border-gold)}
+.vchev{font-size:.55rem;transition:transform .2s}
+.vinted-dropdown.open .vchev{transform:rotate(180deg)}
+.vinted-menu{display:none;position:absolute;top:calc(100% + 4px);left:0;background:#111;border:1px solid var(--border);min-width:180px;z-index:300;box-shadow:0 8px 32px rgba(0,0,0,.6)}
+.vinted-dropdown.open .vinted-menu{display:block}
+.vinted-option{padding:10px 16px;font-size:.65rem;letter-spacing:.1em;color:var(--muted);cursor:pointer;transition:all .15s;text-transform:uppercase}
+.vinted-option:hover{background:var(--border-gold);color:var(--gold)}
+.vinted-option.selected{color:var(--gold);background:#1a1300}
+.vinted-active-row{display:flex;flex-wrap:wrap;gap:8px;min-height:0}
+.vinted-tag{display:flex;align-items:center;gap:6px;background:var(--border-gold);border:1px solid var(--gold);color:var(--gold);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px}
+.vinted-tag-x{cursor:pointer;font-size:.7rem;opacity:.7;transition:opacity .15s}
+.vinted-tag-x:hover{opacity:1}
+
+
+#particles-canvas{position:absolute;inset:0;z-index:0;pointer-events:none}
+
+
+.top-banner{position:fixed;top:0;left:0;right:0;z-index:600;background:var(--gold);color:var(--black);text-align:center;padding:10px 20px;font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;font-weight:400;line-height:1.6}
+
 </style>
 </head>
 <body>
 
-<nav id="navbar">
+<div class="top-banner"><div>⚡ OFFRE LIMITÉE — Livraison gratuite dans toute l'Europe ⚡</div><div style="font-size:.55rem;letter-spacing:.2em;margin-top:3px">Se termine dans <span id="countdown" style="font-weight:500;font-family:monospace">--:--:--</span></div></div>
+<nav id="navbar" style="top:52px">
   <a href="#home" class="nav-logo">Élixir Paris</a>
   <ul class="nav-links">
     <li><a href="#bestsellers">Sélection</a></li>
@@ -206,6 +232,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
 </nav>
 
 <section id="home">
+  <canvas id="particles-canvas"></canvas>
   <div class="hero-bg"></div>
   <div class="hero-line"></div>
   <div class="hero-eyebrow">Maison de Parfumerie · Paris</div>
@@ -224,33 +251,40 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
   <div class="catalogue-inner">
     <div class="section-header"><span class="section-label">Catalogue Complet</span></div>
     <div class="gamme-legend">
-      <div class="legend-item"><div class="perf-gamme-dot dot-classic"></div> Classic — 29,90 €</div>
-      <div class="legend-item"><div class="perf-gamme-dot dot-prestige"></div> Prestige — 49,90 €</div>
-      <div class="legend-item"><div class="perf-gamme-dot dot-luxe"></div> Luxe — 64,90 €</div>
+      <div class="legend-item"><div class="perf-gamme-dot dot-classic"></div> Classic — 49,90 €</div>
+      <div class="legend-item"><div class="perf-gamme-dot dot-prestige"></div> Prestige — 64,90 €</div>
+      <div class="legend-item"><div class="perf-gamme-dot dot-luxe"></div> Luxe — 89,90 €</div>
     </div>
-    <div class="filter-system">
-      <div class="filter-row">
-        <span class="filter-row-label">Genre</span>
-        <button class="pill active" data-filter="genre" data-val="all" onclick="setFilter('genre','all',this)">Tous</button>
-        <button class="pill" data-filter="genre" data-val="femme" onclick="setFilter('genre','femme',this)">Femme</button>
-        <button class="pill" data-filter="genre" data-val="homme" onclick="setFilter('genre','homme',this)">Homme</button>
-        <button class="pill" data-filter="genre" data-val="mixte" onclick="setFilter('genre','mixte',this)">Mixte</button>
+    <div class="filter-system-vinted">
+      <div class="vinted-filters-row" id="vintedFiltersRow">
+        <div class="vinted-dropdown" id="dropGenre">
+          <button class="vinted-btn" onclick="toggleDrop('dropGenre')">Genre <span class="vchev">▾</span></button>
+          <div class="vinted-menu">
+            <div class="vinted-option" onclick="setVFilter('genre','all','Genre','dropGenre')">Tous</div>
+            <div class="vinted-option" onclick="setVFilter('genre','femme','Femme','dropGenre')">Femme</div>
+            <div class="vinted-option" onclick="setVFilter('genre','homme','Homme','dropGenre')">Homme</div>
+            <div class="vinted-option" onclick="setVFilter('genre','mixte','Mixte','dropGenre')">Mixte</div>
+          </div>
+        </div>
+        <div class="vinted-dropdown" id="dropGamme">
+          <button class="vinted-btn" onclick="toggleDrop('dropGamme')">Gamme <span class="vchev">▾</span></button>
+          <div class="vinted-menu">
+            <div class="vinted-option" onclick="setVFilter('gamme','all','Gamme','dropGamme')">Toutes</div>
+            <div class="vinted-option" onclick="setVFilter('gamme','classic','Classic 49,90€','dropGamme')">Classic — 49,90€</div>
+            <div class="vinted-option" onclick="setVFilter('gamme','prestige','Prestige 64,90€','dropGamme')">Prestige — 64,90€</div>
+            <div class="vinted-option" onclick="setVFilter('gamme','luxe','Luxe 89,90€','dropGamme')">Luxe — 89,90€</div>
+          </div>
+        </div>
+        <div class="vinted-dropdown" id="dropMarque">
+          <button class="vinted-btn" onclick="toggleDrop('dropMarque')">Marque <span class="vchev">▾</span></button>
+          <div class="vinted-menu" id="marqueMenuItems"></div>
+        </div>
       </div>
-      <div class="filter-row">
-        <span class="filter-row-label">Gamme</span>
-        <button class="pill active" data-filter="gamme" data-val="all" onclick="setFilter('gamme','all',this)">Toutes</button>
-        <button class="pill" data-filter="gamme" data-val="classic" onclick="setFilter('gamme','classic',this)">Classic — 29,90€</button>
-        <button class="pill" data-filter="gamme" data-val="prestige" onclick="setFilter('gamme','prestige',this)">Prestige — 49,90€</button>
-        <button class="pill" data-filter="gamme" data-val="luxe" onclick="setFilter('gamme','luxe',this)">Luxe — 64,90€</button>
-      </div>
-      <div class="filter-row">
-        <span class="filter-row-label">Marque</span>
-        <div id="brandFilters" style="display:flex;flex-wrap:wrap;gap:8px"></div>
-      </div>
+      <div class="vinted-active-row" id="vintedActiveRow"></div>
     </div>
     <div class="results-bar">
       <span class="results-count" id="resultsCount"></span>
-      <button class="results-reset" onclick="resetFilters()">Réinitialiser</button>
+      <button class="results-reset" onclick="resetFilters()">Effacer les filtres</button>
     </div>
     <div class="perf-grid" id="perfGrid"></div>
   </div>
@@ -374,279 +408,339 @@ const GAMME_LABELS={classic:'Classic',prestige:'Prestige',luxe:'Luxe'};
 const GENRE_LABELS={femme:'Pour Elle',homme:'Pour Lui',mixte:'Mixte'};
 
 const PERFUMES=[
-  // FEMME CLASSIC
-  {id:1,brand:"Versace",name:"Bright Crystal",gender:"femme",gamme:"classic",price:29.90,
+  // FEMME CLASSIC 49.90
+  {id:1,brand:"Versace",name:"Bright Crystal",gender:"femme",gamme:"classic",price:49.90,
    img:"https://media.parfumo.com/perfumes/81/81642f-bright-crystal-eau-de-toilette-versace_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Une fragrance lumineuse et cristalline. Fraîche, féminine et irrésistiblement légère — la signature d'une féminité solaire.",
    top:["Yuzu","Grenade","Accord Glacé"],heart:["Pivoine","Magnolia","Lotus"],base:["Ambre","Musc","Bois d'Acajou"],
    accords:[{n:"Floral",v:85},{n:"Fruité",v:70},{n:"Frais",v:65},{n:"Musc",v:40}]},
-  {id:2,brand:"Lacoste",name:"Touch of Pink",gender:"femme",gamme:"classic",price:29.90,
-   img:"https://media.parfumo.com/perfumes/5a/5a8e8d-touch-of-pink-eau-de-toilette-lacoste_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Pétillant et ensoleillé, Touch of Pink est un concentré de bonne humeur. Un jus frais et floral qui évoque l'insouciance du printemps.",
-   top:["Mandarine","Bergamote","Gingembre"],heart:["Rose","Muguet","Jasmin"],base:["Cèdre","Santal","Vanille"],
-   accords:[{n:"Floral",v:80},{n:"Citrus",v:65},{n:"Fruité",v:55},{n:"Doux",v:50}]},
-  {id:3,brand:"Kenzo",name:"Flower by Kenzo",gender:"femme",gamme:"classic",price:29.90,
+  {id:3,brand:"Kenzo",name:"Flower by Kenzo",gender:"femme",gamme:"classic",price:49.90,
    img:"https://media.parfumo.com/perfumes/73/73ccac-flower-by-kenzo-eau-de-parfum-kenzo_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Un paradoxe floral urbain — le pavot rouge au cœur de la ville. Délicat, poudreux et inoubliablement féminin.",
    top:["Bergamote","Accord Cassis"],heart:["Rose","Violette","Magnolia"],base:["Vanille","Musc Blanc","Bois de Santal"],
    accords:[{n:"Floral",v:90},{n:"Poudreux",v:70},{n:"Doux",v:60},{n:"Boisé",v:35}]},
-  {id:4,brand:"Burberry",name:"Weekend Femme",gender:"femme",gamme:"classic",price:29.90,
-   img:"https://media.parfumo.com/perfumes/49/49d62e-weekend-for-women-burberry_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"L'essence d'un week-end à la campagne anglaise. Floral et vert, frais comme la rosée du matin.",
-   top:["Pamplemousse","Mandarine","Bergamote"],heart:["Rose","Jasmin","Lilas"],base:["Ambre","Santal","Musc"],
-   accords:[{n:"Floral",v:80},{n:"Vert",v:60},{n:"Frais",v:65},{n:"Citrus",v:50}]},
-  {id:5,brand:"Zadig & Voltaire",name:"This Is Her",gender:"femme",gamme:"classic",price:29.90,
+  {id:5,brand:"Zadig & Voltaire",name:"This Is Her",gender:"femme",gamme:"classic",price:49.90,
    img:"https://media.parfumo.com/perfumes/81/81010e-this-is-her-zadig-voltaire_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Audacieux et romantique. Une fragrance qui mêle la douceur de la violette à la chaleur du musc ambré.",
    top:["Poivre Rose","Baies"],heart:["Violette","Jasmin","Rose"],base:["Musc","Ambre","Vanille"],
    accords:[{n:"Floral",v:70},{n:"Doux",v:80},{n:"Ambré",v:65},{n:"Poudreux",v:55}]},
-  // FEMME PRESTIGE
-  {id:6,brand:"Dior",name:"J'adore",gender:"femme",gamme:"prestige",price:49.90,
+  {id:54,brand:"Kenzo",name:"Jungle L'Éléphant",gender:"femme",gamme:"classic",price:49.90,
+   img:"https://media.parfumo.com/perfumes/f1/f19f11-kenzo-jungle-jungle-l-elephant-kenzo_1200.jpg?width=480&aspect_ratio=1:1",
+   desc:"Exotique et envoûtant. Jungle L'Éléphant est un voyage sensoriel — épices, bois précieux et fleurs tropicales dans une composition sauvage.",
+   top:["Gingembre","Cardamome","Bergamote"],heart:["Rose","Ylang-Ylang","Jasmin"],base:["Vétiver","Santal","Patchouli"],
+   accords:[{n:"Épicé",v:80},{n:"Boisé",v:75},{n:"Floral",v:65},{n:"Oriental",v:70}]},
+  {id:55,brand:"Versace",name:"Dylan Purple",gender:"femme",gamme:"classic",price:49.90,
+   img:"https://media.parfumo.com/perfumes/d9/d9071d-versace-pour-femme-dylan-purple-eau-de-parfum-versace_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Sensuel et floral. Dylan Purple capture l'essence de la féminité moderne — iris violet, rose et santal dans une alliance élégante.",
+   top:["Poire","Bergamote","Cassis"],heart:["Iris","Rose","Jasmin"],base:["Santal","Musc","Ambre"],
+   accords:[{n:"Floral",v:85},{n:"Fruité",v:60},{n:"Poudreux",v:55},{n:"Boisé",v:45}]},
+  // HOMME CLASSIC 49.90
+  {id:28,brand:"Versace",name:"Eros",gender:"homme",gamme:"classic",price:49.90,
+   img:"https://media.parfumo.com/perfumes/a0/a0f00f-eros-eau-de-toilette-versace_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Le parfum du désir. Eros est une explosion de menthe fraîche, de citron vert et de vanille — puissant, énergique et irrésistiblement masculin.",
+   top:["Menthe","Citron Vert","Pomme Verte"],heart:["Fève Tonka","Géranium","Ambroxan"],base:["Vanille","Vétiver","Chêne"],
+   accords:[{n:"Frais",v:85},{n:"Boisé",v:70},{n:"Doux",v:65},{n:"Aromatique",v:75}]},
+  {id:56,brand:"Issey Miyake",name:"L'Eau d'Issey Pour Homme",gender:"homme",gamme:"classic",price:49.90,
+   img:"https://media.parfumo.com/perfumes/4a/4a5aed-l-eau-d-issey-pour-homme-eau-de-toilette-issey-miyake_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"L'eau comme source d'inspiration. Une fragrance aquatique et boisée d'une pureté absolue — le parfum de l'homme moderne.",
+   top:["Yuzu","Bergamote","Mandarine"],heart:["Sauge","Cèdre","Cyclamen"],base:["Ambre Gris","Musc","Vétiver"],
+   accords:[{n:"Aquatique",v:85},{n:"Boisé",v:70},{n:"Frais",v:80},{n:"Aromatique",v:60}]},
+  // FEMME PRESTIGE 64.90
+  {id:6,brand:"Dior",name:"J'adore",gender:"femme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/62/62f176-j-adore-eau-de-parfum-dior_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"L'incarnation absolue de la féminité selon Dior. Un bouquet floral d'exception, soyeux et lumineux, devenu l'un des parfums les plus emblématiques au monde.",
    top:["Poire","Melon","Magnolia"],heart:["Rose de Grasse","Jasmin","Ylang-Ylang"],base:["Musc","Cèdre","Vanille"],
    accords:[{n:"Floral",v:95},{n:"Fruité",v:60},{n:"Doux",v:65},{n:"Poudreux",v:45}]},
-  {id:7,brand:"Dior",name:"Miss Dior Blooming Bouquet",gender:"femme",gamme:"prestige",price:49.90,
+  {id:7,brand:"Dior",name:"Miss Dior Blooming Bouquet",gender:"femme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/18/18d635-miss-dior-blooming-bouquet-2023-eau-de-toilette-dior_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Un bouquet fleuri délicat et espiègle. Frais, poudré et romantique — la quintessence de la jeune élégance parisienne.",
    top:["Pamplemousse","Mandarine"],heart:["Pivoine","Rose","Muguet"],base:["Musc Blanc","Patchouli"],
    accords:[{n:"Floral",v:90},{n:"Fruité",v:65},{n:"Poudreux",v:55},{n:"Frais",v:60}]},
-  {id:8,brand:"Chanel",name:"Chance",gender:"femme",gamme:"prestige",price:49.90,
+  {id:8,brand:"Chanel",name:"Chance",gender:"femme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/43/43fa93-chance-eau-tendre-eau-de-toilette-chanel_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Audacieux et inattendu. Chance brise les codes — un tourbillon floral-frais qui saisit l'instant présent avec une légèreté absolue.",
    top:["Citron","Citron Rose","Jacynthe"],heart:["Iris","Jasmin"],base:["Patchouli","Vétiver","Musc Blanc"],
    accords:[{n:"Floral",v:80},{n:"Frais",v:75},{n:"Citrus",v:70},{n:"Boisé",v:40}]},
-  {id:9,brand:"Chanel",name:"Coco Noir",gender:"femme",gamme:"prestige",price:49.90,
+  {id:9,brand:"Chanel",name:"Coco Noir",gender:"femme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/c4/c47cff-coco-noir-eau-de-parfum-chanel_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Mystérieux et sensuel. Un sillage profond et envoûtant qui allie le soyeux des roses à l'intensité du patchouli et du vétiver.",
    top:["Pamplemousse","Bergamote","Néroli"],heart:["Rose","Jasmin","Géranium"],base:["Patchouli","Vétiver","Santal","Ambre"],
    accords:[{n:"Boisé",v:80},{n:"Floral",v:75},{n:"Ambré",v:70},{n:"Musc",v:60}]},
-  {id:10,brand:"YSL",name:"Libre",gender:"femme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/60/608990-libre-le-parfum-yves-saint-laurent_1200.jpg?width=720&aspect_ratio=1:1",
+  {id:10,brand:"YSL",name:"Libre",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/d4/d40db9-libre-eau-de-parfum-yves-saint-laurent_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La liberté a son parfum. Libre incarne la dualité féminine — la fleur d'oranger solaire unie à la lavande affranchie. Audacieux et irrésistible.",
    top:["Mandarine","Baies de Gattilier"],heart:["Lavande","Fleur d'Oranger"],base:["Musc Ambré","Cèdre de Virginie"],
    accords:[{n:"Floral",v:80},{n:"Ambré",v:75},{n:"Doux",v:70},{n:"Boisé",v:50}]},
-  {id:11,brand:"YSL",name:"Black Opium",gender:"femme",gamme:"prestige",price:49.90,
+  {id:11,brand:"YSL",name:"Black Opium",gender:"femme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/36/36722d-black-opium-eau-de-parfum-glitter-yves-saint-laurent_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Le choc du café noir et de la vanille blanche. Black Opium est une addiction olfactive — sombre, gourmand, enivrant.",
    top:["Poivre Rose","Poire","Agrumes"],heart:["Café","Jasmin","Fleur d'Oranger"],base:["Vanille","Patchouli","Cèdre"],
    accords:[{n:"Gourmand",v:90},{n:"Floral",v:65},{n:"Ambré",v:75},{n:"Doux",v:80}]},
-  {id:12,brand:"Paco Rabanne",name:"Olympia",gender:"femme",gamme:"prestige",price:49.90,
+  {id:12,brand:"Paco Rabanne",name:"Olympia",gender:"femme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/21/2100d2-olympea-eau-de-parfum-rabanne_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Déesse moderne et conquérante. Olympéa allie la fraîcheur aquatique de la fleur de sel à la chaleur sensuelle de la vanille ambrée.",
    top:["Gingembre Vert","Mandarine"],heart:["Fleur de Sel","Fleur de Cassis","Jasmin"],base:["Vanille","Santal","Ambre Gris"],
    accords:[{n:"Ambré",v:85},{n:"Aquatique",v:60},{n:"Doux",v:70},{n:"Floral",v:55}]},
-  {id:13,brand:"Lancôme",name:"La Vie Est Belle",gender:"femme",gamme:"prestige",price:49.90,
+  {id:13,brand:"Lancôme",name:"La Vie Est Belle",gender:"femme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/3b/3b0c61-la-vie-est-belle-l-eau-de-parfum-lancome_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Une déclaration de bonheur. La vie est belle est un accord iris-pralinée d'une douceur irrésistible — optimiste, chaleureux, universel.",
    top:["Cassis","Poire"],heart:["Iris","Jasmin","Muguet"],base:["Pralinée","Patchouli","Vanille","Musc"],
    accords:[{n:"Gourmand",v:85},{n:"Floral",v:75},{n:"Doux",v:90},{n:"Ambré",v:65}]},
-  {id:14,brand:"Givenchy",name:"L'Interdit",gender:"femme",gamme:"prestige",price:49.90,
+  {id:14,brand:"Givenchy",name:"L'Interdit",gender:"femme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/96/967597-l-interdit-eau-de-parfum-rouge-givenchy_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"L'interdit était le parfum secret d'Audrey Hepburn. Réinventé — fleur blanche lumineuse sur un fond sombre et addictif.",
    top:["Poire","Bergamote"],heart:["Fleur d'Oranger","Jasmin","Tubéreuse"],base:["Vétiver","Patchouli","Fève Tonka"],
    accords:[{n:"Floral",v:85},{n:"Boisé",v:70},{n:"Doux",v:65},{n:"Ambré",v:60}]},
-  {id:15,brand:"Mugler",name:"Alien",gender:"femme",gamme:"prestige",price:49.90,
+  {id:15,brand:"Mugler",name:"Alien",gender:"femme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/20/20e8a2-alien-eau-de-parfum-mugler_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Une fragrance venue d'ailleurs. Alien est solaire, puissant, unique — le jasmin solaire porté à son apogée sur un fond de bois de cachemire.",
    top:["Bois de Cachemire"],heart:["Jasmin Sambac","Fleur de Soleil"],base:["Bois de Cachemire","Ambre Blanc"],
    accords:[{n:"Floral",v:90},{n:"Boisé",v:75},{n:"Ambré",v:70},{n:"Solaire",v:80}]},
-  {id:16,brand:"Paco Rabanne",name:"Lady Million",gender:"femme",gamme:"prestige",price:49.90,
+  {id:16,brand:"Paco Rabanne",name:"Lady Million",gender:"femme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/04/04fc10-lady-million-eau-de-parfum-rabanne_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Royale et opulente. Lady Million est le parfum du luxe absolu — fleur d'oranger blanche sur un fond chaud de miel et de patchouli.",
-   top:["Framboise","Citron","Néroli"],heart:["Fleur d'Oranger","Rose","Jasmin"],base:["Miel","Patchouli","Ambre"],
-   accords:[{n:"Floral",v:85},{n:"Doux",v:75},{n:"Fruité",v:65},{n:"Ambré",v:70}]},
-  {id:17,brand:"Paco Rabanne",name:"Fame",gender:"femme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/55/555c7a-fame-intense-rabanne_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Audacieux et futuriste. Fame capture l'essence du bois de mango avec une signature olfactive résolument moderne.",
-   top:["Mangue","Jasmin"],heart:["Fleur de Manguier","Iris"],base:["Bois de Mango","Musc","Ambre"],
-   accords:[{n:"Fruité",v:80},{n:"Floral",v:70},{n:"Boisé",v:65},{n:"Doux",v:60}]},
-  {id:18,brand:"Carolina Herrera",name:"Good Girl",gender:"femme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/7d/7db6ce-good-girl-blush-elixir-carolina-herrera_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Dualité envoûtante — la bonne fille cache ses secrets. Jasmin solaire en tête, cacao et fève tonka en profondeur.",
-   top:["Café","Bergamote"],heart:["Jasmin","Tubéreuse"],base:["Fève Tonka","Cacao","Amande"],
-   accords:[{n:"Floral",v:80},{n:"Gourmand",v:85},{n:"Ambré",v:70},{n:"Doux",v:75}]},
-  {id:19,brand:"Armani",name:"Sì",gender:"femme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/91/91ffff-si-eau-de-parfum-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Le oui à la vie. Sì est une ode à la femme moderne — cassis pétillant, rose neroli sensuelle, patchouli doux.",
-   top:["Cassis","Bergamote"],heart:["Rose Neroli","Freesia"],base:["Patchouli","Vanille","Musc"],
-   accords:[{n:"Floral",v:80},{n:"Fruité",v:70},{n:"Doux",v:75},{n:"Boisé",v:50}]},
-  {id:20,brand:"Armani",name:"Sì Passion",gender:"femme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/e1/e1f450-si-passione-eau-de-parfum-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"La passion à son paroxysme. Plus intense, plus sensuel — Sì Passion embrase le cœur avec une rose pétillante et un fond ambré profond.",
-   top:["Cassis","Bergamote","Poire"],heart:["Rose","Jasmin","Freesia"],base:["Patchouli","Ambre","Vanille"],
-   accords:[{n:"Floral",v:85},{n:"Fruité",v:65},{n:"Ambré",v:75},{n:"Doux",v:70}]},
-  {id:21,brand:"Armani",name:"My Way Parfum",gender:"femme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/36/36d350-my-way-eau-de-parfum-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Une invitation au voyage intérieur. Bergamote d'Italie, fleur d'oranger d'Égypte, bois de Virginie — le monde en un flacon.",
-   top:["Bergamote","Fleur d'Oranger"],heart:["Tubéreuse d'Inde","Jasmin"],base:["Musc","Cèdre de Virginie","Fève Tonka"],
-   accords:[{n:"Floral",v:85},{n:"Doux",v:70},{n:"Boisé",v:60},{n:"Ambré",v:55}]},
-  {id:22,brand:"Armani",name:"My Way Intense",gender:"femme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/17/17dc7f-my-way-intense-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"My Way poussé à l'intensité maximale. La rose de Turquie et l'oud se rencontrent dans une composition somptueuse et enveloppante.",
-   top:["Bergamote","Baies"],heart:["Rose de Turquie","Jasmin","Tubéreuse"],base:["Oud","Vanille","Musc"],
-   accords:[{n:"Floral",v:85},{n:"Boisé",v:70},{n:"Ambré",v:75},{n:"Doux",v:65}]},
-  {id:23,brand:"Valentino",name:"Voce Viva Intensa",gender:"femme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/c0/c07b0b-voce-viva-intensa-valentino_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"La voix qui s'élève. Bergamote pétillante, jasmin opulent et musc chaud — une présence féminine affirmée.",
-   top:["Bergamote","Pamplemousse"],heart:["Jasmin Sambac","Narcisse"],base:["Musc","Vétiver","Ambre Gris"],
-   accords:[{n:"Floral",v:85},{n:"Frais",v:65},{n:"Musc",v:70},{n:"Ambré",v:60}]},
-  {id:24,brand:"Chloé",name:"Nomade",gender:"femme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/28/282719-nomade-eau-de-parfum-chloe_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"La liberté de la femme Chloé. Freesia solaire, patchouli doux et chêne fumé — l'esprit d'une bohémienne raffinée.",
-   top:["Pamplemousse","Freesia"],heart:["Rose","Mirabelle"],base:["Patchouli","Chêne","Musc"],
-   accords:[{n:"Floral",v:80},{n:"Boisé",v:70},{n:"Doux",v:65},{n:"Fruité",v:55}]},
-  {id:25,brand:"Gucci",name:"Flora",gender:"femme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/4e/4e775c-flora-gorgeous-orchid-gucci_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Un jardin secret en plein épanouissement. Flora est féminin, floral et solaire — une explosion d'orchidée sur fond d'ambre.",
-   top:["Poire","Bergamote"],heart:["Orchidée","Rose","Muguet"],base:["Patchouli","Ambre","Musc"],
-   accords:[{n:"Floral",v:90},{n:"Fruité",v:65},{n:"Doux",v:70},{n:"Ambré",v:55}]},
-  {id:26,brand:"Narciso Rodriguez",name:"Narciso",gender:"femme",gamme:"prestige",price:49.90,
+   top:["Pamplemousse","Framboise","Néroli"],heart:["Fleur d'Oranger","Rose","Jasmin"],base:["Patchouli","Miel","Ambré"],
+   accords:[{n:"Floral",v:85},{n:"Fruité",v:65},{n:"Ambré",v:70},{n:"Doux",v:75}]},
+  {id:17,brand:"Paco Rabanne",name:"Fame",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/83/83f6a2-fame-blooming-pink-rabanne_1200.jpg?width=480&aspect_ratio=1:1",
+   desc:"La féminité puissante et solaire. Fame capture l'essence d'une femme libre — fleur de sel, jasmin, ylang-ylang dans un sillage envoûtant.",
+   top:["Mangue","Bergamote","Poivre Rose"],heart:["Jasmin","Encens","Patchouli"],base:["Benjoin","Santal","Musc"],
+   accords:[{n:"Floral",v:80},{n:"Fruité",v:70},{n:"Ambré",v:65},{n:"Gourmand",v:60}]},
+  {id:18,brand:"Carolina Herrera",name:"Good Girl",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/55/55e9ea-good-girl-eau-de-parfum-carolina-herrera_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Le dualisme féminin incarné. Good Girl est un contraste fascinant entre la fleur blanche séduisante et le café intense — jour et nuit.",
+   top:["Amande","Café"],heart:["Jasmin de Sambac","Tubéreuse"],base:["Fève Tonka","Cacao","Vétiver"],
+   accords:[{n:"Gourmand",v:85},{n:"Floral",v:75},{n:"Ambré",v:70},{n:"Boisé",v:55}]},
+  {id:19,brand:"Armani",name:"Sì",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/cf/cf731d-si-eau-de-parfum-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"L'élégance moderne. Sì est une déclaration d'indépendance — cassis lumineux, rose fraîche et musc ambré dans une composition soyeuse.",
+   top:["Cassis","Bergamote"],heart:["Rose","Freesia","Néroli"],base:["Patchouli","Vanille","Musc Ambré"],
+   accords:[{n:"Floral",v:80},{n:"Fruité",v:65},{n:"Ambré",v:70},{n:"Doux",v:75}]},
+  {id:20,brand:"Armani",name:"My Way Parfum",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/e8/e84ae5-my-way-parfum-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Un voyage intérieur. My Way Parfum est une concentration de lumière — fleur d'oranger de Grasse, jasmin d'Inde et musc blanc.",
+   top:["Bergamote","Mandarine"],heart:["Fleur d'Oranger","Jasmin","Vétiver de Haïti"],base:["Musc Blanc","Cèdre","Vanille"],
+   accords:[{n:"Floral",v:90},{n:"Boisé",v:65},{n:"Doux",v:70},{n:"Frais",v:60}]},
+  {id:21,brand:"Armani",name:"My Way Intense",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/5f/5fb82a-my-way-intense-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Plus profond, plus intense. My Way Intense amplifie les notes de jasmin et de musc pour une signature olfactive inoubliable.",
+   top:["Bergamote","Cardamome"],heart:["Jasmin Sambac","Fleur d'Oranger"],base:["Fève Tonka","Musc","Santal"],
+   accords:[{n:"Floral",v:85},{n:"Ambré",v:75},{n:"Doux",v:80},{n:"Oriental",v:60}]},
+  {id:22,brand:"Valentino",name:"Voce Viva",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/f6/f625dc-voce-viva-eau-de-parfum-valentino_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"La voix de la vie. Voce Viva est lumineux et bergamoté — bergamote italienne, iris et musc blanc dans une composition vibrante.",
+   top:["Bergamote","Mandarine"],heart:["Iris","Jasmin","Muguet"],base:["Musc Blanc","Vétiver","Ambre"],
+   accords:[{n:"Floral",v:80},{n:"Frais",v:75},{n:"Citrus",v:70},{n:"Doux",v:65}]},
+  {id:23,brand:"Chloé",name:"Nomade",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/d3/d384b6-nomade-eau-de-parfum-chloe_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"L'âme libre de Chloé. Nomade est un voyage olfactif entre mirabelle ensoleillée, rose fraîche et vétiver terreux — féminin et indépendant.",
+   top:["Mirabelle","Freesia"],heart:["Rose","Chêne"],base:["Vétiver","Patchouli","Ambre"],
+   accords:[{n:"Floral",v:75},{n:"Boisé",v:80},{n:"Fruité",v:60},{n:"Ambré",v:65}]},
+  {id:24,brand:"Gucci",name:"Flora Gorgeous Gardenia",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/8c/8cb5bb-flora-gorgeous-gardenia-eau-de-parfum-gucci_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Une fleur somptueuse. Flora Gorgeous Gardenia est une explosion de gardénia blanc, de poire et de frangipane — frais, fruité et inoubliable.",
+   top:["Poire","Bergamote"],heart:["Gardénia","Frangipane"],base:["Sucre Brun","Musc","Santal"],
+   accords:[{n:"Floral",v:90},{n:"Fruité",v:70},{n:"Doux",v:75},{n:"Gourmand",v:55}]},
+  {id:25,brand:"Narciso Rodriguez",name:"Narciso",gender:"femme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/cf/cf4da9-narciso-eau-de-parfum-poudree-narciso-rodriguez_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Minimaliste et sensuel. Narciso est un musc poudré d'une sophistication rare — rose veloutée, cèdre soyeux.",
-   top:["Poivre Rose","Pamplemousse"],heart:["Rose","Musc"],base:["Cèdre","Ambre","Vétiver"],
-   accords:[{n:"Musc",v:90},{n:"Poudreux",v:80},{n:"Floral",v:70},{n:"Boisé",v:55}]},
-  // HOMME CLASSIC
-  {id:27,brand:"Hugo Boss",name:"Boss",gender:"homme",gamme:"classic",price:29.90,
-   img:"https://media.parfumo.com/perfumes/a7/a7787e-boss-bottled-night-eau-de-toilette-hugo-boss_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"L'homme de pouvoir, la nuit. Boss Bottled Night est sombre, magnétique, irrésistible — la lavande rencontre le bois de bouleau.",
-   top:["Lavande","Citron","Cardamome"],heart:["Bouleau","Géranium"],base:["Musc","Olivier","Ambre"],
-   accords:[{n:"Boisé",v:80},{n:"Frais",v:70},{n:"Aromatique",v:75},{n:"Ambré",v:55}]},
-  {id:28,brand:"Versace",name:"Eros",gender:"homme",gamme:"classic",price:29.90,
-   img:"https://media.parfumo.com/perfumes/cb/cb01df-eros-eau-de-parfum-versace_1200.jpg?width=480&aspect_ratio=1:1",
-   desc:"Inspiré du dieu grec de l'amour. Eros est puissant et séducteur — la menthe fraîche domptée par le bois de tonka.",
-   top:["Menthe","Pomme Verte","Citron"],heart:["Fève Tonka","Géranium","Ambrois"],base:["Cèdre de Virginie","Vétiver","Oakmoss"],
-   accords:[{n:"Frais",v:80},{n:"Doux",v:75},{n:"Boisé",v:65},{n:"Aromatique",v:70}]},
-  {id:29,brand:"Diesel",name:"Only The Brave",gender:"homme",gamme:"classic",price:29.90,
-   img:"https://media.parfumo.com/perfumes/4f/4f94c4-only-the-brave-eau-de-toilette-diesel_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Pour les audacieux. Only The Brave est une fragrance virile et boisée — cèdre affirmé, violette sauvage, cuir.",
-   top:["Citron","Cardamome","Mandarine"],heart:["Violette","Piment"],base:["Cuir","Labdanum","Cèdre"],
-   accords:[{n:"Boisé",v:80},{n:"Cuir",v:70},{n:"Frais",v:60},{n:"Aromatique",v:65}]},
-  {id:30,brand:"Lacoste",name:"Original",gender:"homme",gamme:"classic",price:29.90,
-   img:"https://media.parfumo.com/perfumes/ed/ed1227-lacoste-original-eau-de-parfum-lacoste_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Le classique sportif revisité. Frais, propre et élégant — l'essence du style décontracté à la française.",
-   top:["Citron","Bergamote","Thé Vert"],heart:["Jasmin","Rose","Géranium"],base:["Cèdre","Musc","Ambre"],
-   accords:[{n:"Frais",v:80},{n:"Aromatique",v:70},{n:"Boisé",v:60},{n:"Floral",v:45}]},
-  // HOMME PRESTIGE
-  {id:31,brand:"Dior",name:"Sauvage Parfum",gender:"homme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/a0/a0ef46-sauvage-eau-de-parfum-dior_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"La désertification du luxe. Sauvage est brut, magnétique, inoubliable — bergamote solaire et ambroxan sauvage sur fond de vétiver.",
-   top:["Bergamote de Calabre","Poivre"],heart:["Poivre de Sichuan","Lavande","Géranium"],base:["Ambroxan","Vétiver","Patchouli"],
-   accords:[{n:"Frais",v:85},{n:"Boisé",v:80},{n:"Aromatique",v:75},{n:"Ambré",v:70}]},
-  {id:32,brand:"Dior",name:"Homme Intense",gender:"homme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/69/69da96-dior-homme-intense-2011-dior_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"L'élégance masculine à son summum. Iris poudreux, cuir discret, lavande virile — une sophistication absolue.",
-   top:["Lavande","Bergamote"],heart:["Iris","Cèdre","Ambrette"],base:["Vétiver","Bois de Gaïac","Ambre"],
-   accords:[{n:"Poudreux",v:85},{n:"Floral",v:70},{n:"Boisé",v:75},{n:"Ambré",v:65}]},
-  {id:33,brand:"Chanel",name:"Bleu de Chanel",gender:"homme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/05/055e6a-bleu-de-chanel-eau-de-parfum-chanel_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"La liberté absolue. Bleu de Chanel transcende les catégories — frais, boisé, aromatique. L'homme moderne à son état pur.",
-   top:["Citron","Menthe","Bergamote"],heart:["Gingembre","Iso E Super","Jacinthe"],base:["Cèdre","Santal","Ambre","Patchouli"],
-   accords:[{n:"Boisé",v:85},{n:"Frais",v:80},{n:"Aromatique",v:75},{n:"Ambré",v:65}]},
-  {id:34,brand:"Paco Rabanne",name:"One Million",gender:"homme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/fc/fc9d08-1-million-eau-de-toilette-rabanne_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"L'or liquide. One Million est flamboyant, opulent, irrésistible — pamplemousse pétillant, rose et cuir précieux.",
-   top:["Pamplemousse","Menthe","Sang"],heart:["Rose","Cannelle","Épices"],base:["Cuir","Ambre","Bois de Patchouli"],
-   accords:[{n:"Cuir",v:80},{n:"Fruité",v:75},{n:"Ambré",v:85},{n:"Doux",v:65}]},
-  {id:35,brand:"Paco Rabanne",name:"Invictus",gender:"homme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/cf/cf9036-invictus-parfum-rabanne_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Invaincu. Invictus est la fragrance du champion — accord marin frappant, laurier triomphant, bois d'ambre puissant.",
-   top:["Pamplemousse","Accord Marin","Laurier"],heart:["Jasmin","Guaiac"],base:["Ambre Gris","Oakmoss","Musc"],
-   accords:[{n:"Frais",v:85},{n:"Aquatique",v:75},{n:"Boisé",v:65},{n:"Ambré",v:70}]},
-  {id:36,brand:"YSL",name:"Y Le Parfum",gender:"homme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/4c/4c0a38_y-le-parfum-2025-yves-saint-laurent_1200.jpg?width=480&aspect_ratio=1:1",
-   desc:"La puissance à l'état pur. Y Le Parfum propulse la bergamote fraîche dans un sillage de sauge et de bois ambré inoubliable.",
-   top:["Bergamote","Gingembre"],heart:["Sauge","Géranium"],base:["Ambre","Fève Tonka","Cèdre"],
-   accords:[{n:"Boisé",v:80},{n:"Aromatique",v:75},{n:"Frais",v:70},{n:"Ambré",v:75}]},
-  {id:37,brand:"YSL",name:"L'Homme",gender:"homme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/68/68a9f0-l-homme-le-parfum-yves-saint-laurent_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"L'homme dans toute sa splendeur. Gingembre piquant, basilic raffiné, vétiver profond — l'élégance sans artifice.",
-   top:["Gingembre","Bergamote","Citron Vert"],heart:["Basilic","Poivre Blanc","Géranium"],base:["Vétiver","Cèdre","Fève Tonka"],
-   accords:[{n:"Boisé",v:80},{n:"Aromatique",v:75},{n:"Frais",v:70},{n:"Épicé",v:60}]},
-  {id:38,brand:"Armani",name:"Stronger With You Intensely",gender:"homme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/0a/0a5fd7-emporio-armani-stronger-with-you-intensely-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Gourmand et viril. La lavande et la fève tonka s'unissent dans un accord caramel salé unique — doux-amer et irrésistible.",
-   top:["Sauge","Cardamome","Lavande"],heart:["Caramel Salé","Patchouli"],base:["Fève Tonka","Vanille","Musc"],
-   accords:[{n:"Gourmand",v:85},{n:"Doux",v:80},{n:"Aromatique",v:70},{n:"Ambré",v:65}]},
-  {id:39,brand:"Armani",name:"Stronger With You Absolutely",gender:"homme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/21/21016b-emporio-armani-stronger-with-you-absolutely-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"L'intensité portée à l'absolu. Fève tonka, vanille tabac et caramel noir — une masculinité gourmande et envoûtante.",
-   top:["Lavande","Poivre Rose"],heart:["Caramel Noir","Tabac"],base:["Fève Tonka","Vanille","Vétiver"],
-   accords:[{n:"Gourmand",v:90},{n:"Boisé",v:65},{n:"Doux",v:80},{n:"Épicé",v:60}]},
-  {id:40,brand:"Armani",name:"Acqua di Giò",gender:"homme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/0b/0be6c4-acqua-di-gio-pour-homme-eau-de-toilette-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"La Méditerranée en flacon. Acqua di Giò est la définition du frais marin — citrus solaire, jasmin aquatique, bois marin.",
-   top:["Citron","Bergamote","Mandarine","Accord Marin"],heart:["Jasmin","Calone","Bois de Gaïac"],base:["Cèdre","Patchouli","Musc Blanc"],
-   accords:[{n:"Aquatique",v:90},{n:"Frais",v:85},{n:"Citrus",v:75},{n:"Boisé",v:55}]},
-  {id:41,brand:"Valentino",name:"Uomo",gender:"homme",gamme:"prestige",price:49.90,
-   img:"https://media.parfumo.com/perfumes/3a/3a03cc-valentino-uomo-born-in-roma-valentino_1200.jpg?width=720&aspect_ratio=1:1",
-   desc:"Rome moderne. Uomo mêle le cuir doux à l'iris poudreux et à la bergamote dorée — romanité et élégance incarnées.",
-   top:["Bergamote","Cèdre"],heart:["Iris","Fève Tonka"],base:["Cuir","Musc","Ambre"],
-   accords:[{n:"Cuir",v:75},{n:"Poudreux",v:70},{n:"Boisé",v:65},{n:"Doux",v:70}]},
-  {id:42,brand:"Jean Paul Gaultier",name:"Classique",gender:"homme",gamme:"prestige",price:49.90,
+   desc:"Poudré et sensuel. Narciso est une signature olfactive unique — musc blanc, fleur d'oranger et bois de cèdre dans une composition enveloppante.",
+   top:["Fleur d'Oranger","Bergamote"],heart:["Musc","Rose"],base:["Cèdre","Vétiver","Ambre"],
+   accords:[{n:"Musc",v:90},{n:"Floral",v:75},{n:"Poudreux",v:80},{n:"Boisé",v:55}]},
+  {id:57,brand:"Cartier",name:"La Panthère",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/2a/2a2faf-la-panthere-eau-de-toilette-cartier_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"La félinité incarnée. La Panthère de Cartier est une fragrance chyprée florale — gardénia blanc, muscs et notes de chêne dans une alliance sauvage.",
+   top:["Gardénia","Bergamote"],heart:["Gardénia","Chêne"],base:["Musc","Civette","Ambre"],
+   accords:[{n:"Floral",v:85},{n:"Boisé",v:70},{n:"Chypré",v:75},{n:"Poudreux",v:60}]},
+  {id:58,brand:"Dior",name:"Addict",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/72/729f8c-dior-addict-2014-eau-de-parfum-dior_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Séducteur et envoûtant. Dior Addict est une fragrance addictive — mandarine lumineuse, jasmin solaire et vanille bourbon.",
+   top:["Mandarine","Bergamote"],heart:["Jasmin de Grasse","Rose"],base:["Vanille Bourbon","Santal","Musc"],
+   accords:[{n:"Floral",v:80},{n:"Oriental",v:75},{n:"Doux",v:85},{n:"Ambré",v:70}]},
+  {id:59,brand:"YSL",name:"Myself",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/68/688198-myslf-yves-saint-laurent_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"L'authenticité comme parfum. MYSLF est une fragrance audacieuse — fleur d'oranger solaire, vétiver terrien et musc dans une composition libre.",
+   top:["Bergamote","Citron"],heart:["Fleur d'Oranger","Jasmin"],base:["Vétiver","Ambre","Musc"],
+   accords:[{n:"Floral",v:80},{n:"Boisé",v:70},{n:"Frais",v:65},{n:"Ambré",v:60}]},
+  {id:60,brand:"Carolina Herrera",name:"La Bomba",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/5d/5df0e4_la-bomba-carolina-herrera_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Explosive et féminine. La Bomba est une déflagration olfactive de fruits rouges, de fleurs blanches et de musc — séduisant et inoubliable.",
+   top:["Framboise","Fruits Rouges"],heart:["Fleur d'Oranger","Rose","Jasmin"],base:["Musc","Ambre","Bois de Santal"],
+   accords:[{n:"Fruité",v:85},{n:"Floral",v:75},{n:"Doux",v:70},{n:"Ambré",v:60}]},
+  {id:61,brand:"Lancôme",name:"Poème",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/9f/9fd86e-poeme-eau-de-parfum-lancome_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Un poème en flacon. Poème est une fragrance florale orientale unique — fleur de mimosa, vanille et encens dans une composition poétique.",
+   top:["Mandarine","Bergamote","Freesia"],heart:["Mimosa","Tubéreuse","Jasmin"],base:["Vanille","Encens","Musc"],
+   accords:[{n:"Floral",v:85},{n:"Oriental",v:70},{n:"Doux",v:80},{n:"Ambré",v:65}]},
+  {id:62,brand:"Armani",name:"Because It's You",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/1a/1af001-emporio-armani-because-it-s-you-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Pour toi. Because It's You est une déclaration d'amour olfactive — pralinée rose, poivre de Sichuan et musc dans une composition romantique.",
+   top:["Poire","Poivre de Sichuan"],heart:["Rose","Pralinée"],base:["Musc Ambré","Bois de Cachemire","Vanille"],
+   accords:[{n:"Gourmand",v:80},{n:"Floral",v:75},{n:"Doux",v:85},{n:"Épicé",v:55}]},
+  {id:63,brand:"Valentino",name:"Donna",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/a4/a41026-valentino-donna-2015-eau-de-parfum-valentino_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"La quintessence de la féminité italienne. Donna est une rose intense sublimée par l'iris et la bergamote — élégant, sensuel et intemporel.",
+   top:["Bergamote","Pamplemousse"],heart:["Rose","Iris","Muguet"],base:["Musc","Patchouli","Cèdre"],
+   accords:[{n:"Floral",v:90},{n:"Poudreux",v:70},{n:"Boisé",v:60},{n:"Frais",v:65}]},
+  {id:64,brand:"Dolce & Gabbana",name:"The Only One",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/48/4814d8-the-only-one-eau-de-parfum-dolce-gabbana_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"L'unique. The Only One est une fragrance florale-orientale envoûtante — iris crémeux, café et vanille dans une composition addictive.",
+   top:["Bergamote","Fruits Rouges"],heart:["Iris","Violette","Café"],base:["Vanille","Patchouli","Musc"],
+   accords:[{n:"Floral",v:80},{n:"Gourmand",v:75},{n:"Oriental",v:70},{n:"Doux",v:85}]},
+  {id:65,brand:"YSL",name:"Black Opium Glitter",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/36/36722d-black-opium-eau-de-parfum-glitter-yves-saint-laurent_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"L'édition scintillante. Black Opium Glitter garde l'ADN addictif de café et vanille, sublimé par des reflets dorés et une intensité accrue.",
+   top:["Poivre Rose","Poire"],heart:["Café","Jasmin"],base:["Vanille","Patchouli","Musc"],
+   accords:[{n:"Gourmand",v:90},{n:"Ambré",v:80},{n:"Floral",v:65},{n:"Doux",v:85}]},
+  {id:66,brand:"Givenchy",name:"Pi",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/56/56b313-pi-eau-de-toilette-givenchy_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"La fragrance du génie. Pi est une composition orientale unique — bergamote brillante, géranium et vanille profonde pour l'homme visionnaire.",
+   top:["Bergamote","Mandarine"],heart:["Géranium","Sauge","Jasmin"],base:["Vanille","Benzoin","Ambre"],
+   accords:[{n:"Oriental",v:85},{n:"Doux",v:80},{n:"Boisé",v:65},{n:"Ambré",v:75}]},
+  {id:67,brand:"Prada",name:"Candy",gender:"femme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/64/64f392-candy-eau-de-parfum-prada_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Sucré et irrésistible. Candy est une fragrance gourmande et sensuelle — benjoin, caramel et musc dans une composition délicieusement addictive.",
+   top:["Caramel"],heart:["Benjoin","Musc"],base:["Vanille","Musc Blanc"],
+   accords:[{n:"Gourmand",v:95},{n:"Doux",v:90},{n:"Ambré",v:75},{n:"Poudreux",v:60}]},
+  // HOMME PRESTIGE 64.90
+  {id:29,brand:"Dior",name:"Sauvage",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/b2/b2fe2b-sauvage-eau-de-parfum-dior_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"La puissance sauvage. Sauvage est devenu en quelques années le parfum masculin le plus vendu au monde — bergamote, ambroxan, poivre de Sichuan.",
+   top:["Poivre de Sichuan","Bergamote"],heart:["Lavande","Géranium","Poivre"],base:["Ambroxan","Cèdre","Labdanum"],
+   accords:[{n:"Frais",v:85},{n:"Boisé",v:80},{n:"Épicé",v:70},{n:"Aromatique",v:75}]},
+  {id:30,brand:"Dior",name:"Homme Intense",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/5d/5db2c7-dior-homme-intense-eau-de-parfum-dior_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"La version ultime de Dior Homme. Plus profond, plus iris, plus ambre — la signature de l'élégance masculine poussée à son paroxysme.",
+   top:["Lavande","Bergamote"],heart:["Iris","Cèdre"],base:["Ambre","Vétiver","Musc"],
+   accords:[{n:"Poudreux",v:85},{n:"Floral",v:70},{n:"Boisé",v:75},{n:"Ambré",v:80}]},
+  {id:31,brand:"Chanel",name:"Bleu de Chanel",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/7d/7d6ec3-bleu-de-chanel-eau-de-parfum-chanel_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Le parfum de l'homme libre. Bleu de Chanel est une déclaration d'indépendance — gingembre frais, cèdre noble et musc blanc dans une composition intemporelle.",
+   top:["Citron","Menthe","Bergamote"],heart:["Gingembre","Iso E Super","Jasmin"],base:["Cèdre","Santal","Patchouli","Vétiver"],
+   accords:[{n:"Boisé",v:90},{n:"Frais",v:80},{n:"Aromatique",v:75},{n:"Ambré",v:60}]},
+  {id:32,brand:"Paco Rabanne",name:"One Million",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/87/87b5e4-1-million-eau-de-toilette-rabanne_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"La valeur d'un million. One Million est or, séduction et audace — pamplemousse, cannelle et cuir dans un sillage conquérant.",
+   top:["Pamplemousse","Menthe","Sang"],heart:["Cannelle","Épices"],base:["Cuir","Bois de Gaïac","Ambre","Patchouli"],
+   accords:[{n:"Épicé",v:85},{n:"Boisé",v:75},{n:"Cuir",v:70},{n:"Fruité",v:65}]},
+  {id:33,brand:"Paco Rabanne",name:"Invictus",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/da/dadb9d-invictus-eau-de-toilette-rabanne_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Le parfum du champion. Invictus est frais, aquatique et sensuel — accord aquatique, laurier et ambre gris pour une masculinité conquérante.",
+   top:["Pamplemousse","Accord Marin"],heart:["Laurier","Jasmin Hedione"],base:["Ambre Gris","Bois de Gaïac","Musc"],
+   accords:[{n:"Aquatique",v:85},{n:"Frais",v:80},{n:"Boisé",v:65},{n:"Ambré",v:70}]},
+  {id:34,brand:"YSL",name:"Y EDP",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/ba/ba4e42-y-eau-de-parfum-yves-saint-laurent_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"L'ambition faite parfum. Y EDP est frais et boisé avec une profondeur ambrée — bergamote, gingembre, cèdre et foin pour l'homme d'aujourd'hui.",
+   top:["Bergamote","Gingembre","Pomme"],heart:["Sauge","Géranium","Foin"],base:["Cèdre","Ambre","Fève Tonka"],
+   accords:[{n:"Boisé",v:85},{n:"Frais",v:75},{n:"Ambré",v:70},{n:"Aromatique",v:80}]},
+  {id:35,brand:"YSL",name:"L'Homme",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/10/105680-l-homme-eau-de-toilette-yves-saint-laurent_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"L'élégance masculine par essence. L'Homme YSL est frais, épicé et boisé — gingembre, basilic et vétiver dans une composition intemporelle.",
+   top:["Bergamote","Gingembre","Basilic"],heart:["Poivre Blanc","Vétiver"],base:["Cèdre de Virginie","Vétiver"],
+   accords:[{n:"Boisé",v:80},{n:"Frais",v:75},{n:"Épicé",v:65},{n:"Aromatique",v:70}]},
+  {id:36,brand:"Armani",name:"Code",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/f8/f81720-armani-code-eau-de-toilette-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Le code secret de la séduction. Armani Code est oriental et boisé — bergamote sicilienne, fleur de bois de star anise et tabac virginie.",
+   top:["Bergamote","Citron"],heart:["Bois de Star Anise","Fleur d'Oranger"],base:["Tabac de Virginie","Cuir","Guaiac"],
+   accords:[{n:"Oriental",v:85},{n:"Boisé",v:75},{n:"Épicé",v:70},{n:"Ambré",v:80}]},
+  {id:37,brand:"Armani",name:"Stronger With You Intensely",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/5c/5cf028-stronger-with-you-intensely-emporio-armani_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"Plus fort, plus intense. Stronger With You Intensely est une version amplifiée — cardamome, sauge et vanille dans une composition chaleureuse.",
+   top:["Violette","Bergamote","Poivre Rose"],heart:["Cardamome","Sauge","Cannelle"],base:["Vanille","Caramel","Ambre"],
+   accords:[{n:"Gourmand",v:80},{n:"Oriental",v:75},{n:"Épicé",v:70},{n:"Doux",v:85}]},
+  {id:38,brand:"Armani",name:"Acqua di Giò",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/06/067e2c-acqua-di-gio-eau-de-toilette-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"La Méditerranée en flacon. Acqua di Giò est le parfum aquatique par excellence — citron, rosemarin et cèdre dans une composition marine inoubliable.",
+   top:["Citron","Bergamote","Néroli"],heart:["Jasmin","Romarin","Patchouli"],base:["Cèdre","Musc","Ambre Gris"],
+   accords:[{n:"Aquatique",v:90},{n:"Frais",v:85},{n:"Citrus",v:75},{n:"Boisé",v:60}]},
+  {id:39,brand:"Valentino",name:"Uomo",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/2c/2c6f9b-uomo-eau-de-toilette-valentino_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"L'homme Valentino. Uomo est une fragrance boisée-chyprée — iris crémeux, cèdre et bergamote dans la tradition de la haute couture italienne.",
+   top:["Bergamote","Agrumes"],heart:["Iris","Cèdre"],base:["Vétiver","Musc","Ambre"],
+   accords:[{n:"Boisé",v:85},{n:"Floral",v:65},{n:"Frais",v:70},{n:"Ambré",v:60}]},
+  {id:40,brand:"Jean Paul Gaultier",name:"Classique",gender:"homme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/ba/ba77a5-classique-eau-de-toilette-jean-paul-gaultier_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"L'icône provocatrice. Classique est floral-oriental, sensuel et poudré — jasmin, gingembre, vanille dans un corset mythique.",
    top:["Bergamote","Rose","Gingembre"],heart:["Jasmin","Iris","Fleur d'Oranger"],base:["Vanille","Santal","Ambre"],
    accords:[{n:"Floral",v:85},{n:"Poudreux",v:75},{n:"Doux",v:80},{n:"Ambré",v:65}]},
-  {id:43,brand:"Bvlgari",name:"Man in Black",gender:"homme",gamme:"prestige",price:49.90,
+  {id:41,brand:"Bvlgari",name:"Man in Black",gender:"homme",gamme:"prestige",price:64.90,
    img:"https://media.parfumo.com/perfumes/e3/e3bc9a-bvlgari-man-in-black-bvlgari_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Mystérieux et hypnotique. Man in Black conjugue le tabac brûlé, le rhum et le cuir dans une composition sombre et inoubliable.",
    top:["Rhum","Accord Cuir"],heart:["Tabac","Rose","Jasmin"],base:["Benjoin","Oud","Vétiver","Ambre"],
    accords:[{n:"Boisé",v:80},{n:"Cuir",v:85},{n:"Ambré",v:75},{n:"Épicé",v:65}]},
-  // MIXTE / LUXE
-  {id:44,brand:"Creed",name:"Aventus",gender:"mixte",gamme:"luxe",price:64.90,
+  {id:68,brand:"Paco Rabanne",name:"Million Gold",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/fe/fefce7-million-gold-rabanne_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"L'opulence en flacon doré. Million Gold est une fragrance boisée épicée — santal, cardamome et cèdre dans une composition luxueuse.",
+   top:["Mandarine","Cardamome","Épices"],heart:["Santal","Rose"],base:["Cèdre","Ambre","Musc"],
+   accords:[{n:"Boisé",v:85},{n:"Épicé",v:80},{n:"Ambré",v:75},{n:"Oriental",v:65}]},
+  {id:42,brand:"Dolce & Gabbana",name:"The One",gender:"homme",gamme:"prestige",price:64.90,
+   img:"https://media.parfumo.com/perfumes/4c/4c4732-the-one-for-men-eau-de-parfum-dolce-gabbana_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"L'homme sophistiqué. The One est une fragrance orientale chaude — tabac, gingembre et ambre dans une composition masculine et séduisante.",
+   top:["Pamplemousse","Basilic","Coriandre"],heart:["Gingembre","Cardamome","Orange"],base:["Tabac","Cèdre","Ambre"],
+   accords:[{n:"Oriental",v:85},{n:"Boisé",v:75},{n:"Épicé",v:80},{n:"Ambré",v:70}]},
+  // LUXE 89.90
+  {id:44,brand:"Creed",name:"Aventus",gender:"mixte",gamme:"luxe",price:89.90,
    img:"https://media.parfumo.com/perfumes/2b/2b6809_aventus-creed_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La légende. Aventus célèbre la force, le succès et la puissance — ananas éclatant, bouleau fumé, musc royal. Le parfum des conquérants.",
    top:["Ananas","Bergamote","Cassis","Pomme"],heart:["Bouleau","Patchouli","Jasmin","Rose"],base:["Musc","Oakmoss","Ambre Gris","Vétiver"],
    accords:[{n:"Fruité",v:85},{n:"Boisé",v:80},{n:"Fumé",v:70},{n:"Frais",v:75}]},
-  {id:45,brand:"Creed",name:"Royal Oud",gender:"mixte",gamme:"luxe",price:64.90,
+  {id:45,brand:"Creed",name:"Royal Oud",gender:"mixte",gamme:"luxe",price:89.90,
    img:"https://media.parfumo.com/perfumes/90/907915-royal-oud-creed_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La noblesse de l'oud. Royal Oud est une composition majestueuse — pin sylvestre, cèdre et oud précieux dans une alliance royale.",
    top:["Citron","Bergamote","Pink Pepper"],heart:["Oud","Cèdre","Pin Sylvestre"],base:["Musc","Ambre","Vétiver"],
    accords:[{n:"Boisé",v:90},{n:"Ambré",v:75},{n:"Épicé",v:65},{n:"Frais",v:55}]},
-  {id:46,brand:"Jo Malone",name:"Myrrh & Tonka",gender:"mixte",gamme:"luxe",price:64.90,
+  {id:46,brand:"Jo Malone",name:"Myrrh & Tonka",gender:"mixte",gamme:"luxe",price:89.90,
    img:"https://media.parfumo.com/perfumes/4a/4a026f-myrrh-tonka-jo-malone_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Un envoûtement oriental. La myrrhe résineuse s'unit à la fève tonka vanillée et aux amandes douces — chaud, enveloppant, addictif.",
    top:["Lavande","Iris"],heart:["Myrrhe","Fève Tonka"],base:["Amande","Benjoin","Musc"],
    accords:[{n:"Doux",v:90},{n:"Ambré",v:85},{n:"Gourmand",v:75},{n:"Boisé",v:55}]},
-  {id:47,brand:"Tom Ford",name:"Electric Cherry",gender:"mixte",gamme:"luxe",price:64.90,
+  {id:47,brand:"Tom Ford",name:"Electric Cherry",gender:"mixte",gamme:"luxe",price:89.90,
    img:"https://media.parfumo.com/perfumes/9f/9f5f16-electric-cherry-tom-ford_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Électrique et fruité. Electric Cherry est une explosion de cerise noire sur fond de bois fumé et de musc — audacieux, charnel, mémorable.",
    top:["Cerise Noire","Baies Rouges"],heart:["Rose","Jasmin","Vétiver"],base:["Oud","Musc","Ambre"],
    accords:[{n:"Fruité",v:90},{n:"Floral",v:65},{n:"Boisé",v:70},{n:"Doux",v:75}]},
-  {id:48,brand:"Tom Ford",name:"Soleil Blanc",gender:"mixte",gamme:"luxe",price:64.90,
+  {id:48,brand:"Tom Ford",name:"Soleil Blanc",gender:"mixte",gamme:"luxe",price:89.90,
    img:"https://media.parfumo.com/perfumes/b3/b3f32e-soleil-blanc-eau-de-parfum-tom-ford_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La côte d'Amalfi à votre poignet. Soleil Blanc est solaire, crémeux et envoûtant — cardamome, néroli et vanille de Tahiti.",
    top:["Cardamome","Bergamote","Mandarine"],heart:["Néroli","Fleur d'Oranger","Jasmin"],base:["Coco","Vanille de Tahiti","Musc Blanc"],
    accords:[{n:"Solaire",v:90},{n:"Doux",v:85},{n:"Floral",v:65},{n:"Gourmand",v:70}]},
-  {id:49,brand:"Tom Ford",name:"Neroli Portofino",gender:"mixte",gamme:"luxe",price:64.90,
+  {id:49,brand:"Tom Ford",name:"Neroli Portofino",gender:"mixte",gamme:"luxe",price:89.90,
    img:"https://media.parfumo.com/perfumes/5c/5ccfe2-neroli-portofino-eau-de-parfum-tom-ford_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La Riviera italienne en essence. Néroli lumineux, bergamote étincelante, ambre blanc — l'eleganza absolue.",
    top:["Bergamote","Citron","Mandarine"],heart:["Néroli","Fleur d'Oranger","Jasmin"],base:["Ambre Blanc","Musc","Santal"],
    accords:[{n:"Citrus",v:90},{n:"Floral",v:75},{n:"Frais",v:80},{n:"Ambré",v:55}]},
-  {id:50,brand:"Louis Vuitton",name:"Fleur du Désert",gender:"mixte",gamme:"luxe",price:64.90,
+  {id:50,brand:"Louis Vuitton",name:"Fleur du Désert",gender:"mixte",gamme:"luxe",price:89.90,
    img:"https://media.parfumo.com/perfumes/a2/a2ff26-fleur-du-desert-louis-vuitton_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Une fleur rare au cœur du désert. Accacia lumineux, bois de santal crémeux et musc ambré — luxe discret, présence absolue.",
    top:["Acacia","Néroli"],heart:["Rose","Jasmin"],base:["Santal","Ambre","Musc"],
    accords:[{n:"Floral",v:85},{n:"Boisé",v:70},{n:"Ambré",v:65},{n:"Doux",v:75}]},
-  {id:51,brand:"Louis Vuitton",name:"L'Immensité",gender:"mixte",gamme:"luxe",price:64.90,
+  {id:51,brand:"Louis Vuitton",name:"L'Immensité",gender:"mixte",gamme:"luxe",price:89.90,
    img:"https://media.parfumo.com/perfumes/51/513302-l-immensite-louis-vuitton_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"L'immensité de l'océan. Gingembre aquatique, vétiver marin et bois de cyprès — une invitation au grand large.",
    top:["Gingembre","Citron","Bergamote"],heart:["Accord Marin","Cyprès"],base:["Vétiver","Ambre Gris","Musc"],
    accords:[{n:"Aquatique",v:85},{n:"Boisé",v:75},{n:"Frais",v:80},{n:"Aromatique",v:60}]},
-  {id:52,brand:"Chanel",name:"Bleu de Chanel L'Exclusif",gender:"mixte",gamme:"luxe",price:64.90,
+  {id:52,brand:"Chanel",name:"Bleu de Chanel L'Exclusif",gender:"mixte",gamme:"luxe",price:89.90,
    img:"https://media.parfumo.com/perfumes/df/df93f3_bleu-de-chanel-l-exclusif-chanel_1200.jpg?width=480&aspect_ratio=1:1",
    desc:"La version ultime du mythe. Plus concentré, plus profond, plus noble — Bleu de Chanel L'Exclusif est l'expression parfaite de la masculinité Chanel.",
    top:["Citron","Bergamote","Gingembre"],heart:["Iso E Super","Labdanum","Jasmin"],base:["Cèdre","Santal","Ambre","Musc"],
    accords:[{n:"Boisé",v:90},{n:"Ambré",v:80},{n:"Frais",v:70},{n:"Aromatique",v:75}]},
-  {id:53,brand:"Dior",name:"Fahrenheit Parfum",gender:"mixte",gamme:"luxe",price:64.90,
+  {id:53,brand:"Dior",name:"Fahrenheit Parfum",gender:"mixte",gamme:"luxe",price:89.90,
    img:"https://media.parfumo.com/perfumes/df/df3b72-fahrenheit-parfum-dior_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Le feu et le cuir. Fahrenheit est un monument du parfum masculin — violette sauvage, cuir chaud, essence de pétrole unique.",
    top:["Essence de Pétrole","Bergamote","Lavande"],heart:["Violette","Jasmin","Poivre Sauvage"],base:["Cuir","Cèdre","Vétiver","Ambre"],
    accords:[{n:"Cuir",v:85},{n:"Boisé",v:80},{n:"Floral",v:60},{n:"Ambré",v:70}]},
+  {id:69,brand:"YSL",name:"Libre Le Parfum",gender:"femme",gamme:"luxe",price:89.90,
+   img:"https://media.parfumo.com/perfumes/60/608990-libre-le-parfum-yves-saint-laurent_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"La liberté à son expression ultime. Libre Le Parfum est la version la plus intense — fleur d'oranger absolue, lavande de Provence et musc ambré profond.",
+   top:["Mandarine","Bergamote"],heart:["Lavande","Fleur d'Oranger Absolue"],base:["Musc Ambré","Cèdre","Vanille"],
+   accords:[{n:"Floral",v:85},{n:"Ambré",v:90},{n:"Oriental",v:75},{n:"Boisé",v:60}]},
+  {id:70,brand:"Armani",name:"Sì Passion",gender:"femme",gamme:"luxe",price:89.90,
+   img:"https://media.parfumo.com/perfumes/cf/cf731d-si-eau-de-parfum-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
+   desc:"La passion sublimée. Sì Passion intensifie la rose, le cassis et le musc ambré de Sì pour une version plus charnelle et envoûtante.",
+   top:["Cassis","Bergamote"],heart:["Rose de Mai","Freesia"],base:["Patchouli","Vanille","Musc Ambré"],
+   accords:[{n:"Floral",v:85},{n:"Fruité",v:70},{n:"Ambré",v:80},{n:"Doux",v:75}]},
 ];
 
-const BESTSELLERS_IDS=[44,46,19,31,14,15];
+const BESTSELLERS_IDS=[44,47,29,31,13,17];
 const cart={};
 let filters={genre:'all',gamme:'all',brand:'all'};
 let currentProdId=null;
@@ -660,6 +754,7 @@ function imgEl(p,cls){
 }
 
 function buildBrandFilters(){
+  if(!document.getElementById('brandFilters'))return;
   const brands=[...new Set(PERFUMES.map(p=>p.brand))].sort();
   const c=document.getElementById('brandFilters');
   c.innerHTML='';
@@ -804,6 +899,10 @@ function setFilter(type,val,btn){
   renderCatalogue();
 }
 function resetFilters(){
+  ['genre','gamme','brand'].forEach(t=>clearFilter(t));
+  renderCatalogue();
+}
+function _resetFilters_old(){
   filters={genre:'all',gamme:'all',brand:'all'};
   document.querySelectorAll('.pill').forEach(b=>{b.classList.toggle('active',b.dataset.val==='all')});
   renderCatalogue();
@@ -855,6 +954,7 @@ function openCartModal(){
 }
 function closeCartModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
 function closeCartOutside(e){if(e.target===document.getElementById('modalOverlay'))closeCartModal();}
+// WISE LINKS
 const WISE_LINKS={
   2990:'https://wise.com/pay/r/hVBkb45PQcaujD4',
   4990:'https://wise.com/pay/r/K4kVy98SG9xcQ8A',
@@ -905,9 +1005,69 @@ const WISE_LINKS={
   27450:'https://wise.com/pay/r/ShIsUXf88iKK1dw',
   29450:'https://wise.com/pay/r/3bOpSjpnNHaCwlo'
 };
-
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxPuvWwxaCvHChHxxUUhTo1oS86Nux0MxqGD5FGZtNDY59-gVBz9PkoWplL73Moi30EHw/exec';
 
+// VINTED FILTERS
+function toggleDrop(id){
+  document.querySelectorAll('.vinted-dropdown').forEach(d=>{if(d.id!==id)d.classList.remove('open')});
+  document.getElementById(id).classList.toggle('open');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.vinted-dropdown'))document.querySelectorAll('.vinted-dropdown').forEach(d=>d.classList.remove('open'));
+});
+function setVFilter(type,val,label,dropId){
+  filters[type]=val;
+  document.getElementById(dropId).classList.remove('open');
+  // Mettre à jour le bouton
+  const btn=document.querySelector('#'+dropId+' .vinted-btn');
+  const defaultLabel={genre:'Genre',gamme:'Gamme',brand:'Marque'}[type];
+  if(val==='all'){btn.innerHTML=defaultLabel+' <span class="vchev">▾</span>';btn.classList.remove('active');}
+  else{btn.innerHTML=label+' <span class="vchev">▾</span>';btn.classList.add('active');}
+  // Options selected
+  document.querySelectorAll('#'+dropId+' .vinted-option').forEach(o=>o.classList.remove('selected'));
+  event.target.classList.add('selected');
+  updateActiveTags();
+  renderCatalogue();
+}
+function updateActiveTags(){
+  const row=document.getElementById('vintedActiveRow');
+  row.innerHTML='';
+  const labels={genre:{femme:'Femme',homme:'Homme',mixte:'Mixte'},gamme:{classic:'Classic 49,90€',prestige:'Prestige 64,90€',luxe:'Luxe 89,90€'},brand:{}};
+  PERFUMES.forEach(p=>{labels.brand[p.brand]=p.brand});
+  Object.entries(filters).forEach(([type,val])=>{
+    if(val==='all')return;
+    const label=labels[type][val]||val;
+    const tag=document.createElement('div');
+    tag.className='vinted-tag';
+    const span=document.createElement('span');span.className='vinted-tag-x';span.textContent='✕';span.onclick=(()=>{const t=type;return()=>clearFilter(t);})();tag.textContent=label+' ';tag.appendChild(span);
+    row.appendChild(tag);
+  });
+}
+function clearFilter(type){
+  filters[type]='all';
+  const dropMap={genre:'dropGenre',gamme:'dropGamme',brand:'dropMarque'};
+  const defaultLabel={genre:'Genre',gamme:'Gamme',brand:'Marque'};
+  const btn=document.querySelector('#'+dropMap[type]+' .vinted-btn');
+  btn.innerHTML=defaultLabel[type]+' <span class="vchev">▾</span>';
+  btn.classList.remove('active');
+  document.querySelectorAll('#'+dropMap[type]+' .vinted-option').forEach(o=>o.classList.remove('selected'));
+  updateActiveTags();
+  renderCatalogue();
+}
+function buildMarqueMenu(){
+  const brands=[...new Set(PERFUMES.map(p=>p.brand))].sort();
+  const menu=document.getElementById('marqueMenuItems');
+  const allOpt=document.createElement('div');allOpt.className='vinted-option';allOpt.textContent='Toutes';allOpt.onclick=()=>setVFilter('brand','all','Marque','dropMarque');menu.appendChild(allOpt);
+  brands.forEach(b=>{
+    const d=document.createElement('div');
+    d.className='vinted-option';
+    d.textContent=b;
+    d.onclick=()=>setVFilter('brand',b,b,'dropMarque');
+    menu.appendChild(d);
+  });
+}
+
+// SEND WHATSAPP / WISE
 function sendWhatsApp(){
   const prenom=document.getElementById('fieldPrenom').value.trim();
   const nom=document.getElementById('fieldNom').value.trim();
@@ -917,64 +1077,93 @@ function sendWhatsApp(){
   const pays=document.getElementById('fieldPays').value.trim();
   const appt=document.getElementById('fieldAppt').value.trim();
   const err=document.getElementById('addressError');
-  if(!prenom||!nom||!adresse||!cp||!ville||!pays){
-    err.style.display='block';
-    return;
-  }
+  if(!prenom||!nom||!adresse||!cp||!ville||!pays){err.style.display='block';return;}
   err.style.display='none';
   const ids=Object.keys(cart);
-  let total=0;
-  let commandeText='';
+  let total=0;let commandeText='';
   ids.forEach(id=>{
     const p=PERFUMES.find(x=>x.id==id);
     const qty=cart[id];const sub=p.price*qty;total+=sub;
-    commandeText+=`${p.brand} — ${p.name}${qty>1?' (x'+qty+')':''} → ${sub.toFixed(2).replace('.',',')}€ | `;
+    commandeText+=p.brand+' — '+p.name+(qty>1?' (x'+qty+')':'')+' → '+sub.toFixed(2).replace('.',',')+'€ | ';
   });
   const key=Math.round(total*100);
   const wiseLink=WISE_LINKS[key];
-  // Envoi via GET avec colonne statut
   const params=new URLSearchParams({prenom,nom,adresse,appt:appt||'',cp,ville,pays,commande:commandeText,total:total.toFixed(2).replace('.',','),statut:'En attente ⏳'});
   fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'}).catch(()=>{});
-  // Afficher écran confirmation + note Wise + bouton payer
   const modal=document.querySelector('#modalOverlay .modal');
   modal.innerHTML=`
     <div class="modal-header">
       <div class="modal-title">Commande Confirmée</div>
       <button class="modal-close" onclick="closeCartModal()">✕</button>
     </div>
-    <div class="modal-body" style="padding:24px;overflow-y:auto;max-height:70vh">
-      <div style="text-align:center;margin-bottom:20px">
-        <div style="font-size:2.5rem;margin-bottom:12px">✅</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--white);margin-bottom:6px">Merci ${prenom} !</div>
-        <div style="font-size:.75rem;color:var(--muted);line-height:2">Votre commande a bien été enregistrée.<br>Finalisez votre paiement ci-dessous.</div>
-      </div>
-      <div style="background:#111;border:1px solid var(--border);padding:16px;margin-bottom:16px">
-        ${ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">${p.brand} — ${p.name}${qty>1?' ×'+qty:''}</span><span style="color:var(--gold)">${sub.toFixed(2).replace('.',',')} €</span></div>`;}).join('')}
-        <div style="display:flex;justify-content:space-between;padding-top:14px">
+    <div class="modal-body" style="text-align:center;padding:32px">
+      <div style="font-size:2.5rem;margin-bottom:16px">✅</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--white);margin-bottom:8px">Merci ${prenom} !</div>
+      <div style="font-size:.75rem;color:var(--muted);line-height:2;margin-bottom:28px">Votre commande a bien été enregistrée.<br>Finalisez votre paiement pour confirmer.</div>
+      <div style="background:#111;border:1px solid var(--border);padding:20px;margin-bottom:16px;text-align:left">
+        ${ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return'<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">'+p.brand+' — '+p.name+(qty>1?' ×'+qty:'')+'</span><span style="color:var(--gold)">'+sub.toFixed(2).replace('.',',')+'€</span></div>';}).join('')}
+        <div style="display:flex;justify-content:space-between;padding-top:16px">
           <span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Total</span>
-          <span style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold)">${total.toFixed(2).replace('.',',')} €</span>
+          <span style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold)">${total.toFixed(2).replace('.',',')} €</span>
         </div>
       </div>
-      <div style="background:#1a1200;border:1px solid var(--gold);padding:14px;margin-bottom:8px">
-        <div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">⚠️ Note de paiement obligatoire</div>
-        <div style="font-size:.72rem;color:var(--muted);margin-bottom:10px;line-height:1.7">Sur la page Wise, merci d'indiquer votre nom dans la note de paiement afin que nous puissions confirmer votre commande :</div>
-        <div style="display:flex;align-items:center;justify-content:space-between;background:#111;padding:10px 14px;border:1px solid var(--border)">
-          <span style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--white)">${prenom} ${nom}</span>
-          <button onclick="navigator.clipboard.writeText('${prenom} ${nom}');this.textContent='Copié ✓';this.style.color='var(--gold)'" style="background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;font-size:.6rem;letter-spacing:.1em;cursor:pointer;font-family:'Jost',sans-serif">Copier</button>
-        </div>
+      <div style="background:var(--border-gold);border:1px solid var(--gold);padding:12px 16px;margin-bottom:24px;font-size:.7rem;color:var(--gold-light);text-align:left">
+        ⚠️ Sur la page Wise, merci d'indiquer <strong style="color:var(--gold)">${prenom} ${nom}</strong> dans la note de paiement.
       </div>
     </div>
     <div class="modal-footer">
-      ${wiseLink
-        ?`<a href="${wiseLink}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--gold);color:var(--black);padding:20px;font-family:'Jost',sans-serif;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — ${total.toFixed(2).replace('.',',')} €</a>`
-        :`<div style="text-align:center;padding:16px;font-size:.75rem;color:var(--muted)">Nous vous contacterons sous peu pour finaliser votre paiement.</div>`
-      }
+      ${wiseLink?'<a href="'+wiseLink+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--gold);color:var(--black);padding:20px;font-family:'Jost',sans-serif;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — '+total.toFixed(2).replace('.',',')+' €</a>':'<div style="text-align:center;padding:16px;font-size:.75rem;color:var(--muted)">Nous vous contacterons pour finaliser votre paiement.</div>'}
       <button class="btn-back" onclick="closeCartModal()">Fermer</button>
     </div>`;
 }
-buildBrandFilters();
+
+// PARTICLES
+(function(){
+  const canvas=document.getElementById('particles-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,particles=[];
+  function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
+  resize();window.addEventListener('resize',resize);
+  function rand(a,b){return a+Math.random()*(b-a);}
+  for(let i=0;i<80;i++){particles.push({x:rand(0,1),y:rand(0,1),r:rand(0.5,2),s:rand(0.0001,0.0003),o:rand(0.2,0.7),drift:rand(-0.00005,0.00005)});}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{
+      p.y-=p.s;p.x+=p.drift;
+      if(p.y<0){p.y=1;p.x=rand(0,1);}
+      ctx.beginPath();
+      ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(184,150,90,'+p.o+')';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// COUNTDOWN
+(function(){
+  const key='elixir_cd';
+  let end=localStorage.getItem(key);
+  if(!end||Date.now()>parseInt(end)){end=Date.now()+3*60*60*1000;localStorage.setItem(key,end);}
+  function update(){
+    const diff=parseInt(end)-Date.now();
+    const el=document.getElementById('countdown');
+    if(!el)return;
+    if(diff<=0){el.textContent='00:00:00';return;}
+    const h=Math.floor(diff/3600000).toString().padStart(2,'0');
+    const m=Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
+    const s=Math.floor((diff%60000)/1000).toString().padStart(2,'0');
+    el.textContent=h+':'+m+':'+s;
+  }
+  update();setInterval(update,1000);
+})();
+
+buildMarqueMenu();
 renderBestSellers();
 renderCatalogue();
+
 </script>
 </body>
 </html>
