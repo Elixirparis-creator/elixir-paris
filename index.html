@@ -192,7 +192,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
   .prod-right{padding:24px 20px}
 }
 
-.filter-system-vinted{margin-bottom:24px}
+.top-banner{position:fixed;top:0;left:0;right:0;z-index:600;background:var(--gold);color:var(--black);text-align:center;padding:10px 20px;font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;font-weight:400;line-height:1.6}
 .vinted-filters-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
 .vinted-dropdown{position:relative}
 .vinted-btn{background:transparent;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s;white-space:nowrap}
@@ -204,18 +204,10 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
 .vinted-dropdown.open .vinted-menu{display:block}
 .vinted-option{padding:10px 16px;font-size:.65rem;letter-spacing:.1em;color:var(--muted);cursor:pointer;transition:all .15s;text-transform:uppercase}
 .vinted-option:hover{background:var(--border-gold);color:var(--gold)}
-.vinted-option.selected{color:var(--gold);background:#1a1300}
-.vinted-active-row{display:flex;flex-wrap:wrap;gap:8px;min-height:0}
+.vinted-active-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;min-height:0}
 .vinted-tag{display:flex;align-items:center;gap:6px;background:var(--border-gold);border:1px solid var(--gold);color:var(--gold);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px}
 .vinted-tag-x{cursor:pointer;font-size:.7rem;opacity:.7;transition:opacity .15s}
 .vinted-tag-x:hover{opacity:1}
-
-
-#particles-canvas{position:absolute;inset:0;z-index:0;pointer-events:none}
-
-
-.top-banner{position:fixed;top:0;left:0;right:0;z-index:600;background:var(--gold);color:var(--black);text-align:center;padding:10px 20px;font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;font-weight:400;line-height:1.6}
-
 </style>
 </head>
 <body>
@@ -232,7 +224,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
 </nav>
 
 <section id="home">
-  <canvas id="particles-canvas"></canvas>
+  <canvas id="particles-canvas" style="position:absolute;inset:0;z-index:0;pointer-events:none"></canvas>
   <div class="hero-bg"></div>
   <div class="hero-line"></div>
   <div class="hero-eyebrow">Maison de Parfumerie · Paris</div>
@@ -255,10 +247,10 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
       <div class="legend-item"><div class="perf-gamme-dot dot-prestige"></div> Prestige — 64,90 €</div>
       <div class="legend-item"><div class="perf-gamme-dot dot-luxe"></div> Luxe — 89,90 €</div>
     </div>
-    <div class="filter-system-vinted">
-      <div class="vinted-filters-row" id="vintedFiltersRow">
+    <div class="filter-system">
+      <div class="vinted-filters-row">
         <div class="vinted-dropdown" id="dropGenre">
-          <button class="vinted-btn" onclick="toggleDrop('dropGenre')">Genre <span class="vchev">▾</span></button>
+          <button class="vinted-btn" onclick="toggleDrop('dropGenre')">Genre <span class="vchev">&#9662;</span></button>
           <div class="vinted-menu">
             <div class="vinted-option" onclick="setVFilter('genre','all','Genre','dropGenre')">Tous</div>
             <div class="vinted-option" onclick="setVFilter('genre','femme','Femme','dropGenre')">Femme</div>
@@ -267,7 +259,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
           </div>
         </div>
         <div class="vinted-dropdown" id="dropGamme">
-          <button class="vinted-btn" onclick="toggleDrop('dropGamme')">Gamme <span class="vchev">▾</span></button>
+          <button class="vinted-btn" onclick="toggleDrop('dropGamme')">Gamme <span class="vchev">&#9662;</span></button>
           <div class="vinted-menu">
             <div class="vinted-option" onclick="setVFilter('gamme','all','Gamme','dropGamme')">Toutes</div>
             <div class="vinted-option" onclick="setVFilter('gamme','classic','Classic 49,90€','dropGamme')">Classic — 49,90€</div>
@@ -276,7 +268,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
           </div>
         </div>
         <div class="vinted-dropdown" id="dropMarque">
-          <button class="vinted-btn" onclick="toggleDrop('dropMarque')">Marque <span class="vchev">▾</span></button>
+          <button class="vinted-btn" onclick="toggleDrop('dropMarque')">Marque <span class="vchev">&#9662;</span></button>
           <div class="vinted-menu" id="marqueMenuItems"></div>
         </div>
       </div>
@@ -284,7 +276,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
     </div>
     <div class="results-bar">
       <span class="results-count" id="resultsCount"></span>
-      <button class="results-reset" onclick="resetFilters()">Effacer les filtres</button>
+      <button class="results-reset" onclick="resetFilters()">Réinitialiser</button>
     </div>
     <div class="perf-grid" id="perfGrid"></div>
   </div>
@@ -754,7 +746,6 @@ function imgEl(p,cls){
 }
 
 function buildBrandFilters(){
-  if(!document.getElementById('brandFilters'))return;
   const brands=[...new Set(PERFUMES.map(p=>p.brand))].sort();
   const c=document.getElementById('brandFilters');
   c.innerHTML='';
@@ -899,10 +890,6 @@ function setFilter(type,val,btn){
   renderCatalogue();
 }
 function resetFilters(){
-  ['genre','gamme','brand'].forEach(t=>clearFilter(t));
-  renderCatalogue();
-}
-function _resetFilters_old(){
   filters={genre:'all',gamme:'all',brand:'all'};
   document.querySelectorAll('.pill').forEach(b=>{b.classList.toggle('active',b.dataset.val==='all')});
   renderCatalogue();
@@ -954,120 +941,7 @@ function openCartModal(){
 }
 function closeCartModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
 function closeCartOutside(e){if(e.target===document.getElementById('modalOverlay'))closeCartModal();}
-// WISE LINKS
-const WISE_LINKS={
-  2990:'https://wise.com/pay/r/hVBkb45PQcaujD4',
-  4990:'https://wise.com/pay/r/K4kVy98SG9xcQ8A',
-  5980:'https://wise.com/pay/r/wM-nSeRORyJ2h4c',
-  6490:'https://wise.com/pay/r/4RGE-S4aP56nflw',
-  7980:'https://wise.com/pay/r/9ljxAXekyEN1ZNI',
-  8970:'https://wise.com/pay/r/XfyH01oQPJN6iWE',
-  9470:'https://wise.com/pay/r/ymZPyogM57QbdOs',
-  9480:'https://wise.com/pay/r/gxcKr6v6zz1HUrI',
-  9980:'https://wise.com/pay/r/ENCMNtjyeHVDVpo',
-  10970:'https://wise.com/pay/r/uRySdr2E8ikJh-U',
-  11480:'https://wise.com/pay/r/noReUshxYKv_5-8',
-  11960:'https://wise.com/pay/r/NrWhm0DrMzZM5mM',
-  12470:'https://wise.com/pay/r/9-B_vmw9UCGN6t8',
-  12970:'https://wise.com/pay/r/F-Q8Z1BKuWxYTHo',
-  12980:'https://wise.com/pay/r/76g6-0jgFe7-cww',
-  13480:'https://wise.com/pay/r/Xjup07VHmSLZq80',
-  13960:'https://wise.com/pay/r/1BRiLzGBsMrTptQ',
-  14470:'https://wise.com/pay/r/5lQOJkuV8uebaP4',
-  14970:'https://wise.com/pay/r/icydVJUAvLVOa9g',
-  15460:'https://wise.com/pay/r/gCqRj2bQojLJGts',
-  15960:'https://wise.com/pay/r/9nnkSCBf-rfiqgo',
-  15970:'https://wise.com/pay/r/ZcvUC0gaEw9QWPk',
-  16460:'https://wise.com/pay/r/eFku-pfGbBGUOAU',
-  16470:'https://wise.com/pay/r/ikOGRUwuB7Esn9A',
-  16950:'https://wise.com/pay/r/2zAidrdXhpTdlPI',
-  17460:'https://wise.com/pay/r/DaMPkmUTvVyR630',
-  17960:'https://wise.com/pay/r/f5Cu5epNkbaFLTQ',
-  17970:'https://wise.com/pay/r/xhBGjx1A_RVhGtU',
-  18450:'https://wise.com/pay/r/BPgK7GXR9vd9sUw',
-  18960:'https://wise.com/pay/r/UGgpXDB3sQAbwpA',
-  19460:'https://wise.com/pay/r/IJRexsEC73xFwSs',
-  19470:'https://wise.com/pay/r/RIw5cOMO8QufbiM',
-  19940:'https://wise.com/pay/r/l1Zm1B5y19tnGeU',
-  19960:'https://wise.com/pay/r/Jep6ZlMInnMoju4',
-  20960:'https://wise.com/pay/r/iqkAh3teKXqqwz0',
-  21460:'https://wise.com/pay/r/Uozdn8plTE5yAKg',
-  22450:'https://wise.com/pay/r/6M4MeDdmSYi-C1s',
-  22460:'https://wise.com/pay/r/1D2tk3NOemFNc1w',
-  22950:'https://wise.com/pay/r/fC_lwaDR4JB-jDc',
-  22960:'https://wise.com/pay/r/q28Jly9n5EavSzA',
-  23950:'https://wise.com/pay/r/k5tPaAqRboCxeVo',
-  24460:'https://wise.com/pay/r/grDbcXK05U4e9RM',
-  24870:'https://wise.com/pay/r/wZ8Y27gIjmyWX1I',
-  25450:'https://wise.com/pay/r/KZ23DOXHg1sAiHA',
-  25950:'https://wise.com/pay/r/6Mlzm1W4I9n-S1Q',
-  26450:'https://wise.com/pay/r/JSXwsAVCT_3sdtk',
-  27450:'https://wise.com/pay/r/ShIsUXf88iKK1dw',
-  29450:'https://wise.com/pay/r/3bOpSjpnNHaCwlo'
-};
-const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxPuvWwxaCvHChHxxUUhTo1oS86Nux0MxqGD5FGZtNDY59-gVBz9PkoWplL73Moi30EHw/exec';
 
-// VINTED FILTERS
-function toggleDrop(id){
-  document.querySelectorAll('.vinted-dropdown').forEach(d=>{if(d.id!==id)d.classList.remove('open')});
-  document.getElementById(id).classList.toggle('open');
-}
-document.addEventListener('click',e=>{
-  if(!e.target.closest('.vinted-dropdown'))document.querySelectorAll('.vinted-dropdown').forEach(d=>d.classList.remove('open'));
-});
-function setVFilter(type,val,label,dropId){
-  filters[type]=val;
-  document.getElementById(dropId).classList.remove('open');
-  // Mettre à jour le bouton
-  const btn=document.querySelector('#'+dropId+' .vinted-btn');
-  const defaultLabel={genre:'Genre',gamme:'Gamme',brand:'Marque'}[type];
-  if(val==='all'){btn.innerHTML=defaultLabel+' <span class="vchev">▾</span>';btn.classList.remove('active');}
-  else{btn.innerHTML=label+' <span class="vchev">▾</span>';btn.classList.add('active');}
-  // Options selected
-  document.querySelectorAll('#'+dropId+' .vinted-option').forEach(o=>o.classList.remove('selected'));
-  event.target.classList.add('selected');
-  updateActiveTags();
-  renderCatalogue();
-}
-function updateActiveTags(){
-  const row=document.getElementById('vintedActiveRow');
-  row.innerHTML='';
-  const labels={genre:{femme:'Femme',homme:'Homme',mixte:'Mixte'},gamme:{classic:'Classic 49,90€',prestige:'Prestige 64,90€',luxe:'Luxe 89,90€'},brand:{}};
-  PERFUMES.forEach(p=>{labels.brand[p.brand]=p.brand});
-  Object.entries(filters).forEach(([type,val])=>{
-    if(val==='all')return;
-    const label=labels[type][val]||val;
-    const tag=document.createElement('div');
-    tag.className='vinted-tag';
-    const span=document.createElement('span');span.className='vinted-tag-x';span.textContent='✕';span.onclick=(()=>{const t=type;return()=>clearFilter(t);})();tag.textContent=label+' ';tag.appendChild(span);
-    row.appendChild(tag);
-  });
-}
-function clearFilter(type){
-  filters[type]='all';
-  const dropMap={genre:'dropGenre',gamme:'dropGamme',brand:'dropMarque'};
-  const defaultLabel={genre:'Genre',gamme:'Gamme',brand:'Marque'};
-  const btn=document.querySelector('#'+dropMap[type]+' .vinted-btn');
-  btn.innerHTML=defaultLabel[type]+' <span class="vchev">▾</span>';
-  btn.classList.remove('active');
-  document.querySelectorAll('#'+dropMap[type]+' .vinted-option').forEach(o=>o.classList.remove('selected'));
-  updateActiveTags();
-  renderCatalogue();
-}
-function buildMarqueMenu(){
-  const brands=[...new Set(PERFUMES.map(p=>p.brand))].sort();
-  const menu=document.getElementById('marqueMenuItems');
-  const allOpt=document.createElement('div');allOpt.className='vinted-option';allOpt.textContent='Toutes';allOpt.onclick=()=>setVFilter('brand','all','Marque','dropMarque');menu.appendChild(allOpt);
-  brands.forEach(b=>{
-    const d=document.createElement('div');
-    d.className='vinted-option';
-    d.textContent=b;
-    d.onclick=()=>setVFilter('brand',b,b,'dropMarque');
-    menu.appendChild(d);
-  });
-}
-
-// SEND WHATSAPP / WISE
 function sendWhatsApp(){
   const prenom=document.getElementById('fieldPrenom').value.trim();
   const nom=document.getElementById('fieldNom').value.trim();
@@ -1077,93 +951,185 @@ function sendWhatsApp(){
   const pays=document.getElementById('fieldPays').value.trim();
   const appt=document.getElementById('fieldAppt').value.trim();
   const err=document.getElementById('addressError');
-  if(!prenom||!nom||!adresse||!cp||!ville||!pays){err.style.display='block';return;}
+  if(!prenom||!nom||!adresse||!cp||!ville||!pays){
+    err.style.display='block';
+    return;
+  }
   err.style.display='none';
   const ids=Object.keys(cart);
-  let total=0;let commandeText='';
+  let total=0;
+  let commandeText='';
   ids.forEach(id=>{
     const p=PERFUMES.find(x=>x.id==id);
     const qty=cart[id];const sub=p.price*qty;total+=sub;
-    commandeText+=p.brand+' — '+p.name+(qty>1?' (x'+qty+')':'')+' → '+sub.toFixed(2).replace('.',',')+'€ | ';
+    commandeText+=`${p.brand} — ${p.name}${qty>1?' (x'+qty+')':''} → ${sub.toFixed(2).replace('.',',')}€ | `;
   });
   const key=Math.round(total*100);
   const wiseLink=WISE_LINKS[key];
+  // Envoi via GET avec colonne statut
   const params=new URLSearchParams({prenom,nom,adresse,appt:appt||'',cp,ville,pays,commande:commandeText,total:total.toFixed(2).replace('.',','),statut:'En attente ⏳'});
   fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'}).catch(()=>{});
+  // Afficher écran confirmation + note Wise + bouton payer
   const modal=document.querySelector('#modalOverlay .modal');
   modal.innerHTML=`
     <div class="modal-header">
       <div class="modal-title">Commande Confirmée</div>
       <button class="modal-close" onclick="closeCartModal()">✕</button>
     </div>
-    <div class="modal-body" style="text-align:center;padding:32px">
-      <div style="font-size:2.5rem;margin-bottom:16px">✅</div>
-      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--white);margin-bottom:8px">Merci ${prenom} !</div>
-      <div style="font-size:.75rem;color:var(--muted);line-height:2;margin-bottom:28px">Votre commande a bien été enregistrée.<br>Finalisez votre paiement pour confirmer.</div>
-      <div style="background:#111;border:1px solid var(--border);padding:20px;margin-bottom:16px;text-align:left">
-        ${ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return'<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">'+p.brand+' — '+p.name+(qty>1?' ×'+qty:'')+'</span><span style="color:var(--gold)">'+sub.toFixed(2).replace('.',',')+'€</span></div>';}).join('')}
-        <div style="display:flex;justify-content:space-between;padding-top:16px">
+    <div class="modal-body" style="padding:24px;overflow-y:auto;max-height:70vh">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:2.5rem;margin-bottom:12px">✅</div>
+        <div style="font-family:Playfair Display,serif;font-size:1.3rem;color:var(--white);margin-bottom:6px">Merci ${prenom} !</div>
+        <div style="font-size:.75rem;color:var(--muted);line-height:2">Votre commande a bien été enregistrée.<br>Finalisez votre paiement ci-dessous.</div>
+      </div>
+      <div style="background:#111;border:1px solid var(--border);padding:16px;margin-bottom:16px">
+        ${ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">${p.brand} — ${p.name}${qty>1?' ×'+qty:''}</span><span style="color:var(--gold)">${sub.toFixed(2).replace('.',',')} €</span></div>`;}).join('')}
+        <div style="display:flex;justify-content:space-between;padding-top:14px">
           <span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Total</span>
-          <span style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold)">${total.toFixed(2).replace('.',',')} €</span>
+          <span style="font-family:Playfair Display,serif;font-size:1.4rem;color:var(--gold)">${total.toFixed(2).replace('.',',')} €</span>
         </div>
       </div>
-      <div style="background:var(--border-gold);border:1px solid var(--gold);padding:12px 16px;margin-bottom:24px;font-size:.7rem;color:var(--gold-light);text-align:left">
-        ⚠️ Sur la page Wise, merci d'indiquer <strong style="color:var(--gold)">${prenom} ${nom}</strong> dans la note de paiement.
+      <div style="background:#1a1200;border:1px solid var(--gold);padding:14px;margin-bottom:8px">
+        <div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">⚠️ Note de paiement obligatoire</div>
+        <div style="font-size:.72rem;color:var(--muted);margin-bottom:10px;line-height:1.7">Sur la page Wise, merci d'indiquer votre nom dans la note de paiement afin que nous puissions confirmer votre commande :</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;background:#111;padding:10px 14px;border:1px solid var(--border)">
+          <span style="font-family:Playfair Display,serif;font-size:1rem;color:var(--white)">${prenom} ${nom}</span>
+          <button onclick="navigator.clipboard.writeText('${prenom} ${nom}');this.textContent='Copié ✓';this.style.color='var(--gold)'" style="background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;font-size:.6rem;letter-spacing:.1em;cursor:pointer;font-family:'Jost',sans-serif">Copier</button>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
-      ${wiseLink?'<a href="'+wiseLink+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--gold);color:var(--black);padding:20px;font-family:'Jost',sans-serif;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — '+total.toFixed(2).replace('.',',')+' €</a>':'<div style="text-align:center;padding:16px;font-size:.75rem;color:var(--muted)">Nous vous contacterons pour finaliser votre paiement.</div>'}
+      ${wiseLink
+        ?`<a href="${wiseLink}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--gold);color:var(--black);padding:20px;font-family:'Jost',sans-serif;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — ${total.toFixed(2).replace('.',',')} €</a>`
+        :`<div style="text-align:center;padding:16px;font-size:.75rem;color:var(--muted)">Nous vous contacterons sous peu pour finaliser votre paiement.</div>`
+      }
       <button class="btn-back" onclick="closeCartModal()">Fermer</button>
     </div>`;
 }
 
-// PARTICLES
+const WISE_LINKS={
+  2990:'https://wise.com/pay/r/hVBkb45PQcaujD4',4990:'https://wise.com/pay/r/K4kVy98SG9xcQ8A',
+  5980:'https://wise.com/pay/r/wM-nSeRORyJ2h4c',6490:'https://wise.com/pay/r/4RGE-S4aP56nflw',
+  7980:'https://wise.com/pay/r/9ljxAXekyEN1ZNI',8970:'https://wise.com/pay/r/XfyH01oQPJN6iWE',
+  9470:'https://wise.com/pay/r/ymZPyogM57QbdOs',9480:'https://wise.com/pay/r/gxcKr6v6zz1HUrI',
+  9980:'https://wise.com/pay/r/ENCMNtjyeHVDVpo',10970:'https://wise.com/pay/r/uRySdr2E8ikJh-U',
+  11480:'https://wise.com/pay/r/noReUshxYKv_5-8',11960:'https://wise.com/pay/r/NrWhm0DrMzZM5mM',
+  12470:'https://wise.com/pay/r/9-B_vmw9UCGN6t8',12970:'https://wise.com/pay/r/F-Q8Z1BKuWxYTHo',
+  12980:'https://wise.com/pay/r/76g6-0jgFe7-cww',13480:'https://wise.com/pay/r/Xjup07VHmSLZq80',
+  13960:'https://wise.com/pay/r/1BRiLzGBsMrTptQ',14470:'https://wise.com/pay/r/5lQOJkuV8uebaP4',
+  14970:'https://wise.com/pay/r/icydVJUAvLVOa9g',15460:'https://wise.com/pay/r/gCqRj2bQojLJGts',
+  15960:'https://wise.com/pay/r/9nnkSCBf-rfiqgo',15970:'https://wise.com/pay/r/ZcvUC0gaEw9QWPk',
+  16460:'https://wise.com/pay/r/eFku-pfGbBGUOAU',16470:'https://wise.com/pay/r/ikOGRUwuB7Esn9A',
+  16950:'https://wise.com/pay/r/2zAidrdXhpTdlPI',17460:'https://wise.com/pay/r/DaMPkmUTvVyR630',
+  17960:'https://wise.com/pay/r/f5Cu5epNkbaFLTQ',17970:'https://wise.com/pay/r/xhBGjx1A_RVhGtU',
+  18450:'https://wise.com/pay/r/BPgK7GXR9vd9sUw',18960:'https://wise.com/pay/r/UGgpXDB3sQAbwpA',
+  19460:'https://wise.com/pay/r/IJRexsEC73xFwSs',19470:'https://wise.com/pay/r/RIw5cOMO8QufbiM',
+  19940:'https://wise.com/pay/r/l1Zm1B5y19tnGeU',19960:'https://wise.com/pay/r/Jep6ZlMInnMoju4',
+  20960:'https://wise.com/pay/r/iqkAh3teKXqqwz0',21460:'https://wise.com/pay/r/Uozdn8plTE5yAKg',
+  22450:'https://wise.com/pay/r/6M4MeDdmSYi-C1s',22460:'https://wise.com/pay/r/1D2tk3NOemFNc1w',
+  22950:'https://wise.com/pay/r/fC_lwaDR4JB-jDc',22960:'https://wise.com/pay/r/q28Jly9n5EavSzA',
+  23950:'https://wise.com/pay/r/k5tPaAqRboCxeVo',24460:'https://wise.com/pay/r/grDbcXK05U4e9RM',
+  24870:'https://wise.com/pay/r/wZ8Y27gIjmyWX1I',25450:'https://wise.com/pay/r/KZ23DOXHg1sAiHA',
+  25950:'https://wise.com/pay/r/6Mlzm1W4I9n-S1Q',26450:'https://wise.com/pay/r/JSXwsAVCT_3sdtk',
+  27450:'https://wise.com/pay/r/ShIsUXf88iKK1dw',29450:'https://wise.com/pay/r/3bOpSjpnNHaCwlo'
+};
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxPuvWwxaCvHChHxxUUhTo1oS86Nux0MxqGD5FGZtNDY59-gVBz9PkoWplL73Moi30EHw/exec';
+
+function toggleDrop(id){
+  document.querySelectorAll('.vinted-dropdown').forEach(function(d){if(d.id!==id)d.classList.remove('open');});
+  document.getElementById(id).classList.toggle('open');
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.vinted-dropdown'))document.querySelectorAll('.vinted-dropdown').forEach(function(d){d.classList.remove('open');});
+});
+function setVFilter(type,val,label,dropId){
+  filters[type]=val;
+  document.getElementById(dropId).classList.remove('open');
+  var btn=document.querySelector('#'+dropId+' .vinted-btn');
+  var def={genre:'Genre',gamme:'Gamme',brand:'Marque'};
+  btn.innerHTML=(val==='all'?def[type]:label)+' <span class="vchev">&#9662;</span>';
+  val==='all'?btn.classList.remove('active'):btn.classList.add('active');
+  updateActiveTags();renderCatalogue();
+}
+function updateActiveTags(){
+  var row=document.getElementById('vintedActiveRow');row.innerHTML='';
+  var lm={genre:{femme:'Femme',homme:'Homme',mixte:'Mixte'},gamme:{classic:'Classic 49,90€',prestige:'Prestige 64,90€',luxe:'Luxe 89,90€'},brand:{}};
+  PERFUMES.forEach(function(p){lm.brand[p.brand]=p.brand;});
+  Object.entries(filters).forEach(function(e){
+    if(e[1]==='all')return;
+    var tag=document.createElement('div');tag.className='vinted-tag';
+    tag.textContent=(lm[e[0]][e[1]]||e[1])+' ';
+    var x=document.createElement('span');x.className='vinted-tag-x';x.textContent='✕';
+    (function(t){x.onclick=function(){clearVFilter(t);};})(e[0]);
+    tag.appendChild(x);row.appendChild(tag);
+  });
+}
+function clearVFilter(type){
+  filters[type]='all';
+  var dm={genre:'dropGenre',gamme:'dropGamme',brand:'dropMarque'};
+  var def={genre:'Genre',gamme:'Gamme',brand:'Marque'};
+  var btn=document.querySelector('#'+dm[type]+' .vinted-btn');
+  if(btn){btn.innerHTML=def[type]+' <span class="vchev">&#9662;</span>';btn.classList.remove('active');}
+  updateActiveTags();renderCatalogue();
+}
+function resetFilters(){
+  ['genre','gamme','brand'].forEach(function(t){clearVFilter(t);});
+}
+function buildMarqueMenu(){
+  var brands=[...new Set(PERFUMES.map(function(p){return p.brand;}))].sort();
+  var menu=document.getElementById('marqueMenuItems');menu.innerHTML='';
+  var a=document.createElement('div');a.className='vinted-option';a.textContent='Toutes';
+  a.onclick=function(){setVFilter('brand','all','Marque','dropMarque');};menu.appendChild(a);
+  brands.forEach(function(b){
+    var d=document.createElement('div');d.className='vinted-option';d.textContent=b;
+    (function(br){d.onclick=function(){setVFilter('brand',br,br,'dropMarque');};})(b);
+    menu.appendChild(d);
+  });
+}
+function sendWhatsApp(){
+  var prenom=document.getElementById('fieldPrenom').value.trim();
+  var nom=document.getElementById('fieldNom').value.trim();
+  var adresse=document.getElementById('fieldAdresse').value.trim();
+  var cp=document.getElementById('fieldCP').value.trim();
+  var ville=document.getElementById('fieldVille').value.trim();
+  var pays=document.getElementById('fieldPays').value.trim();
+  var appt=document.getElementById('fieldAppt').value.trim();
+  var err=document.getElementById('addressError');
+  if(!prenom||!nom||!adresse||!cp||!ville||!pays){err.style.display='block';return;}
+  err.style.display='none';
+  var ids=Object.keys(cart);var total=0;var cmd='';
+  ids.forEach(function(id){
+    var p=PERFUMES.find(function(x){return x.id==id;});
+    var qty=cart[id];var sub=p.price*qty;total+=sub;
+    cmd+=p.brand+' — '+p.name+(qty>1?' (x'+qty+')':'')+' → '+sub.toFixed(2).replace('.',',')+'€ | ';
+  });
+  var wl=WISE_LINKS[Math.round(total*100)];
+  var params=new URLSearchParams({prenom:prenom,nom:nom,adresse:adresse,appt:appt||'',cp:cp,ville:ville,pays:pays,commande:cmd,total:total.toFixed(2).replace('.',','),statut:'En attente ⏳'});
+  fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'}).catch(function(){});
+  var ih=ids.map(function(id){var p=PERFUMES.find(function(x){return x.id==id;});var qty=cart[id];var sub=p.price*qty;return '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span>'+p.brand+' — '+p.name+(qty>1?' x'+qty:'')+'</span><span style="color:var(--gold)">'+sub.toFixed(2).replace('.',',')+'€</span></div>';}).join('');
+  var pb=wl?'<a href="'+wl+'" target="_blank" style="display:flex;align-items:center;justify-content:center;background:var(--gold);color:var(--black);padding:20px;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — '+total.toFixed(2).replace('.',',')+'€</a>':'<div style="text-align:center;padding:16px;font-size:.75rem;color:var(--muted)">Nous vous contacterons pour finaliser.</div>';
+  document.querySelector('#modalOverlay .modal').innerHTML='<div class="modal-header"><div class="modal-title">Commande Confirmée</div><button class="modal-close" onclick="closeCartModal()">✕</button></div><div class="modal-body" style="text-align:center;padding:32px"><div style="font-size:2.5rem;margin-bottom:16px">✅</div><div style="font-family:Playfair Display,serif;font-size:1.3rem;color:var(--white);margin-bottom:8px">Merci '+prenom+' !</div><div style="font-size:.75rem;color:var(--muted);line-height:2;margin-bottom:28px">Votre commande est enregistrée.<br>Finalisez le paiement ci-dessous.</div><div style="background:#111;border:1px solid var(--border);padding:20px;margin-bottom:16px;text-align:left">'+ih+'<div style="display:flex;justify-content:space-between;padding-top:16px"><span style="font-size:.65rem;color:var(--muted)">Total</span><span style="font-family:Playfair Display,serif;font-size:1.5rem;color:var(--gold)">'+total.toFixed(2).replace('.',',')+'€</span></div></div><div style="background:var(--border-gold);border:1px solid var(--gold);padding:12px;margin-bottom:24px;font-size:.7rem;color:var(--gold-light)">⚠️ Sur Wise, indiquez <strong>'+prenom+' '+nom+'</strong> dans la note.</div></div><div class="modal-footer">'+pb+'<button class="btn-back" onclick="closeCartModal()">Fermer</button></div>';
+}
 (function(){
-  const canvas=document.getElementById('particles-canvas');
-  if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  let W,H,particles=[];
-  function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
-  resize();window.addEventListener('resize',resize);
-  function rand(a,b){return a+Math.random()*(b-a);}
-  for(let i=0;i<80;i++){particles.push({x:rand(0,1),y:rand(0,1),r:rand(0.5,2),s:rand(0.0001,0.0003),o:rand(0.2,0.7),drift:rand(-0.00005,0.00005)});}
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    particles.forEach(p=>{
-      p.y-=p.s;p.x+=p.drift;
-      if(p.y<0){p.y=1;p.x=rand(0,1);}
-      ctx.beginPath();
-      ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(184,150,90,'+p.o+')';
-      ctx.fill();
-    });
-    requestAnimationFrame(draw);
-  }
+  var c=document.getElementById('particles-canvas');if(!c)return;
+  var ctx=c.getContext('2d');var W,H,pts=[];
+  function rsz(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}rsz();
+  window.addEventListener('resize',rsz);
+  for(var i=0;i<80;i++)pts.push({x:Math.random(),y:Math.random(),r:.5+Math.random()*1.5,s:.0001+Math.random()*.0002,o:.2+Math.random()*.5,d:(Math.random()-.5)*.00005});
+  function draw(){ctx.clearRect(0,0,W,H);pts.forEach(function(p){p.y-=p.s;p.x+=p.d;if(p.y<0){p.y=1;p.x=Math.random();}ctx.beginPath();ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);ctx.fillStyle='rgba(184,150,90,'+p.o+')';ctx.fill();});requestAnimationFrame(draw);}
   draw();
 })();
-
-// COUNTDOWN
 (function(){
-  const key='elixir_cd';
-  let end=localStorage.getItem(key);
-  if(!end||Date.now()>parseInt(end)){end=Date.now()+3*60*60*1000;localStorage.setItem(key,end);}
-  function update(){
-    const diff=parseInt(end)-Date.now();
-    const el=document.getElementById('countdown');
-    if(!el)return;
-    if(diff<=0){el.textContent='00:00:00';return;}
-    const h=Math.floor(diff/3600000).toString().padStart(2,'0');
-    const m=Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
-    const s=Math.floor((diff%60000)/1000).toString().padStart(2,'0');
-    el.textContent=h+':'+m+':'+s;
-  }
-  update();setInterval(update,1000);
+  var k='elixir_cd';var s=localStorage.getItem(k);var end;
+  if(!s||Date.now()>parseInt(s)){end=Date.now()+3*60*60*1000;localStorage.setItem(k,''+end);}else{end=parseInt(s);}
+  function upd(){var d=end-Date.now();var el=document.getElementById('countdown');if(!el)return;if(d<=0){el.textContent='00:00:00';return;}el.textContent=Math.floor(d/3600000).toString().padStart(2,'0')+':'+Math.floor((d%3600000)/60000).toString().padStart(2,'0')+':'+Math.floor((d%60000)/1000).toString().padStart(2,'0');}
+  upd();setInterval(upd,1000);
 })();
-
 buildMarqueMenu();
 renderBestSellers();
 renderCatalogue();
-
 </script>
+</body>
+</html>
 </body>
 </html>
