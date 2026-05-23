@@ -1,19 +1,25 @@
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS, GET'
+};
+
 exports.handler = async function(event) {
-  // Gérer CORS preflight
+  // CORS preflight - TOUJOURS répondre 200 avec les headers
   if(event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS'
-      },
+      headers: CORS_HEADERS,
       body: ''
     };
   }
 
   if(event.httpMethod !== 'POST') {
-    return {statusCode: 405, body: 'Method Not Allowed'};
+    return {
+      statusCode: 405,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({error: 'Method Not Allowed'})
+    };
   }
 
   const SUMUP_API_KEY = process.env.SUMUP_API_KEY;
@@ -21,7 +27,7 @@ exports.handler = async function(event) {
   if(!SUMUP_API_KEY) {
     return {
       statusCode: 500,
-      headers: {'Access-Control-Allow-Origin': '*'},
+      headers: CORS_HEADERS,
       body: JSON.stringify({error: 'API key missing'})
     };
   }
@@ -32,7 +38,7 @@ exports.handler = async function(event) {
   } catch(e) {
     return {
       statusCode: 400,
-      headers: {'Access-Control-Allow-Origin': '*'},
+      headers: CORS_HEADERS,
       body: JSON.stringify({error: 'Invalid JSON'})
     };
   }
@@ -52,9 +58,7 @@ exports.handler = async function(event) {
         currency: currency || 'EUR',
         description: description || 'Elixir Paris',
         merchant_code: 'MD4EAQHK',
-        hosted_checkout: {
-          enabled: true
-        }
+        hosted_checkout: { enabled: true }
       })
     });
 
@@ -63,19 +67,16 @@ exports.handler = async function(event) {
     if(!response.ok) {
       return {
         statusCode: response.status,
-        headers: {'Access-Control-Allow-Origin': '*'},
+        headers: CORS_HEADERS,
         body: JSON.stringify({error: data})
       };
     }
 
     return {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      },
+      headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        checkout_url: data.hosted_checkout_url,
+        checkout_url: data.hosted_checkout_url || data.checkout_url,
         checkout_id: data.id
       })
     };
@@ -83,7 +84,7 @@ exports.handler = async function(event) {
   } catch(err) {
     return {
       statusCode: 500,
-      headers: {'Access-Control-Allow-Origin': '*'},
+      headers: CORS_HEADERS,
       body: JSON.stringify({error: err.message})
     };
   }
