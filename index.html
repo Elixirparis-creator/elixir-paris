@@ -980,7 +980,7 @@ function sendWhatsApp(){
     </div>`;
   // Appeler la fonction Netlify SumUp
   const itemsHtml=ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">${p.brand} — ${p.name}${qty>1?' ×'+qty:''}</span><span style="color:var(--gold)">${sub.toFixed(2).replace('.',',')} €</span></div>`;}).join('');
-  fetch('https://hilarante-tarte-283ba2.netlify.app/.netlify/functions/create-checkout',{
+  fetch('/.netlify/functions/create-checkout',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
