@@ -964,47 +964,65 @@ function sendWhatsApp(){
     const qty=cart[id];const sub=p.price*qty;total+=sub;
     commandeText+=`${p.brand} — ${p.name}${qty>1?' (x'+qty+')':''} → ${sub.toFixed(2).replace('.',',')}€ | `;
   });
-  const key=Math.round(total*100);
-  const wiseLink=WISE_LINKS[key];
-  // Envoi via GET avec colonne statut
+  // Envoyer adresse au Google Sheet
   const params=new URLSearchParams({prenom,nom,adresse,appt:appt||'',cp,ville,pays,commande:commandeText,total:total.toFixed(2).replace('.',','),statut:'En attente ⏳'});
   fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'}).catch(()=>{});
-  // Afficher écran confirmation + note Wise + bouton payer
+  // Afficher loader pendant création checkout SumUp
   const modal=document.querySelector('#modalOverlay .modal');
   modal.innerHTML=`
     <div class="modal-header">
-      <div class="modal-title">Commande Confirmée</div>
+      <div class="modal-title">Préparation du paiement...</div>
       <button class="modal-close" onclick="closeCartModal()">✕</button>
     </div>
-    <div class="modal-body" style="padding:24px;overflow-y:auto;max-height:70vh">
-      <div style="text-align:center;margin-bottom:20px">
-        <div style="font-size:2.5rem;margin-bottom:12px">✅</div>
-        <div style="font-family:Playfair Display,serif;font-size:1.3rem;color:var(--white);margin-bottom:6px">Merci ${prenom} !</div>
-        <div style="font-size:.75rem;color:var(--muted);line-height:2">Votre commande a bien été enregistrée.<br>Finalisez votre paiement ci-dessous.</div>
-      </div>
-      <div style="background:#111;border:1px solid var(--border);padding:16px;margin-bottom:16px">
-        ${ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">${p.brand} — ${p.name}${qty>1?' ×'+qty:''}</span><span style="color:var(--gold)">${sub.toFixed(2).replace('.',',')} €</span></div>`;}).join('')}
-        <div style="display:flex;justify-content:space-between;padding-top:14px">
-          <span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Total</span>
-          <span style="font-family:Playfair Display,serif;font-size:1.4rem;color:var(--gold)">${total.toFixed(2).replace('.',',')} €</span>
-        </div>
-      </div>
-      <div style="background:#1a1200;border:1px solid var(--gold);padding:14px;margin-bottom:8px">
-        <div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">⚠️ Note de paiement obligatoire</div>
-        <div style="font-size:.72rem;color:var(--muted);margin-bottom:10px;line-height:1.7">Sur la page Wise, merci d'indiquer votre nom dans la note de paiement afin que nous puissions confirmer votre commande :</div>
-        <div style="display:flex;align-items:center;justify-content:space-between;background:#111;padding:10px 14px;border:1px solid var(--border)">
-          <span style="font-family:Playfair Display,serif;font-size:1rem;color:var(--white)">${prenom} ${nom}</span>
-          <button onclick="navigator.clipboard.writeText('${prenom} ${nom}');this.textContent='Copié ✓';this.style.color='var(--gold)'" style="background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;font-size:.6rem;letter-spacing:.1em;cursor:pointer;font-family:'Jost',sans-serif">Copier</button>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      ${wiseLink
-        ?`<a href="${wiseLink}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--gold);color:var(--black);padding:20px;font-family:'Jost',sans-serif;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — ${total.toFixed(2).replace('.',',')} €</a>`
-        :`<div style="text-align:center;padding:16px;font-size:.75rem;color:var(--muted)">Nous vous contacterons sous peu pour finaliser votre paiement.</div>`
-      }
-      <button class="btn-back" onclick="closeCartModal()">Fermer</button>
+    <div class="modal-body" style="text-align:center;padding:48px">
+      <div style="font-size:2rem;margin-bottom:16px">⏳</div>
+      <div style="font-size:.8rem;color:var(--muted);letter-spacing:.1em">Création de votre paiement sécurisé...</div>
     </div>`;
+  // Appeler la fonction Netlify SumUp
+  const itemsHtml=ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">${p.brand} — ${p.name}${qty>1?' ×'+qty:''}</span><span style="color:var(--gold)">${sub.toFixed(2).replace('.',',')} €</span></div>`;}).join('');
+  fetch('https://hilarante-tarte-283ba2.netlify.app/.netlify/functions/create-checkout',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      amount:parseFloat(total.toFixed(2)),
+      currency:'EUR',
+      description:'Elixir Paris',
+      reference:'EP-'+Date.now()
+    })
+  })
+  .then(r=>r.json())
+  .then(data=>{
+    if(data.checkout_url){
+      modal.innerHTML=`
+        <div class="modal-header">
+          <div class="modal-title">Commande Confirmée</div>
+          <button class="modal-close" onclick="closeCartModal()">✕</button>
+        </div>
+        <div class="modal-body" style="padding:24px;overflow-y:auto;max-height:70vh">
+          <div style="text-align:center;margin-bottom:20px">
+            <div style="font-size:2.5rem;margin-bottom:12px">✅</div>
+            <div style="font-family:Playfair Display,serif;font-size:1.3rem;color:var(--white);margin-bottom:6px">Merci ${prenom} !</div>
+            <div style="font-size:.75rem;color:var(--muted);line-height:2">Votre commande est enregistrée.<br>Finalisez votre paiement ci-dessous.</div>
+          </div>
+          <div style="background:#111;border:1px solid var(--border);padding:16px;margin-bottom:20px">
+            ${itemsHtml}
+            <div style="display:flex;justify-content:space-between;padding-top:14px">
+              <span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Total</span>
+              <span style="font-family:Playfair Display,serif;font-size:1.4rem;color:var(--gold)">${total.toFixed(2).replace('.',',')} €</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="${data.checkout_url}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--gold);color:var(--black);padding:20px;font-family:'Jost',sans-serif;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — ${total.toFixed(2).replace('.',',')} €</a>
+          <button class="btn-back" onclick="closeCartModal()">Fermer</button>
+        </div>`;
+    } else {
+      modal.innerHTML='<div class="modal-header"><div class="modal-title">Erreur</div><button class="modal-close" onclick="closeCartModal()">✕</button></div><div class="modal-body" style="text-align:center;padding:32px"><div style="font-size:.8rem;color:var(--muted)">Une erreur est survenue. Veuillez réessayer.</div></div><div class="modal-footer"><button class="btn-back" onclick="closeCartModal()">Fermer</button></div>';
+    }
+  })
+  .catch(()=>{
+    modal.innerHTML='<div class="modal-header"><div class="modal-title">Erreur</div><button class="modal-close" onclick="closeCartModal()">✕</button></div><div class="modal-body" style="text-align:center;padding:32px"><div style="font-size:.8rem;color:var(--muted)">Une erreur est survenue. Veuillez réessayer.</div></div><div class="modal-footer"><button class="btn-back" onclick="closeCartModal()">Fermer</button></div>';
+  });
 }
 
 const WISE_LINKS={
