@@ -1104,30 +1104,6 @@ function buildMarqueMenu(){
     menu.appendChild(d);
   });
 }
-function sendWhatsApp(){
-  var prenom=document.getElementById('fieldPrenom').value.trim();
-  var nom=document.getElementById('fieldNom').value.trim();
-  var adresse=document.getElementById('fieldAdresse').value.trim();
-  var cp=document.getElementById('fieldCP').value.trim();
-  var ville=document.getElementById('fieldVille').value.trim();
-  var pays=document.getElementById('fieldPays').value.trim();
-  var appt=document.getElementById('fieldAppt').value.trim();
-  var err=document.getElementById('addressError');
-  if(!prenom||!nom||!adresse||!cp||!ville||!pays){err.style.display='block';return;}
-  err.style.display='none';
-  var ids=Object.keys(cart);var total=0;var cmd='';
-  ids.forEach(function(id){
-    var p=PERFUMES.find(function(x){return x.id==id;});
-    var qty=cart[id];var sub=p.price*qty;total+=sub;
-    cmd+=p.brand+' — '+p.name+(qty>1?' (x'+qty+')':'')+' → '+sub.toFixed(2).replace('.',',')+'€ | ';
-  });
-  var wl=WISE_LINKS[Math.round(total*100)];
-  var params=new URLSearchParams({prenom:prenom,nom:nom,adresse:adresse,appt:appt||'',cp:cp,ville:ville,pays:pays,commande:cmd,total:total.toFixed(2).replace('.',','),statut:'En attente ⏳'});
-  fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'}).catch(function(){});
-  var ih=ids.map(function(id){var p=PERFUMES.find(function(x){return x.id==id;});var qty=cart[id];var sub=p.price*qty;return '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span>'+p.brand+' — '+p.name+(qty>1?' x'+qty:'')+'</span><span style="color:var(--gold)">'+sub.toFixed(2).replace('.',',')+'€</span></div>';}).join('');
-  var pb=wl?'<a href="'+wl+'" target="_blank" style="display:flex;align-items:center;justify-content:center;background:var(--gold);color:var(--black);padding:20px;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — '+total.toFixed(2).replace('.',',')+'€</a>':'<div style="text-align:center;padding:16px;font-size:.75rem;color:var(--muted)">Nous vous contacterons pour finaliser.</div>';
-  document.querySelector('#modalOverlay .modal').innerHTML='<div class="modal-header"><div class="modal-title">Commande Confirmée</div><button class="modal-close" onclick="closeCartModal()">✕</button></div><div class="modal-body" style="text-align:center;padding:32px"><div style="font-size:2.5rem;margin-bottom:16px">✅</div><div style="font-family:Playfair Display,serif;font-size:1.3rem;color:var(--white);margin-bottom:8px">Merci '+prenom+' !</div><div style="font-size:.75rem;color:var(--muted);line-height:2;margin-bottom:28px">Votre commande est enregistrée.<br>Finalisez le paiement ci-dessous.</div><div style="background:#111;border:1px solid var(--border);padding:20px;margin-bottom:16px;text-align:left">'+ih+'<div style="display:flex;justify-content:space-between;padding-top:16px"><span style="font-size:.65rem;color:var(--muted)">Total</span><span style="font-family:Playfair Display,serif;font-size:1.5rem;color:var(--gold)">'+total.toFixed(2).replace('.',',')+'€</span></div></div><div style="background:var(--border-gold);border:1px solid var(--gold);padding:12px;margin-bottom:24px;font-size:.7rem;color:var(--gold-light)">⚠️ Sur Wise, indiquez <strong>'+prenom+' '+nom+'</strong> dans la note.</div></div><div class="modal-footer">'+pb+'<button class="btn-back" onclick="closeCartModal()">Fermer</button></div>';
-}
 (function(){
   var c=document.getElementById('particles-canvas');if(!c)return;
   var ctx=c.getContext('2d');var W,H,pts=[];
