@@ -500,6 +500,10 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
   <div class="footer-text">© 2025 Élixir Paris — Inspirations olfactives de luxe</div>
 </footer>
 
+<div id="visitorsBadge" style="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:400;white-space:nowrap;display:none;align-items:center;gap:8px;background:#0f1a0f;border:1px solid #2d4a2d;padding:8px 16px;font-size:.65rem;letter-spacing:.1em;color:#4caf50">
+  <span style="width:7px;height:7px;border-radius:50%;background:#4caf50;animation:pulse-green 2s infinite;display:inline-block"></span>
+  <span id="visitorsCount">14</span>&nbsp;personnes visitent le site en ce moment
+</div>
 <button class="sticky-cart" id="stickyCart" onclick="openCartModal()">🛒 <span id="stickyCartText">Voir mon panier</span></button>
 
 <!-- PRODUCT DETAIL MODAL -->
@@ -1027,11 +1031,18 @@ function renderCatalogue(){
     const card=document.createElement('div');
     card.className='perf-card'+(cart[p.id]?' selected':'');
     card.id='perf-'+p.id;
+    const stocks=[2,3,4,5,6,7,8,3,5,2,6,4,7,3,5,8,2,4,6,3,7,5,4,2,6,3,8,5,4,7];
+    const stock=stocks[p.id % stocks.length];
+    const stockPct=Math.round((stock/8)*100);
     card.innerHTML=`
       <div class="perf-check">✓</div>
       ${imgEl(p,'perf-img')}
       <div class="perf-brand">${p.brand}</div>
       <div class="perf-name">${p.name}</div>
+      <div style="padding:0 12px 6px">
+        <div style="font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:${stock<=3?'#e74c3c':'#888'};margin-bottom:4px">${stock<=3?'⚠ Plus que '+stock+' en stock':'Stock : '+stock+' disponibles'}</div>
+        <div class="stock-bar"><div class="stock-fill" style="width:${stockPct}%"></div></div>
+      </div>
       <div class="perf-bottom">
         <div class="perf-price">${p.price.toFixed(2).replace('.',',')} €</div>
         <div class="perf-gamme-dot dot-${p.gamme}" title="${GAMME_LABELS[p.gamme]}"></div>
