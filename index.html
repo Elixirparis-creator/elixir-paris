@@ -441,7 +441,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
       <div id="addressError" style="color:#c0392b;font-size:.6rem;letter-spacing:.1em;margin-top:4px;display:none">⚠ Veuillez remplir tous les champs obligatoires.</div>
     </div>
     <div class="modal-footer">
-      <button class="btn-wa" onclick="sendWhatsApp()">💳 Procéder au paiement</button>
+      <button class="btn-wa" onclick="sendWhatsApp()">✉️ Confirmer ma commande</button>
       <button class="btn-back" onclick="closeCartModal()">Continuer mes achats</button>
     </div>
   </div>
@@ -1069,9 +1069,7 @@ function sendWhatsApp(){
   // Afficher écran confirmation
   const ih=ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return'<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">'+p.brand+' — '+p.name+(qty>1?' ×'+qty:'')+'</span><span style="color:var(--gold)">'+sub.toFixed(2).replace('.',',')+'€</span></div>';}).join('');
   const modal=document.querySelector('#modalOverlay .modal');
-  const payBtn=wiseLink
-    ?'<a href="'+wiseLink+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--gold);color:var(--black);padding:20px;font-family:\'Jost\',sans-serif;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — '+totalStr+'€</a>'
-    :'<div style="text-align:center;padding:16px;font-size:.75rem;color:var(--muted)">Nous vous contacterons pour finaliser votre paiement.</div>';
+  const payBtn='<div style="text-align:center;padding:16px;font-size:.75rem;color:var(--muted);line-height:1.8">📧 Un email de confirmation avec votre lien de paiement<br>vous a été envoyé à <strong style="color:var(--gold)">'+email+'</strong></div>';
   modal.innerHTML='<div class="modal-header"><div class="modal-title">Commande Confirmée</div><button class="modal-close" onclick="closeCartModal()">✕</button></div>'
     +'<div class="modal-body" style="text-align:center;padding:32px">'
     +'<div style="font-size:2.5rem;margin-bottom:16px">✅</div>'
