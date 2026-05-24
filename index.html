@@ -449,7 +449,6 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
 
 <script>
 const WA="32465617776";
-emailjs.init("qbDIJg_jtq98zHBjg");
 const ICONS={femme:'🌸',homme:'🔷',mixte:'✦'};
 const GAMME_LABELS={classic:'Classic',prestige:'Prestige',luxe:'Luxe'};
 const GENRE_LABELS={femme:'Pour Elle',homme:'Pour Lui',mixte:'Mixte'};
@@ -1152,13 +1151,12 @@ function buildMarqueMenu(){
   function upd(){var d=end-Date.now();var el=document.getElementById('countdown');if(!el)return;if(d<=0){el.textContent='00:00:00';return;}el.textContent=Math.floor(d/3600000).toString().padStart(2,'0')+':'+Math.floor((d%3600000)/60000).toString().padStart(2,'0')+':'+Math.floor((d%60000)/1000).toString().padStart(2,'0');}
   upd();setInterval(upd,1000);
 })();
+if(typeof emailjs!=="undefined")emailjs.init("qbDIJg_jtq98zHBjg");
 buildMarqueMenu();
 renderBestSellers();
 renderCatalogue();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-</body>
+
 </html>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-</body>
+
 </html>
