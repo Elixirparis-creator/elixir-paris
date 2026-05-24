@@ -209,6 +209,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
 .vinted-tag-x{cursor:pointer;font-size:.7rem;opacity:.7;transition:opacity .15s}
 .vinted-tag-x:hover{opacity:1}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -237,6 +238,55 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
 <section id="bestsellers">
   <div class="section-header"><span class="section-label">Sélection du Moment</span></div>
   <div class="bs-grid" id="bsGrid"></div>
+</section>
+
+<section id="confiance" style="padding:60px 40px;max-width:900px;margin:0 auto;text-align:center">
+  <div class="section-header"><span class="section-label">Votre Satisfaction, Notre Priorité</span></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px">
+    <div style="background:#0f0f0f;border:1px solid var(--border);padding:28px 20px">
+      <div style="font-size:1.8rem;margin-bottom:12px">🛡️</div>
+      <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Paiement Sécurisé</div>
+      <div style="font-size:.75rem;color:var(--muted);line-height:1.8">Virement sécurisé via Wise, plateforme de confiance utilisée par des millions d'utilisateurs.</div>
+    </div>
+    <div style="background:#0f0f0f;border:1px solid var(--border);padding:28px 20px">
+      <div style="font-size:1.8rem;margin-bottom:12px">📦</div>
+      <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Livraison Rapide</div>
+      <div style="font-size:.75rem;color:var(--muted);line-height:1.8">Expédition sous 48h après confirmation du paiement. Livraison dans toute l'Europe.</div>
+    </div>
+    <div style="background:#0f0f0f;border:1px solid var(--border);padding:28px 20px">
+      <div style="font-size:1.8rem;margin-bottom:12px">✉️</div>
+      <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Confirmation Email</div>
+      <div style="font-size:.75rem;color:var(--muted);line-height:1.8">Vous recevez un email de confirmation dès votre commande avec le récapitulatif complet.</div>
+    </div>
+  </div>
+  <div style="margin-top:40px;background:#0f0f0f;border:1px solid var(--border);padding:24px;display:flex;align-items:center;justify-content:center;gap:16px">
+    <div style="font-size:1.5rem">💬</div>
+    <div style="text-align:left">
+      <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px">Une question ?</div>
+      <div style="font-size:.75rem;color:var(--muted)">Contactez-nous directement sur WhatsApp : <a href="https://wa.me/32465617776" style="color:var(--gold);text-decoration:none">+32 465 61 77 76</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="avis" style="padding:60px 40px;max-width:1000px;margin:0 auto;text-align:center">
+  <div class="section-header"><span class="section-label">Ils Nous Font Confiance</span></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px">
+    <div style="background:#0f0f0f;border:1px solid var(--border);padding:24px;text-align:left">
+      <div style="color:var(--gold);font-size:1rem;margin-bottom:12px">★★★★★</div>
+      <div style="font-size:.8rem;color:var(--text);line-height:1.8;margin-bottom:16px;font-style:italic">"Incroyable qualité pour le prix. Le Creed Aventus est identique à l'original. Je recommande vivement !"</div>
+      <div style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Sophie M. — Bruxelles</div>
+    </div>
+    <div style="background:#0f0f0f;border:1px solid var(--border);padding:24px;text-align:left">
+      <div style="color:var(--gold);font-size:1rem;margin-bottom:12px">★★★★★</div>
+      <div style="font-size:.8rem;color:var(--text);line-height:1.8;margin-bottom:16px;font-style:italic">"Livraison ultra rapide, emballage soigné et parfum sublime. Je reviendrai commander !"</div>
+      <div style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Thomas L. — Paris</div>
+    </div>
+    <div style="background:#0f0f0f;border:1px solid var(--border);padding:24px;text-align:left">
+      <div style="color:var(--gold);font-size:1rem;margin-bottom:12px">★★★★★</div>
+      <div style="font-size:.8rem;color:var(--text);line-height:1.8;margin-bottom:16px;font-style:italic">"Le Dior Sauvage est parfait, ma femme a adoré le J'adore. Service au top, je recommande !"</div>
+      <div style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Karim B. — Lyon</div>
+    </div>
+  </div>
 </section>
 
 <section id="catalogue">
@@ -367,6 +417,10 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
         <input id="fieldAdresse" type="text" placeholder="Rue et numéro" style="width:100%;background:#1a1a1a;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.8rem;padding:10px 12px;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
       </div>
       <div style="margin-bottom:10px">
+        <label style="font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Email <span style="color:var(--gold)">*</span></label>
+        <input id="fieldEmail" type="email" placeholder="votre@email.com" style="width:100%;background:#1a1a1a;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.8rem;padding:10px 12px;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div style="margin-bottom:10px">
         <label style="font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Appartement / Boîte (optionnel)</label>
         <input id="fieldAppt" type="text" placeholder="N° appartement, boîte, étage..." style="width:100%;background:#1a1a1a;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:.8rem;padding:10px 12px;outline:none;transition:border .2s" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
       </div>
@@ -395,6 +449,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
 
 <script>
 const WA="32465617776";
+emailjs.init("qbDIJg_jtq98zHBjg");
 const ICONS={femme:'🌸',homme:'🔷',mixte:'✦'};
 const GAMME_LABELS={classic:'Classic',prestige:'Prestige',luxe:'Luxe'};
 const GENRE_LABELS={femme:'Pour Elle',homme:'Pour Lui',mixte:'Mixte'};
@@ -945,113 +1000,63 @@ function closeCartOutside(e){if(e.target===document.getElementById('modalOverlay
 function sendWhatsApp(){
   const prenom=document.getElementById('fieldPrenom').value.trim();
   const nom=document.getElementById('fieldNom').value.trim();
+  const email=document.getElementById('fieldEmail')?document.getElementById('fieldEmail').value.trim():'';
   const adresse=document.getElementById('fieldAdresse').value.trim();
   const cp=document.getElementById('fieldCP').value.trim();
   const ville=document.getElementById('fieldVille').value.trim();
   const pays=document.getElementById('fieldPays').value.trim();
   const appt=document.getElementById('fieldAppt').value.trim();
   const err=document.getElementById('addressError');
-  if(!prenom||!nom||!adresse||!cp||!ville||!pays){
-    err.style.display='block';
-    return;
-  }
+  if(!prenom||!nom||!adresse||!cp||!ville||!pays){err.style.display='block';return;}
+  if(email && !/^[^@]+@[^@]+\.[^@]+$/.test(email)){err.textContent='⚠ Veuillez entrer une adresse email valide.';err.style.display='block';return;}
   err.style.display='none';
   const ids=Object.keys(cart);
-  let total=0;
-  let commandeText='';
+  let total=0;let commandeText='';let commandeHTML='';
   ids.forEach(id=>{
     const p=PERFUMES.find(x=>x.id==id);
     const qty=cart[id];const sub=p.price*qty;total+=sub;
-    commandeText+=`${p.brand} — ${p.name}${qty>1?' (x'+qty+')':''} → ${sub.toFixed(2).replace('.',',')}€ | `;
+    commandeText+=p.brand+' — '+p.name+(qty>1?' (x'+qty+')':'')+' → '+sub.toFixed(2).replace('.',',')+'€ | ';
+    commandeHTML+='<tr><td style="padding:8px 12px;border-bottom:1px solid #333">'+p.brand+' — '+p.name+(qty>1?' ×'+qty:'')+'</td><td style="padding:8px 12px;border-bottom:1px solid #333;text-align:right;color:#C9A84C">'+sub.toFixed(2).replace('.',',')+'€</td></tr>';
   });
-  // Envoyer adresse au Google Sheet
-  const params=new URLSearchParams({prenom,nom,adresse,appt:appt||'',cp,ville,pays,commande:commandeText,total:total.toFixed(2).replace('.',','),statut:'En attente ⏳'});
+  const totalStr=total.toFixed(2).replace('.',',');
+  const key=Math.round(total*100);
+  const wiseLink=WISE_LINKS[key]||'';
+  
+  // Envoyer au Google Sheet
+  const params=new URLSearchParams({prenom,nom,adresse,appt:appt||'',cp,ville,pays,commande:commandeText,total:totalStr,statut:'En attente ⏳'});
   fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'}).catch(()=>{});
-  // Afficher loader pendant création checkout SumUp
+  
+  // Envoyer email de confirmation si email fourni
+  if(email){
+    emailjs.send('service_zbcefvu','template_foiqw8k',{
+      to_email: email,
+      to_name: prenom+' '+nom,
+      commande_html: commandeHTML,
+      total: totalStr,
+      adresse_livraison: prenom+' '+nom+'\n'+adresse+(appt?' — '+appt:'')+'\n'+cp+' '+ville+'\n'+pays,
+      wise_link: wiseLink,
+      reply_to: 'elixirparis.contact@gmail.com'
+    }).catch(()=>{});
+  }
+  
+  // Afficher écran confirmation
+  const ih=ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return'<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">'+p.brand+' — '+p.name+(qty>1?' ×'+qty:'')+'</span><span style="color:var(--gold)">'+sub.toFixed(2).replace('.',',')+'€</span></div>';}).join('');
   const modal=document.querySelector('#modalOverlay .modal');
-  modal.innerHTML=`
-    <div class="modal-header">
-      <div class="modal-title">Préparation du paiement...</div>
-      <button class="modal-close" onclick="closeCartModal()">✕</button>
-    </div>
-    <div class="modal-body" style="text-align:center;padding:48px">
-      <div style="font-size:2rem;margin-bottom:16px">⏳</div>
-      <div style="font-size:.8rem;color:var(--muted);letter-spacing:.1em">Création de votre paiement sécurisé...</div>
-    </div>`;
-  // Appeler la fonction Netlify SumUp
-  const itemsHtml=ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">${p.brand} — ${p.name}${qty>1?' ×'+qty:''}</span><span style="color:var(--gold)">${sub.toFixed(2).replace('.',',')} €</span></div>`;}).join('');
-  fetch('/.netlify/functions/create-checkout',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      amount:parseFloat(total.toFixed(2)),
-      currency:'EUR',
-      description:'Elixir Paris',
-      reference:'EP-'+Date.now()
-    })
-  })
-  .then(r=>r.json())
-  .then(data=>{
-    if(data.checkout_url){
-      modal.innerHTML=`
-        <div class="modal-header">
-          <div class="modal-title">Commande Confirmée</div>
-          <button class="modal-close" onclick="closeCartModal()">✕</button>
-        </div>
-        <div class="modal-body" style="padding:24px;overflow-y:auto;max-height:70vh">
-          <div style="text-align:center;margin-bottom:20px">
-            <div style="font-size:2.5rem;margin-bottom:12px">✅</div>
-            <div style="font-family:Playfair Display,serif;font-size:1.3rem;color:var(--white);margin-bottom:6px">Merci ${prenom} !</div>
-            <div style="font-size:.75rem;color:var(--muted);line-height:2">Votre commande est enregistrée.<br>Finalisez votre paiement ci-dessous.</div>
-          </div>
-          <div style="background:#111;border:1px solid var(--border);padding:16px;margin-bottom:20px">
-            ${itemsHtml}
-            <div style="display:flex;justify-content:space-between;padding-top:14px">
-              <span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Total</span>
-              <span style="font-family:Playfair Display,serif;font-size:1.4rem;color:var(--gold)">${total.toFixed(2).replace('.',',')} €</span>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <a href="${data.checkout_url}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--gold);color:var(--black);padding:20px;font-family:'Jost',sans-serif;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — ${total.toFixed(2).replace('.',',')} €</a>
-          <button class="btn-back" onclick="closeCartModal()">Fermer</button>
-        </div>`;
-    } else {
-      modal.innerHTML='<div class="modal-header"><div class="modal-title">Erreur</div><button class="modal-close" onclick="closeCartModal()">✕</button></div><div class="modal-body" style="text-align:center;padding:32px"><div style="font-size:.8rem;color:var(--muted)">Une erreur est survenue. Veuillez réessayer.</div></div><div class="modal-footer"><button class="btn-back" onclick="closeCartModal()">Fermer</button></div>';
-    }
-  })
-  .catch(()=>{
-    modal.innerHTML='<div class="modal-header"><div class="modal-title">Erreur</div><button class="modal-close" onclick="closeCartModal()">✕</button></div><div class="modal-body" style="text-align:center;padding:32px"><div style="font-size:.8rem;color:var(--muted)">Une erreur est survenue. Veuillez réessayer.</div></div><div class="modal-footer"><button class="btn-back" onclick="closeCartModal()">Fermer</button></div>';
-  });
+  const payBtn=wiseLink
+    ?'<a href="'+wiseLink+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:12px;background:var(--gold);color:var(--black);padding:20px;font-family:\'Jost\',sans-serif;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;font-weight:500">💳 PAYER MAINTENANT — '+totalStr+'€</a>'
+    :'<div style="text-align:center;padding:16px;font-size:.75rem;color:var(--muted)">Nous vous contacterons pour finaliser votre paiement.</div>';
+  modal.innerHTML='<div class="modal-header"><div class="modal-title">Commande Confirmée</div><button class="modal-close" onclick="closeCartModal()">✕</button></div>'
+    +'<div class="modal-body" style="text-align:center;padding:32px">'
+    +'<div style="font-size:2.5rem;margin-bottom:16px">✅</div>'
+    +'<div style="font-family:Playfair Display,serif;font-size:1.3rem;color:var(--white);margin-bottom:8px">Merci '+prenom+' !</div>'
+    +'<div style="font-size:.75rem;color:var(--muted);line-height:2;margin-bottom:28px">Votre commande est enregistrée.'+(email?'<br>Un email de confirmation a été envoyé à <strong style="color:var(--gold)">'+email+'</strong>':'')+'</div>'
+    +'<div style="background:#111;border:1px solid var(--border);padding:20px;margin-bottom:16px;text-align:left">'+ih
+    +'<div style="display:flex;justify-content:space-between;padding-top:16px"><span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Total</span><span style="font-family:Playfair Display,serif;font-size:1.5rem;color:var(--gold)">'+totalStr+'€</span></div></div>'
+    +'<div style="background:var(--border-gold);border:1px solid var(--gold);padding:12px 16px;margin-bottom:24px;font-size:.7rem;color:var(--gold-light)">⚠️ Sur Wise, indiquez <strong style="color:var(--gold)">'+prenom+' '+nom+'</strong> dans la note.</div>'
+    +'</div>'
+    +'<div class="modal-footer">'+payBtn+'<button class="btn-back" onclick="closeCartModal()">Fermer</button></div>';
 }
 
-const WISE_LINKS={
-  2990:'https://wise.com/pay/r/hVBkb45PQcaujD4',4990:'https://wise.com/pay/r/K4kVy98SG9xcQ8A',
-  5980:'https://wise.com/pay/r/wM-nSeRORyJ2h4c',6490:'https://wise.com/pay/r/4RGE-S4aP56nflw',
-  7980:'https://wise.com/pay/r/9ljxAXekyEN1ZNI',8970:'https://wise.com/pay/r/XfyH01oQPJN6iWE',
-  9470:'https://wise.com/pay/r/ymZPyogM57QbdOs',9480:'https://wise.com/pay/r/gxcKr6v6zz1HUrI',
-  9980:'https://wise.com/pay/r/ENCMNtjyeHVDVpo',10970:'https://wise.com/pay/r/uRySdr2E8ikJh-U',
-  11480:'https://wise.com/pay/r/noReUshxYKv_5-8',11960:'https://wise.com/pay/r/NrWhm0DrMzZM5mM',
-  12470:'https://wise.com/pay/r/9-B_vmw9UCGN6t8',12970:'https://wise.com/pay/r/F-Q8Z1BKuWxYTHo',
-  12980:'https://wise.com/pay/r/76g6-0jgFe7-cww',13480:'https://wise.com/pay/r/Xjup07VHmSLZq80',
-  13960:'https://wise.com/pay/r/1BRiLzGBsMrTptQ',14470:'https://wise.com/pay/r/5lQOJkuV8uebaP4',
-  14970:'https://wise.com/pay/r/icydVJUAvLVOa9g',15460:'https://wise.com/pay/r/gCqRj2bQojLJGts',
-  15960:'https://wise.com/pay/r/9nnkSCBf-rfiqgo',15970:'https://wise.com/pay/r/ZcvUC0gaEw9QWPk',
-  16460:'https://wise.com/pay/r/eFku-pfGbBGUOAU',16470:'https://wise.com/pay/r/ikOGRUwuB7Esn9A',
-  16950:'https://wise.com/pay/r/2zAidrdXhpTdlPI',17460:'https://wise.com/pay/r/DaMPkmUTvVyR630',
-  17960:'https://wise.com/pay/r/f5Cu5epNkbaFLTQ',17970:'https://wise.com/pay/r/xhBGjx1A_RVhGtU',
-  18450:'https://wise.com/pay/r/BPgK7GXR9vd9sUw',18960:'https://wise.com/pay/r/UGgpXDB3sQAbwpA',
-  19460:'https://wise.com/pay/r/IJRexsEC73xFwSs',19470:'https://wise.com/pay/r/RIw5cOMO8QufbiM',
-  19940:'https://wise.com/pay/r/l1Zm1B5y19tnGeU',19960:'https://wise.com/pay/r/Jep6ZlMInnMoju4',
-  20960:'https://wise.com/pay/r/iqkAh3teKXqqwz0',21460:'https://wise.com/pay/r/Uozdn8plTE5yAKg',
-  22450:'https://wise.com/pay/r/6M4MeDdmSYi-C1s',22460:'https://wise.com/pay/r/1D2tk3NOemFNc1w',
-  22950:'https://wise.com/pay/r/fC_lwaDR4JB-jDc',22960:'https://wise.com/pay/r/q28Jly9n5EavSzA',
-  23950:'https://wise.com/pay/r/k5tPaAqRboCxeVo',24460:'https://wise.com/pay/r/grDbcXK05U4e9RM',
-  24870:'https://wise.com/pay/r/wZ8Y27gIjmyWX1I',25450:'https://wise.com/pay/r/KZ23DOXHg1sAiHA',
-  25950:'https://wise.com/pay/r/6Mlzm1W4I9n-S1Q',26450:'https://wise.com/pay/r/JSXwsAVCT_3sdtk',
-  27450:'https://wise.com/pay/r/ShIsUXf88iKK1dw',29450:'https://wise.com/pay/r/3bOpSjpnNHaCwlo'
-};
-const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxPuvWwxaCvHChHxxUUhTo1oS86Nux0MxqGD5FGZtNDY59-gVBz9PkoWplL73Moi30EHw/exec';
 
 function toggleDrop(id){
   document.querySelectorAll('.vinted-dropdown').forEach(function(d){if(d.id!==id)d.classList.remove('open');});
@@ -1123,7 +1128,9 @@ buildMarqueMenu();
 renderBestSellers();
 renderCatalogue();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </body>
 </html>
