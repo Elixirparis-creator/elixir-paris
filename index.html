@@ -6,7 +6,7 @@
 <title>Élixir Paris — Parfums de Luxe</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#b8965a;--gold-light:#d4b07a;--gold-pale:#e8d5b0;--black:#080808;--dark:#0e0e0e;--card-bg:#111;--border:#1e1e1e;--border-gold:#2a2218;--text:#e0d8cc;--muted:#6a6259;--white:#f5f0e8}
+:root{--gold:#b8965a;--gold-light:#d4b07a;--gold-pale:#e8d5b0;--black:#080808;--dark:#0e0e0e;--card-bg:#111;--border:#1e1e1e;--border-gold:#2a2218;--text:#f2ece0;--muted:#a09080;--white:#f5f0e8}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--black);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden}
@@ -246,6 +246,9 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
 /* ===== GLOW DIVIDER ===== */
 .glow-divider{height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:.25}
 
+.price-original{font-size:.75rem;color:var(--muted);text-decoration:line-through;margin-right:6px}
+.price-promo{color:#e85555;font-size:.6rem;letter-spacing:.1em;background:rgba(232,85,85,.12);padding:2px 6px;border-radius:2px}
+.price-wrap{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-top:4px}
 /* ===== FAQ ===== */
 #faq{padding:80px 40px;max-width:800px;margin:0 auto}
 .faq-list{margin-top:0}
@@ -305,7 +308,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
     <div class="gamme-legend">
       <div class="legend-item"><div class="perf-gamme-dot dot-classic"></div> Classic — 49,90 €</div>
       <div class="legend-item"><div class="perf-gamme-dot dot-prestige"></div> Prestige — 64,90 €</div>
-      <div class="legend-item"><div class="perf-gamme-dot dot-luxe"></div> Luxe — 89,90 €</div>
+      <div class="legend-item"><div class="perf-gamme-dot dot-luxe"></div> Luxe — 79,90 €</div>
     </div>
     <div class="filter-system">
       <div class="vinted-filters-row">
@@ -324,7 +327,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
             <div class="vinted-option" onclick="setVFilter('gamme','all','Gamme','dropGamme')">Toutes</div>
             <div class="vinted-option" onclick="setVFilter('gamme','classic','Classic 49,90€','dropGamme')">Classic — 49,90€</div>
             <div class="vinted-option" onclick="setVFilter('gamme','prestige','Prestige 64,90€','dropGamme')">Prestige — 64,90€</div>
-            <div class="vinted-option" onclick="setVFilter('gamme','luxe','Luxe 89,90€','dropGamme')">Luxe — 89,90€</div>
+            <div class="vinted-option" onclick="setVFilter('gamme','luxe','Luxe 79,90€','dropGamme')">Luxe — 89,90€</div>
           </div>
         </div>
         <div class="vinted-dropdown" id="dropMarque">
@@ -940,7 +943,7 @@ const PERFUMES=[
    top:["Bergamote","Gingembre","Basilic"],heart:["Poivre Blanc","Vétiver"],base:["Cèdre de Virginie","Vétiver"],
    accords:[{n:"Boisé",v:80},{n:"Frais",v:75},{n:"Épicé",v:65},{n:"Aromatique",v:70}]},
   {id:36,brand:"Armani",name:"Code",gender:"homme",gamme:"prestige",price:64.90,
-   img:"https://media.parfumo.com/perfumes/f8/f81720-armani-code-eau-de-toilette-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
+   img:"https://www.armani.com/variants/images/1647597345538747/F/N/1647597345538747_21_900x1200.jpg",
    desc:"Le code secret de la séduction. Armani Code est oriental et boisé — bergamote sicilienne, fleur de bois de star anise et tabac virginie.",
    top:["Bergamote","Citron"],heart:["Bois de Star Anise","Fleur d'Oranger"],base:["Tabac de Virginie","Cuir","Guaiac"],
    accords:[{n:"Oriental",v:85},{n:"Boisé",v:75},{n:"Épicé",v:70},{n:"Ambré",v:80}]},
@@ -980,62 +983,62 @@ const PERFUMES=[
    top:["Pamplemousse","Basilic","Coriandre"],heart:["Gingembre","Cardamome","Orange"],base:["Tabac","Cèdre","Ambre"],
    accords:[{n:"Oriental",v:85},{n:"Boisé",v:75},{n:"Épicé",v:80},{n:"Ambré",v:70}]},
   // LUXE 89.90
-  {id:44,brand:"Creed",name:"Aventus",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:44,brand:"Creed",name:"Aventus",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/2b/2b6809_aventus-creed_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La légende. Aventus célèbre la force, le succès et la puissance — ananas éclatant, bouleau fumé, musc royal. Le parfum des conquérants.",
    top:["Ananas","Bergamote","Cassis","Pomme"],heart:["Bouleau","Patchouli","Jasmin","Rose"],base:["Musc","Oakmoss","Ambre Gris","Vétiver"],
    accords:[{n:"Fruité",v:85},{n:"Boisé",v:80},{n:"Fumé",v:70},{n:"Frais",v:75}]},
-  {id:45,brand:"Creed",name:"Royal Oud",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:45,brand:"Creed",name:"Royal Oud",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/90/907915-royal-oud-creed_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La noblesse de l'oud. Royal Oud est une composition majestueuse — pin sylvestre, cèdre et oud précieux dans une alliance royale.",
    top:["Citron","Bergamote","Pink Pepper"],heart:["Oud","Cèdre","Pin Sylvestre"],base:["Musc","Ambre","Vétiver"],
    accords:[{n:"Boisé",v:90},{n:"Ambré",v:75},{n:"Épicé",v:65},{n:"Frais",v:55}]},
-  {id:46,brand:"Jo Malone",name:"Myrrh & Tonka",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:46,brand:"Jo Malone",name:"Myrrh & Tonka",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/4a/4a026f-myrrh-tonka-jo-malone_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Un envoûtement oriental. La myrrhe résineuse s'unit à la fève tonka vanillée et aux amandes douces — chaud, enveloppant, addictif.",
    top:["Lavande","Iris"],heart:["Myrrhe","Fève Tonka"],base:["Amande","Benjoin","Musc"],
    accords:[{n:"Doux",v:90},{n:"Ambré",v:85},{n:"Gourmand",v:75},{n:"Boisé",v:55}]},
-  {id:47,brand:"Tom Ford",name:"Electric Cherry",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:47,brand:"Tom Ford",name:"Electric Cherry",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/9f/9f5f16-electric-cherry-tom-ford_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Électrique et fruité. Electric Cherry est une explosion de cerise noire sur fond de bois fumé et de musc — audacieux, charnel, mémorable.",
    top:["Cerise Noire","Baies Rouges"],heart:["Rose","Jasmin","Vétiver"],base:["Oud","Musc","Ambre"],
    accords:[{n:"Fruité",v:90},{n:"Floral",v:65},{n:"Boisé",v:70},{n:"Doux",v:75}]},
-  {id:48,brand:"Tom Ford",name:"Soleil Blanc",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:48,brand:"Tom Ford",name:"Soleil Blanc",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/b3/b3f32e-soleil-blanc-eau-de-parfum-tom-ford_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La côte d'Amalfi à votre poignet. Soleil Blanc est solaire, crémeux et envoûtant — cardamome, néroli et vanille de Tahiti.",
    top:["Cardamome","Bergamote","Mandarine"],heart:["Néroli","Fleur d'Oranger","Jasmin"],base:["Coco","Vanille de Tahiti","Musc Blanc"],
    accords:[{n:"Solaire",v:90},{n:"Doux",v:85},{n:"Floral",v:65},{n:"Gourmand",v:70}]},
-  {id:49,brand:"Tom Ford",name:"Neroli Portofino",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:49,brand:"Tom Ford",name:"Neroli Portofino",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/5c/5ccfe2-neroli-portofino-eau-de-parfum-tom-ford_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La Riviera italienne en essence. Néroli lumineux, bergamote étincelante, ambre blanc — l'eleganza absolue.",
    top:["Bergamote","Citron","Mandarine"],heart:["Néroli","Fleur d'Oranger","Jasmin"],base:["Ambre Blanc","Musc","Santal"],
    accords:[{n:"Citrus",v:90},{n:"Floral",v:75},{n:"Frais",v:80},{n:"Ambré",v:55}]},
-  {id:50,brand:"Louis Vuitton",name:"Fleur du Désert",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:50,brand:"Louis Vuitton",name:"Fleur du Désert",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/a2/a2ff26-fleur-du-desert-louis-vuitton_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Une fleur rare au cœur du désert. Accacia lumineux, bois de santal crémeux et musc ambré — luxe discret, présence absolue.",
    top:["Acacia","Néroli"],heart:["Rose","Jasmin"],base:["Santal","Ambre","Musc"],
    accords:[{n:"Floral",v:85},{n:"Boisé",v:70},{n:"Ambré",v:65},{n:"Doux",v:75}]},
-  {id:51,brand:"Louis Vuitton",name:"L'Immensité",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:51,brand:"Louis Vuitton",name:"L'Immensité",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/51/513302-l-immensite-louis-vuitton_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"L'immensité de l'océan. Gingembre aquatique, vétiver marin et bois de cyprès — une invitation au grand large.",
    top:["Gingembre","Citron","Bergamote"],heart:["Accord Marin","Cyprès"],base:["Vétiver","Ambre Gris","Musc"],
    accords:[{n:"Aquatique",v:85},{n:"Boisé",v:75},{n:"Frais",v:80},{n:"Aromatique",v:60}]},
-  {id:52,brand:"Chanel",name:"Bleu de Chanel L'Exclusif",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:52,brand:"Chanel",name:"Bleu de Chanel L'Exclusif",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/df/df93f3_bleu-de-chanel-l-exclusif-chanel_1200.jpg?width=480&aspect_ratio=1:1",
    desc:"La version ultime du mythe. Plus concentré, plus profond, plus noble — Bleu de Chanel L'Exclusif est l'expression parfaite de la masculinité Chanel.",
    top:["Citron","Bergamote","Gingembre"],heart:["Iso E Super","Labdanum","Jasmin"],base:["Cèdre","Santal","Ambre","Musc"],
    accords:[{n:"Boisé",v:90},{n:"Ambré",v:80},{n:"Frais",v:70},{n:"Aromatique",v:75}]},
-  {id:53,brand:"Dior",name:"Fahrenheit Parfum",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:53,brand:"Dior",name:"Fahrenheit Parfum",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/df/df3b72-fahrenheit-parfum-dior_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Le feu et le cuir. Fahrenheit est un monument du parfum masculin — violette sauvage, cuir chaud, essence de pétrole unique.",
    top:["Essence de Pétrole","Bergamote","Lavande"],heart:["Violette","Jasmin","Poivre Sauvage"],base:["Cuir","Cèdre","Vétiver","Ambre"],
    accords:[{n:"Cuir",v:85},{n:"Boisé",v:80},{n:"Floral",v:60},{n:"Ambré",v:70}]},
-  {id:69,brand:"YSL",name:"Libre Le Parfum",gender:"femme",gamme:"luxe",price:89.90,
+  {id:69,brand:"YSL",name:"Libre Le Parfum",gender:"femme",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/60/608990-libre-le-parfum-yves-saint-laurent_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La liberté à son expression ultime. Libre Le Parfum est la version la plus intense — fleur d'oranger absolue, lavande de Provence et musc ambré profond.",
    top:["Mandarine","Bergamote"],heart:["Lavande","Fleur d'Oranger Absolue"],base:["Musc Ambré","Cèdre","Vanille"],
    accords:[{n:"Floral",v:85},{n:"Ambré",v:90},{n:"Oriental",v:75},{n:"Boisé",v:60}]},
-  {id:70,brand:"Armani",name:"Sì Passion",gender:"femme",gamme:"luxe",price:89.90,
+  {id:70,brand:"Armani",name:"Sì Passion",gender:"femme",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/91/91ffff-si-eau-de-parfum-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La passion sublimée. Sì Passion intensifie la rose, le cassis et le musc ambré de Sì pour une version plus charnelle et envoûtante.",
    top:["Cassis","Bergamote"],heart:["Rose de Mai","Freesia"],base:["Patchouli","Vanille","Musc Ambré"],
@@ -1087,7 +1090,7 @@ function renderBestSellers(){
       <div class="bs-brand">${p.brand}</div>
       <div class="bs-name">${p.name}</div>
       <span class="bs-gamme gamme-${p.gamme}">${GAMME_LABELS[p.gamme]}</span>
-      <div class="bs-price">${p.price.toFixed(2).replace('.',',')} €</div>
+      ${priceHtml(p)}
     `;
     card.onclick=()=>openProd(p.id);
     grid.appendChild(card);
@@ -1129,7 +1132,7 @@ function renderCatalogue(){
         <div class="stock-bar"><div class="stock-fill" style="width:${stockPct}%"></div></div>
       </div>
       <div class="perf-bottom">
-        <div class="perf-price">${p.price.toFixed(2).replace('.',',')} €</div>
+        ${priceMini(p)}
         <div class="perf-gamme-dot dot-${p.gamme}" title="${GAMME_LABELS[p.gamme]}"></div>
       </div>
       <div class="qty-row" id="pqty-${p.id}">
@@ -1364,7 +1367,7 @@ function setVFilter(type,val,label,dropId){
 }
 function updateActiveTags(){
   var row=document.getElementById('vintedActiveRow');row.innerHTML='';
-  var lm={genre:{femme:'Femme',homme:'Homme',mixte:'Mixte'},gamme:{classic:'Classic 49,90€',prestige:'Prestige 64,90€',luxe:'Luxe 89,90€'},brand:{}};
+  var lm={genre:{femme:'Femme',homme:'Homme',mixte:'Mixte'},gamme:{classic:'Classic 49,90€',prestige:'Prestige 64,90€',luxe:'Luxe 79,90€'},brand:{}};
   PERFUMES.forEach(function(p){lm.brand[p.brand]=p.brand;});
   Object.entries(filters).forEach(function(e){
     if(e[1]==='all')return;
@@ -1566,6 +1569,16 @@ function buildMarqueMenu(){
   upd();setInterval(upd,1000);
 })();
 if(typeof emailjs!=="undefined")emailjs.init("qbDIJg_jtq98zHBjg");
+
+const PRIX_BARRE={classic:'66,90',prestige:'86,90',luxe:'105,90'};
+function priceHtml(p){
+  const b=PRIX_BARRE[p.gamme];
+  return `<div class="price-wrap"><span class="price-original">${b} €</span><span style="color:var(--gold);font-size:.95rem">${p.price.toFixed(2).replace('.',',')} €</span><span class="price-promo">-25%</span></div>`;
+}
+function priceMini(p){
+  const b=PRIX_BARRE[p.gamme];
+  return `<div class="price-wrap"><span class="price-original" style="font-size:.65rem">${b} €</span><span style="color:var(--gold);font-size:.82rem">${p.price.toFixed(2).replace('.',',')} €</span><span class="price-promo" style="font-size:.55rem">-25%</span></div>`;
+}
 buildMarqueMenu();
 renderBestSellers();
 renderCatalogue();
