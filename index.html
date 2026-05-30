@@ -255,6 +255,49 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
   <div class="bs-grid" id="bsGrid"></div>
 </section>
 
+<section id="catalogue">
+  <div class="catalogue-inner">
+    <div class="section-header"><span class="section-label">Catalogue Complet</span></div>
+    <div class="gamme-legend">
+      <div class="legend-item"><div class="perf-gamme-dot dot-classic"></div> Classic — 49,90 €</div>
+      <div class="legend-item"><div class="perf-gamme-dot dot-prestige"></div> Prestige — 64,90 €</div>
+      <div class="legend-item"><div class="perf-gamme-dot dot-luxe"></div> Luxe — 79,90 €</div>
+    </div>
+    <div class="filter-system">
+      <div class="vinted-filters-row">
+        <div class="vinted-dropdown" id="dropGenre">
+          <button class="vinted-btn" onclick="toggleDrop('dropGenre')">Genre <span class="vchev">&#9662;</span></button>
+          <div class="vinted-menu">
+            <div class="vinted-option" onclick="setVFilter('genre','all','Genre','dropGenre')">Tous</div>
+            <div class="vinted-option" onclick="setVFilter('genre','femme','Femme','dropGenre')">Femme</div>
+            <div class="vinted-option" onclick="setVFilter('genre','homme','Homme','dropGenre')">Homme</div>
+            <div class="vinted-option" onclick="setVFilter('genre','mixte','Mixte','dropGenre')">Mixte</div>
+          </div>
+        </div>
+        <div class="vinted-dropdown" id="dropGamme">
+          <button class="vinted-btn" onclick="toggleDrop('dropGamme')">Gamme <span class="vchev">&#9662;</span></button>
+          <div class="vinted-menu">
+            <div class="vinted-option" onclick="setVFilter('gamme','all','Gamme','dropGamme')">Toutes</div>
+            <div class="vinted-option" onclick="setVFilter('gamme','classic','Classic 49,90€','dropGamme')">Classic — 49,90€</div>
+            <div class="vinted-option" onclick="setVFilter('gamme','prestige','Prestige 64,90€','dropGamme')">Prestige — 64,90€</div>
+            <div class="vinted-option" onclick="setVFilter('gamme','luxe','Luxe 79,90€','dropGamme')">Luxe — 79,90€</div>
+          </div>
+        </div>
+        <div class="vinted-dropdown" id="dropMarque">
+          <button class="vinted-btn" onclick="toggleDrop('dropMarque')">Marque <span class="vchev">&#9662;</span></button>
+          <div class="vinted-menu" id="marqueMenuItems"></div>
+        </div>
+      </div>
+      <div class="vinted-active-row" id="vintedActiveRow"></div>
+    </div>
+    <div class="results-bar">
+      <span class="results-count" id="resultsCount"></span>
+      <button class="results-reset" onclick="resetFilters()">Réinitialiser</button>
+    </div>
+    <div class="perf-grid" id="perfGrid"></div>
+  </div>
+</section>
+
 <section id="confiance" style="padding:60px 40px;max-width:900px;margin:0 auto;text-align:center">
   <div class="section-header"><span class="section-label">Votre Satisfaction, Notre Priorité</span></div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px">
@@ -440,49 +483,6 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
       </div>
 
     </div>
-  </div>
-</section>
-
-<section id="catalogue">
-  <div class="catalogue-inner">
-    <div class="section-header"><span class="section-label">Catalogue Complet</span></div>
-    <div class="gamme-legend">
-      <div class="legend-item"><div class="perf-gamme-dot dot-classic"></div> Classic — 49,90 €</div>
-      <div class="legend-item"><div class="perf-gamme-dot dot-prestige"></div> Prestige — 64,90 €</div>
-      <div class="legend-item"><div class="perf-gamme-dot dot-luxe"></div> Luxe — 89,90 €</div>
-    </div>
-    <div class="filter-system">
-      <div class="vinted-filters-row">
-        <div class="vinted-dropdown" id="dropGenre">
-          <button class="vinted-btn" onclick="toggleDrop('dropGenre')">Genre <span class="vchev">&#9662;</span></button>
-          <div class="vinted-menu">
-            <div class="vinted-option" onclick="setVFilter('genre','all','Genre','dropGenre')">Tous</div>
-            <div class="vinted-option" onclick="setVFilter('genre','femme','Femme','dropGenre')">Femme</div>
-            <div class="vinted-option" onclick="setVFilter('genre','homme','Homme','dropGenre')">Homme</div>
-            <div class="vinted-option" onclick="setVFilter('genre','mixte','Mixte','dropGenre')">Mixte</div>
-          </div>
-        </div>
-        <div class="vinted-dropdown" id="dropGamme">
-          <button class="vinted-btn" onclick="toggleDrop('dropGamme')">Gamme <span class="vchev">&#9662;</span></button>
-          <div class="vinted-menu">
-            <div class="vinted-option" onclick="setVFilter('gamme','all','Gamme','dropGamme')">Toutes</div>
-            <div class="vinted-option" onclick="setVFilter('gamme','classic','Classic 49,90€','dropGamme')">Classic — 49,90€</div>
-            <div class="vinted-option" onclick="setVFilter('gamme','prestige','Prestige 64,90€','dropGamme')">Prestige — 64,90€</div>
-            <div class="vinted-option" onclick="setVFilter('gamme','luxe','Luxe 89,90€','dropGamme')">Luxe — 89,90€</div>
-          </div>
-        </div>
-        <div class="vinted-dropdown" id="dropMarque">
-          <button class="vinted-btn" onclick="toggleDrop('dropMarque')">Marque <span class="vchev">&#9662;</span></button>
-          <div class="vinted-menu" id="marqueMenuItems"></div>
-        </div>
-      </div>
-      <div class="vinted-active-row" id="vintedActiveRow"></div>
-    </div>
-    <div class="results-bar">
-      <span class="results-count" id="resultsCount"></span>
-      <button class="results-reset" onclick="resetFilters()">Réinitialiser</button>
-    </div>
-    <div class="perf-grid" id="perfGrid"></div>
   </div>
 </section>
 
@@ -895,62 +895,62 @@ const PERFUMES=[
    top:["Pamplemousse","Basilic","Coriandre"],heart:["Gingembre","Cardamome","Orange"],base:["Tabac","Cèdre","Ambre"],
    accords:[{n:"Oriental",v:85},{n:"Boisé",v:75},{n:"Épicé",v:80},{n:"Ambré",v:70}]},
   // LUXE 89.90
-  {id:44,brand:"Creed",name:"Aventus",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:44,brand:"Creed",name:"Aventus",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/2b/2b6809_aventus-creed_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La légende. Aventus célèbre la force, le succès et la puissance — ananas éclatant, bouleau fumé, musc royal. Le parfum des conquérants.",
    top:["Ananas","Bergamote","Cassis","Pomme"],heart:["Bouleau","Patchouli","Jasmin","Rose"],base:["Musc","Oakmoss","Ambre Gris","Vétiver"],
    accords:[{n:"Fruité",v:85},{n:"Boisé",v:80},{n:"Fumé",v:70},{n:"Frais",v:75}]},
-  {id:45,brand:"Creed",name:"Royal Oud",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:45,brand:"Creed",name:"Royal Oud",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/90/907915-royal-oud-creed_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La noblesse de l'oud. Royal Oud est une composition majestueuse — pin sylvestre, cèdre et oud précieux dans une alliance royale.",
    top:["Citron","Bergamote","Pink Pepper"],heart:["Oud","Cèdre","Pin Sylvestre"],base:["Musc","Ambre","Vétiver"],
    accords:[{n:"Boisé",v:90},{n:"Ambré",v:75},{n:"Épicé",v:65},{n:"Frais",v:55}]},
-  {id:46,brand:"Jo Malone",name:"Myrrh & Tonka",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:46,brand:"Jo Malone",name:"Myrrh & Tonka",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/4a/4a026f-myrrh-tonka-jo-malone_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Un envoûtement oriental. La myrrhe résineuse s'unit à la fève tonka vanillée et aux amandes douces — chaud, enveloppant, addictif.",
    top:["Lavande","Iris"],heart:["Myrrhe","Fève Tonka"],base:["Amande","Benjoin","Musc"],
    accords:[{n:"Doux",v:90},{n:"Ambré",v:85},{n:"Gourmand",v:75},{n:"Boisé",v:55}]},
-  {id:47,brand:"Tom Ford",name:"Electric Cherry",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:47,brand:"Tom Ford",name:"Electric Cherry",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/9f/9f5f16-electric-cherry-tom-ford_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Électrique et fruité. Electric Cherry est une explosion de cerise noire sur fond de bois fumé et de musc — audacieux, charnel, mémorable.",
    top:["Cerise Noire","Baies Rouges"],heart:["Rose","Jasmin","Vétiver"],base:["Oud","Musc","Ambre"],
    accords:[{n:"Fruité",v:90},{n:"Floral",v:65},{n:"Boisé",v:70},{n:"Doux",v:75}]},
-  {id:48,brand:"Tom Ford",name:"Soleil Blanc",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:48,brand:"Tom Ford",name:"Soleil Blanc",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/b3/b3f32e-soleil-blanc-eau-de-parfum-tom-ford_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La côte d'Amalfi à votre poignet. Soleil Blanc est solaire, crémeux et envoûtant — cardamome, néroli et vanille de Tahiti.",
    top:["Cardamome","Bergamote","Mandarine"],heart:["Néroli","Fleur d'Oranger","Jasmin"],base:["Coco","Vanille de Tahiti","Musc Blanc"],
    accords:[{n:"Solaire",v:90},{n:"Doux",v:85},{n:"Floral",v:65},{n:"Gourmand",v:70}]},
-  {id:49,brand:"Tom Ford",name:"Neroli Portofino",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:49,brand:"Tom Ford",name:"Neroli Portofino",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/5c/5ccfe2-neroli-portofino-eau-de-parfum-tom-ford_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La Riviera italienne en essence. Néroli lumineux, bergamote étincelante, ambre blanc — l'eleganza absolue.",
    top:["Bergamote","Citron","Mandarine"],heart:["Néroli","Fleur d'Oranger","Jasmin"],base:["Ambre Blanc","Musc","Santal"],
    accords:[{n:"Citrus",v:90},{n:"Floral",v:75},{n:"Frais",v:80},{n:"Ambré",v:55}]},
-  {id:50,brand:"Louis Vuitton",name:"Fleur du Désert",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:50,brand:"Louis Vuitton",name:"Fleur du Désert",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/a2/a2ff26-fleur-du-desert-louis-vuitton_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Une fleur rare au cœur du désert. Accacia lumineux, bois de santal crémeux et musc ambré — luxe discret, présence absolue.",
    top:["Acacia","Néroli"],heart:["Rose","Jasmin"],base:["Santal","Ambre","Musc"],
    accords:[{n:"Floral",v:85},{n:"Boisé",v:70},{n:"Ambré",v:65},{n:"Doux",v:75}]},
-  {id:51,brand:"Louis Vuitton",name:"L'Immensité",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:51,brand:"Louis Vuitton",name:"L'Immensité",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/51/513302-l-immensite-louis-vuitton_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"L'immensité de l'océan. Gingembre aquatique, vétiver marin et bois de cyprès — une invitation au grand large.",
    top:["Gingembre","Citron","Bergamote"],heart:["Accord Marin","Cyprès"],base:["Vétiver","Ambre Gris","Musc"],
    accords:[{n:"Aquatique",v:85},{n:"Boisé",v:75},{n:"Frais",v:80},{n:"Aromatique",v:60}]},
-  {id:52,brand:"Chanel",name:"Bleu de Chanel L'Exclusif",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:52,brand:"Chanel",name:"Bleu de Chanel L'Exclusif",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/df/df93f3_bleu-de-chanel-l-exclusif-chanel_1200.jpg?width=480&aspect_ratio=1:1",
    desc:"La version ultime du mythe. Plus concentré, plus profond, plus noble — Bleu de Chanel L'Exclusif est l'expression parfaite de la masculinité Chanel.",
    top:["Citron","Bergamote","Gingembre"],heart:["Iso E Super","Labdanum","Jasmin"],base:["Cèdre","Santal","Ambre","Musc"],
    accords:[{n:"Boisé",v:90},{n:"Ambré",v:80},{n:"Frais",v:70},{n:"Aromatique",v:75}]},
-  {id:53,brand:"Dior",name:"Fahrenheit Parfum",gender:"mixte",gamme:"luxe",price:89.90,
+  {id:53,brand:"Dior",name:"Fahrenheit Parfum",gender:"mixte",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/df/df3b72-fahrenheit-parfum-dior_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"Le feu et le cuir. Fahrenheit est un monument du parfum masculin — violette sauvage, cuir chaud, essence de pétrole unique.",
    top:["Essence de Pétrole","Bergamote","Lavande"],heart:["Violette","Jasmin","Poivre Sauvage"],base:["Cuir","Cèdre","Vétiver","Ambre"],
    accords:[{n:"Cuir",v:85},{n:"Boisé",v:80},{n:"Floral",v:60},{n:"Ambré",v:70}]},
-  {id:69,brand:"YSL",name:"Libre Le Parfum",gender:"femme",gamme:"luxe",price:89.90,
+  {id:69,brand:"YSL",name:"Libre Le Parfum",gender:"femme",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/60/608990-libre-le-parfum-yves-saint-laurent_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La liberté à son expression ultime. Libre Le Parfum est la version la plus intense — fleur d'oranger absolue, lavande de Provence et musc ambré profond.",
    top:["Mandarine","Bergamote"],heart:["Lavande","Fleur d'Oranger Absolue"],base:["Musc Ambré","Cèdre","Vanille"],
    accords:[{n:"Floral",v:85},{n:"Ambré",v:90},{n:"Oriental",v:75},{n:"Boisé",v:60}]},
-  {id:70,brand:"Armani",name:"Sì Passion",gender:"femme",gamme:"luxe",price:89.90,
+  {id:70,brand:"Armani",name:"Sì Passion",gender:"femme",gamme:"luxe",price:79.90,
    img:"https://media.parfumo.com/perfumes/91/91ffff-si-eau-de-parfum-giorgio-armani_1200.jpg?width=720&aspect_ratio=1:1",
    desc:"La passion sublimée. Sì Passion intensifie la rose, le cassis et le musc ambré de Sì pour une version plus charnelle et envoûtante.",
    top:["Cassis","Bergamote"],heart:["Rose de Mai","Freesia"],base:["Patchouli","Vanille","Musc Ambré"],
@@ -1198,7 +1198,12 @@ const WISE_LINKS={
   23950:'https://wise.com/pay/r/k5tPaAqRboCxeVo',24460:'https://wise.com/pay/r/grDbcXK05U4e9RM',
   24870:'https://wise.com/pay/r/wZ8Y27gIjmyWX1I',25450:'https://wise.com/pay/r/KZ23DOXHg1sAiHA',
   25950:'https://wise.com/pay/r/6Mlzm1W4I9n-S1Q',26450:'https://wise.com/pay/r/JSXwsAVCT_3sdtk',
-  27450:'https://wise.com/pay/r/ShIsUXf88iKK1dw',29450:'https://wise.com/pay/r/3bOpSjpnNHaCwlo',44950:'https://wise.com/pay/r/zD7HAzKNUTBu9eo',32450:'https://wise.com/pay/r/US7lRunfxUKQ_iY',35960:'https://wise.com/pay/r/LLTZdHz-0xixB44',25960:'https://wise.com/pay/r/pViAAjXvwDYpuZQ',26970:'https://wise.com/pay/r/KQdmErTTnIO1A58',24950:'https://wise.com/pay/r/EaI2zarcMM4fCVM',17980:'https://wise.com/pay/r/lzpGD9du-iKq6qU',8990:'https://wise.com/pay/r/0D7ZbPdTJ2nGHWM'
+  27450:'https://wise.com/pay/r/ShIsUXf88iKK1dw',29450:'https://wise.com/pay/r/3bOpSjpnNHaCwlo',44950:'https://wise.com/pay/r/zD7HAzKNUTBu9eo',32450:'https://wise.com/pay/r/US7lRunfxUKQ_iY',35960:'https://wise.com/pay/r/LLTZdHz-0xixB44',25960:'https://wise.com/pay/r/pViAAjXvwDYpuZQ',26970:'https://wise.com/pay/r/KQdmErTTnIO1A58',24950:'https://wise.com/pay/r/EaI2zarcMM4fCVM',17980:'https://wise.com/pay/r/lzpGD9du-iKq6qU',8990:'https://wise.com/pay/r/0D7ZbPdTJ2nGHWM',
+  7990:'https://wise.com/pay/r/C5BgSwuBfoivZhk',
+  15980:'https://wise.com/pay/r/_wiLg4j5T7UTNFA',
+  23970:'https://wise.com/pay/r/c3rbKr89hT_LEg4',
+  31960:'https://wise.com/pay/r/YAmNaA_lcb82uCA',
+  39950:'https://wise.com/pay/r/YKOXyNC1o840p9Q'
 };
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxPuvWwxaCvHChHxxUUhTo1oS86Nux0MxqGD5FGZtNDY59-gVBz9PkoWplL73Moi30EHw/exec';
 
