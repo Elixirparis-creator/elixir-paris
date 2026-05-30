@@ -1225,15 +1225,15 @@ function sendWhatsApp(){
   ids.forEach(id=>{
     const p=PERFUMES.find(x=>x.id==id);
     const qty=cart[id];const sub=p.price*qty;total+=sub;
-    commandeText+=p.brand+' — '+p.name+(qty>1?' (x'+qty+')':'')+' → '+sub.toFixed(2).replace('.',',')+'€ | ';
-    commandeHTML+='<tr><td style="padding:8px 12px;border-bottom:1px solid #333">'+p.brand+' — '+p.name+(qty>1?' ×'+qty:'')+'</td><td style="padding:8px 12px;border-bottom:1px solid #333;text-align:right;color:#C9A84C">'+sub.toFixed(2).replace('.',',')+'€</td></tr>';
+    commandeText+=(qty>1?qty+'x ':'')+p.brand+' '+p.name+' | ';
+    commandeHTML+=(qty>1?qty+' × ':'')+p.brand+' — '+p.name+' : '+sub.toFixed(2).replace('.',',')+'€\n';
   });
   const totalStr=total.toFixed(2).replace('.',',');
   const key=Math.round(total*100);
   const wiseLink=WISE_LINKS[key]||'';
   
   // Envoyer au Google Sheet
-  const params=new URLSearchParams({prenom,nom,adresse,appt:appt||'',cp,ville,pays,commande:commandeText,total:totalStr,statut:'En attente ⏳'});
+  const params=new URLSearchParams({prenom,nom,adresse,appt:appt||'',cp,ville,pays,email,commande:commandeText,total:totalStr,statut:'En attente ⏳'});
   fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'}).catch(()=>{});
   
   // Envoyer email de confirmation si email fourni
