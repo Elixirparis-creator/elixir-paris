@@ -1320,78 +1320,112 @@ function buildMarqueMenu(){
 (function(){
   var c=document.getElementById('particles-canvas');if(!c)return;
   var ctx=c.getContext('2d');var W,H;
-
   function rsz(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
   rsz();window.addEventListener('resize',rsz);
 
+  // ── ÉTOILES STATIQUES ──
+  var stars=[];
+  // Petites étoiles (très nombreuses)
+  for(var i=0;i<280;i++)stars.push({
+    x:Math.random(),y:Math.random(),
+    r:.2+Math.random()*.7,
+    o:.3+Math.random()*.65,
+    pulse:Math.random()*Math.PI*2,
+    ps:.003+Math.random()*.008,
+    type:'small'
+  });
+  // Étoiles moyennes
+  for(var i=0;i<60;i++)stars.push({
+    x:Math.random(),y:Math.random(),
+    r:.8+Math.random()*1.2,
+    o:.5+Math.random()*.45,
+    pulse:Math.random()*Math.PI*2,
+    ps:.002+Math.random()*.006,
+    type:'mid'
+  });
+  // Grandes étoiles brillantes avec croix
+  for(var i=0;i<18;i++)stars.push({
+    x:Math.random(),y:Math.random(),
+    r:1.5+Math.random()*2,
+    o:.7+Math.random()*.3,
+    pulse:Math.random()*Math.PI*2,
+    ps:.002+Math.random()*.004,
+    type:'bright'
+  });
+
   // ── PARTICULES GOLD FLOTTANTES ──
   var pts=[];
-  for(var i=0;i<120;i++)pts.push({
+  for(var i=0;i<100;i++)pts.push({
     x:Math.random(),y:Math.random(),
-    r:.3+Math.random()*1.8,
-    s:.00008+Math.random()*.00018,
-    o:.1+Math.random()*.45,
+    r:.3+Math.random()*1.4,
+    s:.00008+Math.random()*.00015,
+    o:.08+Math.random()*.35,
     d:(Math.random()-.5)*.00004,
     pulse:Math.random()*Math.PI*2,
     ps:.005+Math.random()*.01
   });
 
-  // ── LUNE ──
-  var moon={
-    x:.78, y:.18,
-    r:38,
-    glowR:120,
-    phase:0
-  };
-
   // ── ÉTOILES FILANTES ──
   var shooters=[];
   function spawnShooter(){
-    var side=Math.random();
-    var sx,sy,angle;
-    if(side<.5){sx=-.05;sy=Math.random()*.5;angle=.15+Math.random()*.2;}
-    else{sx=Math.random();sy=-.05;angle=Math.PI/2+(.1+Math.random()*.15)*(Math.random()<.5?1:-1);}
-    shooters.push({x:sx,y:sy,len:.10+Math.random()*.15,speed:.005+Math.random()*.005,angle:angle,life:1,decay:.015+Math.random()*.01,width:.8+Math.random()*1.2});
-  }
-  spawnShooter();
-  setInterval(function(){if(Math.random()<.65)spawnShooter();},2200);
-
-  function drawMoon(){
-    var mx=moon.x*W, my=moon.y*H;
-
-    // Halo externe
-    var halo=ctx.createRadialGradient(mx,my,moon.r*.5,mx,my,moon.glowR);
-    halo.addColorStop(0,'rgba(232,213,176,.18)');
-    halo.addColorStop(.4,'rgba(184,150,90,.07)');
-    halo.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=halo;
-    ctx.beginPath();ctx.arc(mx,my,moon.glowR,0,Math.PI*2);ctx.fill();
-
-    // Corps lune
-    var moonGrad=ctx.createRadialGradient(mx-moon.r*.3,my-moon.r*.3,moon.r*.1,mx,my,moon.r);
-    moonGrad.addColorStop(0,'rgba(255,248,220,1)');
-    moonGrad.addColorStop(.4,'rgba(232,213,176,1)');
-    moonGrad.addColorStop(.8,'rgba(200,180,140,1)');
-    moonGrad.addColorStop(1,'rgba(160,140,100,1)');
-    ctx.fillStyle=moonGrad;
-    ctx.beginPath();ctx.arc(mx,my,moon.r,0,Math.PI*2);ctx.fill();
-
-    // Craters subtils
-    [[-.3,-.25,.28],[.2,.15,.18],[-.1,.3,.14],[.35,-.1,.10]].forEach(function(cr){
-      var cx2=mx+cr[0]*moon.r, cy2=my+cr[1]*moon.r, cr2=cr[2]*moon.r;
-      var cg=ctx.createRadialGradient(cx2,cy2,0,cx2,cy2,cr2);
-      cg.addColorStop(0,'rgba(120,100,70,.25)');
-      cg.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=cg;
-      ctx.beginPath();ctx.arc(cx2,cy2,cr2,0,Math.PI*2);ctx.fill();
+    var angle=.3+Math.random()*.4;
+    shooters.push({
+      x:Math.random()*.65,y:-.02,
+      len:.22+Math.random()*.28,
+      speed:.012+Math.random()*.01,
+      angle:angle,life:1,
+      decay:.008+Math.random()*.007,
+      width:2.5+Math.random()*2.5
     });
+  }
+  spawnShooter();spawnShooter();
+  setInterval(function(){spawnShooter();},1200);
+  setInterval(function(){if(Math.random()<.5)spawnShooter();},600);
 
-    // Brillance
-    var shine=ctx.createRadialGradient(mx-moon.r*.4,my-moon.r*.4,0,mx-moon.r*.4,my-moon.r*.4,moon.r*.6);
-    shine.addColorStop(0,'rgba(255,255,240,.35)');
-    shine.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=shine;
-    ctx.beginPath();ctx.arc(mx,my,moon.r,0,Math.PI*2);ctx.fill();
+  function drawStar(s){
+    s.pulse+=s.ps;
+    var pulse=Math.sin(s.pulse)*.2+.8;
+    var o=s.o*pulse;
+    var sx=s.x*W, sy=s.y*H;
+
+    if(s.type==='bright'){
+      // Halo doux autour
+      var halo=ctx.createRadialGradient(sx,sy,0,sx,sy,s.r*5);
+      halo.addColorStop(0,'rgba(220,210,190,'+(o*.4)+')');
+      halo.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=halo;
+      ctx.beginPath();ctx.arc(sx,sy,s.r*5,0,Math.PI*2);ctx.fill();
+
+      // Croix lumineuse (4 branches)
+      var cLen=s.r*5*pulse;
+      var alpha=o*.55;
+      // Branche horizontale
+      var gH=ctx.createLinearGradient(sx-cLen,sy,sx+cLen,sy);
+      gH.addColorStop(0,'rgba(0,0,0,0)');
+      gH.addColorStop(.5,'rgba(240,230,200,'+alpha+')');
+      gH.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.strokeStyle=gH;ctx.lineWidth=.8;
+      ctx.beginPath();ctx.moveTo(sx-cLen,sy);ctx.lineTo(sx+cLen,sy);ctx.stroke();
+      // Branche verticale
+      var gV=ctx.createLinearGradient(sx,sy-cLen,sx,sy+cLen);
+      gV.addColorStop(0,'rgba(0,0,0,0)');
+      gV.addColorStop(.5,'rgba(240,230,200,'+alpha+')');
+      gV.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.strokeStyle=gV;ctx.lineWidth=.8;
+      ctx.beginPath();ctx.moveTo(sx,sy-cLen);ctx.lineTo(sx,sy+cLen);ctx.stroke();
+      // Diagonales (plus courtes)
+      var dLen=cLen*.55;
+      ctx.strokeStyle='rgba(220,210,185,'+(alpha*.5)+')';ctx.lineWidth=.5;
+      ctx.beginPath();ctx.moveTo(sx-dLen,sy-dLen);ctx.lineTo(sx+dLen,sy+dLen);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(sx+dLen,sy-dLen);ctx.lineTo(sx-dLen,sy+dLen);ctx.stroke();
+    }
+
+    // Corps de l'étoile
+    var color=s.type==='bright'?'rgba(255,250,230,'+o+')':
+              s.type==='mid'?'rgba(220,215,200,'+o+')':
+              'rgba(200,195,185,'+o+')';
+    ctx.beginPath();ctx.arc(sx,sy,s.r,0,Math.PI*2);
+    ctx.fillStyle=color;ctx.fill();
   }
 
   function draw(){
@@ -1399,24 +1433,21 @@ function buildMarqueMenu(){
 
     // Fond radial subtil
     var bg=ctx.createRadialGradient(W*.5,H*.3,0,W*.5,H*.3,W*.7);
-    bg.addColorStop(0,'rgba(184,150,90,.025)');
+    bg.addColorStop(0,'rgba(184,150,90,.02)');
     bg.addColorStop(1,'rgba(0,0,0,0)');
     ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
 
-    // Lune
-    drawMoon();
+    // Étoiles statiques
+    stars.forEach(drawStar);
 
     // Particules gold
     pts.forEach(function(p){
-      p.y-=p.s;p.x+=p.d;
-      p.pulse+=p.ps;
+      p.y-=p.s;p.x+=p.d;p.pulse+=p.ps;
       if(p.y<0){p.y=1;p.x=Math.random();}
       if(p.x<0)p.x=1;if(p.x>1)p.x=0;
       var pulse=Math.sin(p.pulse)*.25+.75;
-      ctx.beginPath();
-      ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(184,150,90,'+(p.o*pulse)+')';
-      ctx.fill();
+      ctx.beginPath();ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(184,150,90,'+(p.o*pulse)+')';ctx.fill();
     });
 
     // Étoiles filantes
@@ -1424,23 +1455,35 @@ function buildMarqueMenu(){
       s.x+=Math.cos(s.angle)*s.speed;
       s.y+=Math.sin(s.angle)*s.speed;
       s.life-=s.decay;
-      if(s.life<=0){shooters.splice(idx,1);return;}
+      if(s.life<=0||s.x>1.1||s.y>1.1){shooters.splice(idx,1);return;}
       var tx=s.x*W,ty=s.y*H;
       var tailX=tx-Math.cos(s.angle)*s.len*W;
       var tailY=ty-Math.sin(s.angle)*s.len*H;
       var g=ctx.createLinearGradient(tailX,tailY,tx,ty);
       g.addColorStop(0,'rgba(0,0,0,0)');
-      g.addColorStop(.5,'rgba(184,150,90,'+(s.life*.25)+')');
-      g.addColorStop(1,'rgba(255,245,200,'+(s.life*.95)+')');
+      g.addColorStop(.3,'rgba(184,150,90,'+(s.life*.3)+')');
+      g.addColorStop(.7,'rgba(240,220,160,'+(s.life*.8)+')');
+      g.addColorStop(1,'rgba(255,255,240,'+s.life+')');
       ctx.beginPath();ctx.moveTo(tailX,tailY);ctx.lineTo(tx,ty);
       ctx.strokeStyle=g;ctx.lineWidth=s.width*s.life;ctx.lineCap='round';ctx.stroke();
-      var hg=ctx.createRadialGradient(tx,ty,0,tx,ty,3);
-      hg.addColorStop(0,'rgba(255,245,210,'+s.life+')');
+      var g2=ctx.createLinearGradient(tailX,tailY,tx,ty);
+      g2.addColorStop(0,'rgba(0,0,0,0)');
+      g2.addColorStop(.5,'rgba(184,150,90,'+(s.life*.12)+')');
+      g2.addColorStop(1,'rgba(255,240,180,'+(s.life*.35)+')');
+      ctx.beginPath();ctx.moveTo(tailX,tailY);ctx.lineTo(tx,ty);
+      ctx.strokeStyle=g2;ctx.lineWidth=s.width*s.life*3.5;ctx.lineCap='round';ctx.stroke();
+      var hr=6+s.life*4;
+      var hg=ctx.createRadialGradient(tx,ty,0,tx,ty,hr);
+      hg.addColorStop(0,'rgba(255,255,255,'+s.life+')');
+      hg.addColorStop(.2,'rgba(255,250,220,'+(s.life*.9)+')');
+      hg.addColorStop(.6,'rgba(220,190,120,'+(s.life*.4)+')');
       hg.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=hg;ctx.beginPath();ctx.arc(tx,ty,3,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=hg;ctx.beginPath();ctx.arc(tx,ty,hr,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='rgba(255,255,255,'+(s.life*.95)+')';
+      ctx.beginPath();ctx.arc(tx,ty,1.5,0,Math.PI*2);ctx.fill();
     });
 
-    requestAnimationFrame(draw);
+  requestAnimationFrame(draw);
   }
   draw();
 })();
