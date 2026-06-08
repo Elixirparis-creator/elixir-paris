@@ -300,7 +300,6 @@ footer{border-top:1px solid var(--border);padding:48px 40px;display:flex;justify
   .perf-card{padding:10px 6px}
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -1332,28 +1331,6 @@ function openCartModal(){
 function closeCartModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
 function closeCartOutside(e){if(e.target===document.getElementById('modalOverlay'))closeCartModal();}
 
-const WISE_LINKS={
-  4990:'https://wise.com/pay/r/K4kVy98SG9xcQ8A',
-  5990:'https://wise.com/pay/r/_Dg2L_vQKa-885E',
-  7490:'https://wise.com/pay/r/yuOZCpOBKefDc18',
-  9980:'https://wise.com/pay/r/UXyAbF0bCRKTQhw',
-  10980:'https://wise.com/pay/r/6UPhmQj2E3AUMR0',
-  11980:'https://wise.com/pay/r/n06vHlbZ0Gmeo-o',
-  12480:'https://wise.com/pay/r/XRGEyD9owOaYzPg',
-  13480:'https://wise.com/pay/r/KVDXL9kJdF11MJg',
-  14970:'https://wise.com/pay/r/lxqCy55HZvjMbkU',
-  14980:'https://wise.com/pay/r/_0ycH7dpvUHbuM4',
-  15970:'https://wise.com/pay/r/wzAFVnA6bqNdYT0',
-  16970:'https://wise.com/pay/r/C5hzAI8j4eZxrjQ',
-  17470:'https://wise.com/pay/r/bXeL8Ct1N5QwtlI',
-  17970:'https://wise.com/pay/r/sUpOtAz9bewlyC4',
-  18470:'https://wise.com/pay/r/KWrQaideB-jqQaY',
-  19470:'https://wise.com/pay/r/szhmJG2DEzs0TJA',
-  20970:'https://wise.com/pay/r/A298e79oGvH0_ZQ',
-  21960:'https://wise.com/pay/r/LE3lKKxIwtXUAfY',
-  22470:'https://wise.com/pay/r/r-P4-a1xKuBb8j8',
-  25460:'https://wise.com/pay/r/DH-Kez7F00d6PDs'
-};
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxDjzcY_ygYMJ8uO9dnbPxKySdGh7398KvE_qY_26bJ030jUwV0pfmaeOQ5qhZFr-mecQ/exec';
 
 function sendWhatsApp(){
@@ -1370,39 +1347,22 @@ function sendWhatsApp(){
   if(email && !/^[^@]+@[^@]+\.[^@]+$/.test(email)){err.textContent='⚠ Veuillez entrer une adresse email valide.';err.style.display='block';return;}
   err.style.display='none';
   const ids=Object.keys(cart);
-  let total=0;let commandeText='';let commandeHTML='';
+  let total=0;let commandeText='';
   ids.forEach(id=>{
     const p=PERFUMES.find(x=>x.id==id);
     const qty=cart[id];const sub=p.price*qty;total+=sub;
     commandeText+=(qty>1?qty+'x ':'')+p.brand+' '+p.name+' | ';
-    commandeHTML+=(qty>1?qty+' × ':'')+p.brand+' — '+p.name+' : '+sub.toFixed(2).replace('.',',')+'€\n';
   });
   const totalStr=total.toFixed(2).replace('.',',');
-  const key=Math.round(total*100);
-  const wiseLink=WISE_LINKS[key]||'';
-  
+
   // Envoyer au Google Sheet
   const params=new URLSearchParams({prenom,nom,adresse,appt:appt||'',cp,ville,pays,email,commande:commandeText,total:totalStr,statut:'En attente ⏳'});
   fetch(SCRIPT_URL+'?'+params.toString(),{method:'GET',mode:'no-cors'}).catch(()=>{});
   
-  // Envoyer email de confirmation si email fourni
-  if(email){
-    emailjs.send('service_zbcefvu','template_foiqw8k',{
-      to_email: email,
-      to_name: prenom+' '+nom,
-      commande_html: commandeHTML,
-      total: totalStr,
-      adresse_livraison: prenom+' '+nom+'\n'+adresse+(appt?' — '+appt:'')+'\n'+cp+' '+ville+'\n'+pays,
-      wise_link: wiseLink,
-      reply_to: 'elixirparis.contact@gmail.com'
-    }).catch(()=>{});
-  }
-  
   // Afficher écran confirmation
   const ih=ids.map(id=>{const p=PERFUMES.find(x=>x.id==id);const qty=cart[id];const sub=p.price*qty;return'<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem"><span style="color:var(--text)">'+p.brand+' — '+p.name+(qty>1?' ×'+qty:'')+'</span><span style="color:var(--gold)">'+sub.toFixed(2).replace('.',',')+'€</span></div>';}).join('');
   const modal=document.querySelector('#modalOverlay .modal');
-  const emailNote=email?'<div style="text-align:center;padding:8px 0 0;font-size:.65rem;color:var(--muted)">📧 Confirmation envoyée à <strong style="color:var(--gold)">'+email+'</strong></div>':'';
-  const payBtn='<a href="https://www.paypal.com/ncp/payment/889TGF2MU7NZ6" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;background:#0070ba;color:#fff;padding:16px 20px;font-family:\'Jost\',sans-serif;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;width:100%;box-sizing:border-box" onmouseover="this.style.background=\'#005ea6\'" onmouseout="this.style.background=\'#0070ba\'">💳 Payer avec PayPal — '+totalStr+' €</a>'+emailNote;
+  const payBtn='<a href="https://www.paypal.com/ncp/payment/889TGF2MU7NZ6" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;background:#0070ba;color:#fff;padding:16px 20px;font-family:\'Jost\',sans-serif;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;width:100%;box-sizing:border-box" onmouseover="this.style.background=\'#005ea6\'" onmouseout="this.style.background=\'#0070ba\'">💳 Payer avec PayPal — '+totalStr+' €</a>';
   modal.innerHTML='<div class="modal-header"><div class="modal-title">Commande Confirmée</div><button class="modal-close" onclick="closeCartModal()">✕</button></div>'
     +'<div class="modal-body" style="text-align:center;padding:32px">'
     +'<div style="font-size:2.5rem;margin-bottom:16px">✅</div>'
@@ -1642,7 +1602,6 @@ function buildMarqueMenu(){
   function upd(){var d=end-Date.now();var el=document.getElementById('countdown');if(!el)return;if(d<=0){el.textContent='00:00:00';return;}el.textContent=Math.floor(d/3600000).toString().padStart(2,'0')+':'+Math.floor((d%3600000)/60000).toString().padStart(2,'0')+':'+Math.floor((d%60000)/1000).toString().padStart(2,'0');}
   upd();setInterval(upd,1000);
 })();
-if(typeof emailjs!=="undefined")emailjs.init("qbDIJg_jtq98zHBjg");
 buildMarqueMenu();
 renderBestSellers();
 renderCatalogue();
